@@ -17,8 +17,12 @@ ASSET_SUFFIXES = {".svg", ".png", ".jpg", ".jpeg", ".gif", ".pdf"}
 # review covers, so adding or editing an asset fails offline until both this
 # table and the recorded review name it.
 PINNED_ASSETS = {
-    "docs/assets/cover-emoji.svg":
-        "c5f4ca4764cc99f7630886806dbcc54a10d30337597bc0bf09f1ed548da676fd",
+    "docs/assets/emoji-cry.svg":
+        "d0333b5cb416ad6545055766fc8128566874ab5ead272e5a691a24704048f077",
+    "docs/assets/logo.svg":
+        "8a0e29cff18a957a20f01d11d3b93738e01ada093e8286b60962068fa9d3aa22",
+    "docs/assets/chomper-weiqu-cover.png":
+        "5bbfb77b4c2a26004879c1e1fbb76f6c6d98819f25e6027fe2a257c078a49071",
 }
 EXTERNAL_REFERENCE = re.compile(r"<image|<script|<use|\bhref\s*=|url\s*\(\s*['\"]?(?:https?:)?//", re.I)
 

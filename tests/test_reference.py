@@ -114,7 +114,13 @@ class AssetRuleTests(unittest.TestCase):
             (root / "docs" / "assets").mkdir(parents=True)
             (root / "docs" / "assets" / "cover-emoji.svg").write_text(
                 "<svg xmlns='http://www.w3.org/2000/svg'/>", encoding="utf-8")
-            self.assertTrue(any("digest drift" in error for error in self.checker.scan_files(root)))
+            original = self.checker.PINNED_ASSETS
+            self.checker.PINNED_ASSETS = {"docs/assets/cover-emoji.svg": "0" * 64}
+            try:
+                errors = self.checker.scan_files(root)
+            finally:
+                self.checker.PINNED_ASSETS = original
+            self.assertTrue(any("digest drift" in error for error in errors))
 
     def test_asset_that_loads_remote_content_is_detected(self):
         payload = ("<svg xmlns='http://www.w3.org/2000/svg'><image href='https://example.com/a.png'/></svg>"

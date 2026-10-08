@@ -12,14 +12,16 @@ MIT 只覆盖本项目作者拥有的部分。它不覆盖目标应用的安装�
 
 ## README 封面素材
 
-`docs/assets/cover-emoji.svg` 是 Twemoji 项目绘制的「眯眼吐舌」表情（U+1F61D）图形，原样收录，未作改动。
+`docs/assets/chomper-weiqu-cover.png` 是当前 README 和文档站的封面图。该图于 2026-10-08 通过 Magpie 的 `codex/gpt-image-2.5` 生成。参考素材是本地 `case-2026-apk01` 研究工作区解包得到的小黑盒 App `expression_cube_weiqu.png` 表情，以及[植物大战僵尸 Wiki 上的 Chomper-hd.png](https://plantsvszombies.wiki.gg/wiki/File:Chomper-hd.png)。原始参考文件没有放入仓库。封面图的 SHA-256 为 `5bbfb77b4c2a26004879c1e1fbb76f6c6d98819f25e6027fe2a257c078a49071`。
 
-- 来源：[jdecked/twemoji](https://github.com/jdecked/twemoji) 仓库的 `assets/svg/1f61d.svg`（[原文链接](https://raw.githubusercontent.com/jdecked/twemoji/main/assets/svg/1f61d.svg)）。
-- 许可：Creative Commons Attribution 4.0 International（[CC BY 4.0](https://creativecommons.org/licenses/by/4.0/)）。许可证文本由上游仓库的 `LICENSE-GRAPHICS` 提供。
-- 署名：图形版权归 Twemoji 作者与贡献者所有。本项目未对其主张著作权，转载时需保留本段署名与许可说明。
-- 校验和：`c5f4ca4764cc99f7630886806dbcc54a10d30337597bc0bf09f1ed548da676fd`。`scripts/check_repo.py` 固定该值，仓库内改动该文件会让离线检查失败。
+仓库所有者已批准在本仓库公开展示这张生成图。小黑盒和植物大战僵尸角色的权利仍归各自权利人所有。该批准不转让相关权利，也不授予其他人单独复用这张图的许可。此生成图不在 MIT 许可范围内。本说明记录仓库所有者的决定和参考来源，不表示任何权利人授予了许可。
 
-该图片不在 MIT 许可范围内。仓库此前收录过目标应用安装包中的「开心」表情，因无法取得再分发许可已在公开发布前移除。
+仓库还保留两份旧素材，其中一份用于文档站图标：
+
+- `docs/assets/emoji-cry.svg` 是 Twemoji 的 U+1F62D 图形，原样收录自 [jdecked/twemoji](https://github.com/jdecked/twemoji/blob/main/assets/svg/1f62d.svg)，用作文档站 favicon。SHA-256 为 `d0333b5cb416ad6545055766fc8128566874ab5ead272e5a691a24704048f077`。
+- `docs/assets/logo.svg` 是旧版自绘大嘴花插画，其中包含 Twemoji 图形。SHA-256 为 `8a0e29cff18a957a20f01d11d3b93738e01ada093e8286b60962068fa9d3aa22`。
+
+Twemoji 图形采用 Creative Commons Attribution 4.0 International（[CC BY 4.0](https://creativecommons.org/licenses/by/4.0/)）许可。复用时请保留署名和许可说明。旧版 SVG 标识由 CC BY 4.0 的 Twemoji 图形与项目自绘插画组成，因此整份 SVG 按 CC BY 4.0 分发。
 
 ## 第三方组件
 

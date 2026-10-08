@@ -11,6 +11,8 @@
 
 本项目不分发这个安装包。使用者需要自己取得官方安装包，并在本地核对它是受支持的那个构建。
 
+第三方镜像页 [APKPure - 小黑盒](https://apkpure.com/cn/%E5%B0%8F%E9%BB%91%E7%9B%92/com.max.xiaoheihe) 可作为一个下载入口；它不是官方渠道，能否使用只以 `inspect-apk` 的核对结果为准。
+
 ## 先自检再提取
 
 ```console

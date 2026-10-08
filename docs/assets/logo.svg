@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 480" role="img" aria-label="大嘴花咬住哭泣表情">
+  <title>大嘴花咬住哭泣表情</title>
+  <g stroke="#1B2A20" stroke-width="8" stroke-linejoin="round" stroke-linecap="round">
+    <path d="M206 384 C200 424 182 452 150 470" fill="none" stroke-width="22"/>
+    <path d="M150 472 C116 456 92 430 88 400 C130 404 158 428 168 458 Z" fill="#4E9A47"/>
+    <path d="M160 472 C194 460 218 438 230 412 C190 408 170 432 160 464 Z" fill="#6DBE5B"/>
+  </g>
+  <circle cx="200" cy="246" r="150" fill="#5CA84F" stroke="#1B2A20" stroke-width="8"/>
+  <ellipse cx="146" cy="152" rx="20" ry="24" fill="#6DBE5B" opacity="0.45"/>
+  <g fill="#4E9A47" stroke="#1B2A20" stroke-width="7" stroke-linejoin="round">
+    <path d="M120 112 C112 74 124 44 150 24 C150 62 142 92 126 118 Z"/>
+    <path d="M160 100 C164 66 184 42 214 30 C204 64 186 88 164 104 Z"/>
+  </g>
+  <path d="M196 246 L430 176 L430 318 Z" fill="#6E1A26"/>
+  <path d="M196 246 L418 186" fill="none" stroke="#1B2A20" stroke-width="7" stroke-linecap="round"/>
+  <path d="M196 246 L418 306" fill="none" stroke="#1B2A20" stroke-width="7" stroke-linecap="round"/>
+  <g transform="translate(326.0 144.0) scale(5.667) rotate(-3 18 18)">
+    <path fill="#FFCC4D" d="M36 18c0 9.941-8.059 18-18 18S0 27.941 0 18 8.059 0 18 0s18 8.059 18 18"/>
+    <path fill="#664500" d="M22 27c0 2.763-1.791 3-4 3-2.21 0-4-.237-4-3 0-2.761 1.79-6 4-6 2.209 0 4 3.239 4 6zm8-12c-.124 0-.25-.023-.371-.072-5.229-2.091-7.372-5.241-7.461-5.374-.307-.46-.183-1.081.277-1.387.459-.306 1.077-.184 1.385.274.019.027 1.93 2.785 6.541 4.629.513.206.763.787.558 1.3-.157.392-.533.63-.929.63zM6 15c-.397 0-.772-.238-.929-.629-.205-.513.044-1.095.557-1.3 4.612-1.844 6.523-4.602 6.542-4.629.308-.456.929-.577 1.387-.27.457.308.581.925.275 1.383-.089.133-2.232 3.283-7.46 5.374C6.25 14.977 6.124 15 6 15z"/>
+    <path fill="#5DADEC" d="M24 16h4v19l-4-.046V16zM8 35l4-.046V16H8v19z"/>
+    <path fill="#664500" d="M14.999 18c-.15 0-.303-.034-.446-.105-3.512-1.756-7.07-.018-7.105 0-.495.249-1.095.046-1.342-.447-.247-.494-.047-1.095.447-1.342.182-.09 4.498-2.197 8.895 0 .494.247.694.848.447 1.342-.176.35-.529.552-.896.552zm14 0c-.15 0-.303-.034-.446-.105-3.513-1.756-7.07-.018-7.105 0-.494.248-1.094.047-1.342-.447-.247-.494-.047-1.095.447-1.342.182-.09 4.501-2.196 8.895 0 .494.247.694.848.447 1.342-.176.35-.529.552-.896.552z"/>
+    <ellipse fill="#5DADEC" cx="18" cy="34" rx="18" ry="2"/>
+    <ellipse fill="#E75A70" cx="18" cy="27" rx="3" ry="2"/>
+  </g>
+  <path d="M246.5 229.0 L274.8 259.6 L278.8 218.1 Z" fill="#FFF7E0" stroke="#1B2A20" stroke-width="5" stroke-linejoin="round"/>
+  <path d="M275.9 219.1 L304.2 249.7 L308.2 208.2 Z" fill="#FFF7E0" stroke="#1B2A20" stroke-width="5" stroke-linejoin="round"/>
+  <path d="M305.3 209.2 L333.6 239.8 L337.6 198.3 Z" fill="#FFF7E0" stroke="#1B2A20" stroke-width="5" stroke-linejoin="round"/>
+  <path d="M334.7 199.3 L363.0 229.9 L367.0 188.4 Z" fill="#FFF7E0" stroke="#1B2A20" stroke-width="5" stroke-linejoin="round"/>
+  <path d="M364.1 189.4 L392.4 220.0 L396.4 178.5 Z" fill="#FFF7E0" stroke="#1B2A20" stroke-width="5" stroke-linejoin="round"/>
+  <path d="M262.3 269.0 L290.1 240.5 L294.4 280.1 Z" fill="#FFF7E0" stroke="#1B2A20" stroke-width="5" stroke-linejoin="round"/>
+  <path d="M297.5 281.2 L325.4 252.8 L329.7 292.4 Z" fill="#FFF7E0" stroke="#1B2A20" stroke-width="5" stroke-linejoin="round"/>
+  <path d="M332.8 293.5 L360.7 265.0 L364.9 304.6 Z" fill="#FFF7E0" stroke="#1B2A20" stroke-width="5" stroke-linejoin="round"/>
+  <path d="M364.2 304.3 L392.0 275.9 L396.3 315.5 Z" fill="#FFF7E0" stroke="#1B2A20" stroke-width="5" stroke-linejoin="round"/>
+  <ellipse cx="160" cy="162" rx="18" ry="20" fill="#1B2A20"/>
+  <circle cx="155" cy="155" r="5" fill="#FFFFFF"/>
+</svg>

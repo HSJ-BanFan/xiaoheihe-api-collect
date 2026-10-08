@@ -19,3 +19,5 @@ config.local.*
 *.pfx
 target/
 dependency-reduced-pom.xml
+site/
+site-src/

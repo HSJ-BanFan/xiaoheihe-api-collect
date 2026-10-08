@@ -1,0 +1,77 @@
+site_name: 小黑盒 API 收集与研究
+site_description: 小黑盒 App 接口参考、脱敏研究报告与配套 Python CLI
+site_author: 社区维护者
+docs_dir: !ENV [XHH_DOCS_SRC, docs]
+site_dir: site
+use_directory_urls: true
+
+theme:
+  name: material
+  language: zh
+  logo: assets/chomper-weiqu-cover.png
+  favicon: assets/emoji-cry.svg
+  features:
+    - navigation.top
+    - navigation.sections
+    - content.code.copy
+    - search.highlight
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: green
+      accent: green
+      toggle:
+        icon: material/weather-night
+        name: 切换到深色
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: green
+      accent: green
+      toggle:
+        icon: material/weather-sunny
+        name: 切换到浅色
+
+markdown_extensions:
+  - attr_list
+  - md_in_html
+  - tables
+  - toc:
+      permalink: true
+
+nav:
+  - 项目说明: README.md
+  - 参考目录: docs/README.md
+  - 认证与签名: docs/authentication.md
+  - 登录说明: docs/login.md
+  - 证据口径: docs/evidence.md
+  - CLI 附录: docs/cli.md
+  - 受支持 APK: docs/supported-apk.md
+  - 维护与更新: docs/maintenance.md
+  - 首发验收记录: docs/first-release-gate.md
+  - 研究报告:
+      - docs/research/README.md
+      - docs/research/api-inventory.md
+      - docs/research/authentication-and-signing.md
+      - docs/research/live-acceptance.md
+  - 业务参考:
+      - 账号与设置: docs/account/README.md
+      - 社区与创作: docs/community/README.md
+      - 个人资料与社交: docs/profile/README.md
+      - 游戏数据: docs/games/README.md
+      - 商城与商店: docs/mall/README.md
+      - 搜索: docs/search/README.md
+      - 消息与通知: docs/notifications/README.md
+      - 系统与其他: docs/system/README.md
+      - 任务状态: docs/tasks/README.md
+      - 调试与测试: docs/debug/README.md
+      - 百科: docs/wiki/README.md
+      - 群聊与语音社群: docs/groups/README.md
+      - 登录与会话: docs/login/README.md
+      - 图片与对象上传: docs/upload/README.md
+  - 发布与权属:
+      - 权属与来源说明: NOTICE.md
+      - 贡献指南: CONTRIBUTING.md
+      - 安全说明: SECURITY.md
+      - CLI 使用说明: cli/README.md
+      - 发布说明: cli/RELEASE.md
+      - 签名器说明: signer/README.md

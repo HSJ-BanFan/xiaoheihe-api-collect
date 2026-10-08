@@ -4,6 +4,9 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
+import java.nio.charset.CharacterCodingException;
+import java.nio.charset.CodingErrorAction;
+import java.nio.ByteBuffer;
 import java.nio.file.Path;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -13,7 +16,8 @@ import java.util.regex.Pattern;
 /**
  * Strict request parser for the public signer loader.
  *
- * The format is one `key=value` line per field, ASCII only. There is no
+ * The format is one UTF-8 `key=value` line per field. Only resource_dir may
+ * contain non-ASCII characters. There is no
  * escaping, no environment fallback and no default identity. Unknown,
  * duplicated, malformed or oversized input is rejected before any emulator
  * work starts.
@@ -40,7 +44,12 @@ public final class SignRequest {
     public final String appVersion;
 
     private SignRequest(Map<String, String> values) {
-        this.directory = Path.of(values.get("resource_dir"));
+        String resourceDirectory = values.get("resource_dir");
+        if (resourceDirectory.isEmpty() || resourceDirectory.length() > MAX_VALUE
+                || resourceDirectory.codePoints().anyMatch(Character::isISOControl)) {
+            throw new IllegalArgumentException("resource_dir is not a safe single-line path");
+        }
+        this.directory = Path.of(resourceDirectory);
         this.path = normalizePath(values.get("path"));
         this.timestamp = positiveLong("timestamp", values.get("timestamp"));
         this.identity = match("identity", values.get("identity"), IDENTITY);
@@ -63,7 +72,15 @@ public final class SignRequest {
     }
 
     static Map<String, String> parse(byte[] raw) {
-        String text = new String(raw, StandardCharsets.US_ASCII);
+        String text;
+        try {
+            text = StandardCharsets.UTF_8.newDecoder()
+                .onMalformedInput(CodingErrorAction.REPORT)
+                .onUnmappableCharacter(CodingErrorAction.REPORT)
+                .decode(ByteBuffer.wrap(raw)).toString();
+        } catch (CharacterCodingException error) {
+            throw new IllegalArgumentException("request is not valid UTF-8");
+        }
         Map<String, String> values = new LinkedHashMap<>();
         String[] lines = text.split("\n", -1);
         for (int index = 0; index < lines.length; index++) {
@@ -109,12 +126,10 @@ public final class SignRequest {
         if (total == 0) {
             throw new IllegalArgumentException("empty request");
         }
-        for (byte value : buffer.toByteArray()) {
+        for (byte raw : buffer.toByteArray()) {
+            int value = Byte.toUnsignedInt(raw);
             if (value < 0x20 && value != '\n' && value != '\r') {
                 throw new IllegalArgumentException("request contains a control byte");
-            }
-            if (value > 0x7e) {
-                throw new IllegalArgumentException("request must be printable ASCII");
             }
         }
         return buffer.toByteArray();

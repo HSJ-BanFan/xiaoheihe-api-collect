@@ -48,3 +48,23 @@
 - 托管账号依赖 Windows DPAPI；Java 与签名器由用户本地提供。
 
 这是带明确范围的预发布验收，不修改原 CLI 发布门槛，也不承诺平台接口长期可用。
+# Precompiled setup follow-up
+
+The 0.2.0rc1 kit adds precompiled setup without modifying the original
+0.5.0rc4+standalone.7 wheel. The focused bootstrap, builder, setup and kit
+tests passed locally. The full repository test run passed 107 tests before
+the final notice-only rebuild; release review must rerun it on the final
+source state.
+
+A real local run used the supported user APK and exact upstream artifact
+fixtures, a clean Java search path, a privately extracted Temurin JRE 17,
+and Chinese, space and plus-sign directory names. It assembled the local
+resource JAR, installed the immutable dependency graph and matched the
+synthetic /account/info vector at timestamp 1700000000. No user account,
+login, upload or publishing API was accessed. Cached-fixture acceptance is
+separate from a fresh public-release HTTP download and does not establish
+that the final release has been published.
+
+The earlier publishing evidence below belongs to the earlier kit and its
+specific tested artifact. It is not new online acceptance for 0.2.0rc1.
+

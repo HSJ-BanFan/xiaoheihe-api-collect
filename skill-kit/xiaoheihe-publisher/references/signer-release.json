@@ -1,0 +1,1739 @@
+{
+  "artifacts": {
+    "apk-parser": {
+      "bytes": 213647,
+      "name": "apk-parser-2.6.10.jar",
+      "sha256": "4e07ef65005c0d7e7149f6e903828fdaa031f542ad3956f0d827197a5ccac640",
+      "url": "https://repo.maven.apache.org/maven2/net/dongliu/apk-parser/2.6.10/apk-parser-2.6.10.jar"
+    },
+    "capstone": {
+      "bytes": 3159591,
+      "name": "capstone-3.1.8.jar",
+      "sha256": "920e5fd1d514f146891a82cfbbfb33ef20cfca746ddcd1a6e2b54fff2a2e53dc",
+      "url": "https://repo.maven.apache.org/maven2/com/github/zhkl0228/capstone/3.1.8/capstone-3.1.8.jar"
+    },
+    "commons-codec": {
+      "bytes": 402494,
+      "name": "commons-codec-1.21.0.jar",
+      "sha256": "4da851cb6abfb98bfe9eb77c5e5fc47f5414fa28b94e21b7fd9a646705dc167f",
+      "url": "https://repo.maven.apache.org/maven2/commons-codec/commons-codec/1.21.0/commons-codec-1.21.0.jar"
+    },
+    "commons-collections4": {
+      "bytes": 898652,
+      "name": "commons-collections4-4.5.0.jar",
+      "sha256": "00f93263c267be201b8ae521b44a7137271b16688435340bf629db1bac0a5845",
+      "url": "https://repo.maven.apache.org/maven2/org/apache/commons/commons-collections4/4.5.0/commons-collections4-4.5.0.jar"
+    },
+    "commons-io": {
+      "bytes": 585274,
+      "name": "commons-io-2.21.0.jar",
+      "sha256": "7d643a2afea8b058b762aa6fb90e5b256f6c729739f8b3784c3370ddc609e88d",
+      "url": "https://repo.maven.apache.org/maven2/commons-io/commons-io/2.21.0/commons-io-2.21.0.jar"
+    },
+    "demumble": {
+      "bytes": 968653,
+      "name": "demumble-1.0.4.jar",
+      "sha256": "2351bff06a0a494734924f4fa2e7084c0699d7e959a0be6e85e7d9ee17ae6eb6",
+      "url": "https://repo.maven.apache.org/maven2/com/github/zhkl0228/demumble/1.0.4/demumble-1.0.4.jar"
+    },
+    "fastjson": {
+      "bytes": 200924,
+      "name": "fastjson-2.0.65.jar",
+      "sha256": "085f276d7406dad6faf7d4f767492189b5f99925c48c6ba51b8c440452c6244c",
+      "url": "https://repo.maven.apache.org/maven2/com/alibaba/fastjson/2.0.65/fastjson-2.0.65.jar"
+    },
+    "fastjson2": {
+      "bytes": 2239002,
+      "name": "fastjson2-2.0.65.jar",
+      "sha256": "e12cd0e49047e052533d897d4b45d1074a21229f2a1939404234398d4c10c06d",
+      "url": "https://repo.maven.apache.org/maven2/com/alibaba/fastjson2/fastjson2/2.0.65/fastjson2-2.0.65.jar"
+    },
+    "fastjson2-extension": {
+      "bytes": 56181,
+      "name": "fastjson2-extension-2.0.65.jar",
+      "sha256": "9a5c4bd4f42085ead8c26d202025690788905afade1d05b09b5aca2521235979",
+      "url": "https://repo.maven.apache.org/maven2/com/alibaba/fastjson2/fastjson2-extension/2.0.65/fastjson2-extension-2.0.65.jar"
+    },
+    "jna": {
+      "bytes": 1756400,
+      "name": "jna-5.10.0.jar",
+      "sha256": "e335c10679f743207d822c5f7948e930319835492575a9dba6b94f8a3b96fcc8",
+      "url": "https://repo.maven.apache.org/maven2/net/java/dev/jna/jna/5.10.0/jna-5.10.0.jar"
+    },
+    "keystone": {
+      "bytes": 4731494,
+      "name": "keystone-0.9.7.jar",
+      "sha256": "3db2ee22fa5b3a70800bc5dfb515acf6bcb62888be0da43c311ff8304411558b",
+      "url": "https://repo.maven.apache.org/maven2/com/github/zhkl0228/keystone/0.9.7/keystone-0.9.7.jar"
+    },
+    "native-lib-loader": {
+      "bytes": 20352,
+      "name": "native-lib-loader-2.3.5.jar",
+      "sha256": "7db19cf3e9cfe993e725e82cd9593a8f3e2d340ed3047c98d5c54370571c759d",
+      "url": "https://repo.maven.apache.org/maven2/org/scijava/native-lib-loader/2.3.5/native-lib-loader-2.3.5.jar"
+    },
+    "slf4j-api": {
+      "bytes": 69435,
+      "name": "slf4j-api-2.0.16.jar",
+      "sha256": "a12578dde1ba00bd9b816d388a0b879928d00bab3c83c240f7013bf4196c579a",
+      "url": "https://repo.maven.apache.org/maven2/org/slf4j/slf4j-api/2.0.16/slf4j-api-2.0.16.jar"
+    },
+    "slf4j-simple": {
+      "bytes": 15704,
+      "name": "slf4j-simple-2.0.16.jar",
+      "sha256": "effc32018658bea09d1e08c7d1060ccad46c086960f583d07dd7ffe9c1172a47",
+      "url": "https://repo.maven.apache.org/maven2/org/slf4j/slf4j-simple/2.0.16/slf4j-simple-2.0.16.jar"
+    },
+    "temurin-jre": {
+      "bytes": 43780109,
+      "name": "OpenJDK17U-jre_x64_windows_hotspot_17.0.20.1_1.zip",
+      "sha256": "bc21a93923103cdaac93ee337b0ae4365e739fde36df823dd456bc67c8a9d352",
+      "url": "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.20.1%2B1/OpenJDK17U-jre_x64_windows_hotspot_17.0.20.1_1.zip"
+    },
+    "unicorn": {
+      "bytes": 6193524,
+      "name": "unicorn-1.0.15.jar",
+      "sha256": "7fbce2a0decf475b75b355cf33301349bf7c88f31cd93c7922e9dbbed3debf23",
+      "url": "https://repo.maven.apache.org/maven2/com/github/zhkl0228/unicorn/1.0.15/unicorn-1.0.15.jar"
+    },
+    "unidbg-dynarmic": {
+      "bytes": 8217374,
+      "name": "unidbg-dynarmic-0.9.9.jar",
+      "sha256": "d1decada24040ae543c7cd1182c87433b4a8e9700162e7129f18937b4f3edbb9",
+      "url": "https://repo.maven.apache.org/maven2/com/github/zhkl0228/unidbg-dynarmic/0.9.9/unidbg-dynarmic-0.9.9.jar"
+    },
+    "unidbg-source": {
+      "bytes": 85465563,
+      "name": "unidbg-2ded0545-upstream.zip",
+      "sha256": "8dc3a72a906887892f2efe23b645bb06cc268da7e77b9b2260dcaaa2c06eb357",
+      "url": "https://codeload.github.com/zhkl0228/unidbg/zip/2ded0545d4ae053055f469ef4a4c49e3f15196a7"
+    },
+    "unidbg-unicorn2": {
+      "bytes": 6150256,
+      "name": "unidbg-unicorn2-0.9.9.jar",
+      "sha256": "6c258e54e99da8a4e3ba4a705c5f78bcb658638ef16682ad1d3bc25953908ffb",
+      "url": "https://repo.maven.apache.org/maven2/com/github/zhkl0228/unidbg-unicorn2/0.9.9/unidbg-unicorn2-0.9.9.jar"
+    }
+  },
+  "bootstrap": {
+    "bytes": 2852403,
+    "name": "xhh-signer-bootstrap-0.2.0.jar",
+    "sha256": "dde008a562c3629955fc04f23082b4ea27ad1784263468fb4e6df1c7e046e830",
+    "url": "https://github.com/HSJ-BanFan/xiaoheihe-api-collect/releases/download/xhh-signer-v0.2.0/xhh-signer-bootstrap-0.2.0.jar"
+  },
+  "dependencies": {
+    "apk-parser-2.6.10.jar": {
+      "bytes": 213647,
+      "sha256": "4e07ef65005c0d7e7149f6e903828fdaa031f542ad3956f0d827197a5ccac640"
+    },
+    "capstone-3.1.8.jar": {
+      "bytes": 3159591,
+      "sha256": "920e5fd1d514f146891a82cfbbfb33ef20cfca746ddcd1a6e2b54fff2a2e53dc"
+    },
+    "commons-codec-1.21.0.jar": {
+      "bytes": 402494,
+      "sha256": "4da851cb6abfb98bfe9eb77c5e5fc47f5414fa28b94e21b7fd9a646705dc167f"
+    },
+    "commons-collections4-4.5.0.jar": {
+      "bytes": 898652,
+      "sha256": "00f93263c267be201b8ae521b44a7137271b16688435340bf629db1bac0a5845"
+    },
+    "commons-io-2.21.0.jar": {
+      "bytes": 585274,
+      "sha256": "7d643a2afea8b058b762aa6fb90e5b256f6c729739f8b3784c3370ddc609e88d"
+    },
+    "demumble-1.0.4.jar": {
+      "bytes": 968653,
+      "sha256": "2351bff06a0a494734924f4fa2e7084c0699d7e959a0be6e85e7d9ee17ae6eb6"
+    },
+    "fastjson-2.0.65.jar": {
+      "bytes": 200924,
+      "sha256": "085f276d7406dad6faf7d4f767492189b5f99925c48c6ba51b8c440452c6244c"
+    },
+    "fastjson2-2.0.65.jar": {
+      "bytes": 2239002,
+      "sha256": "e12cd0e49047e052533d897d4b45d1074a21229f2a1939404234398d4c10c06d"
+    },
+    "fastjson2-extension-2.0.65.jar": {
+      "bytes": 56181,
+      "sha256": "9a5c4bd4f42085ead8c26d202025690788905afade1d05b09b5aca2521235979"
+    },
+    "jna-5.10.0.jar": {
+      "bytes": 1756400,
+      "sha256": "e335c10679f743207d822c5f7948e930319835492575a9dba6b94f8a3b96fcc8"
+    },
+    "keystone-0.9.7.jar": {
+      "bytes": 4731494,
+      "sha256": "3db2ee22fa5b3a70800bc5dfb515acf6bcb62888be0da43c311ff8304411558b"
+    },
+    "native-lib-loader-2.3.5.jar": {
+      "bytes": 20352,
+      "sha256": "7db19cf3e9cfe993e725e82cd9593a8f3e2d340ed3047c98d5c54370571c759d"
+    },
+    "slf4j-api-2.0.16.jar": {
+      "bytes": 69435,
+      "sha256": "a12578dde1ba00bd9b816d388a0b879928d00bab3c83c240f7013bf4196c579a"
+    },
+    "slf4j-simple-2.0.16.jar": {
+      "bytes": 15704,
+      "sha256": "effc32018658bea09d1e08c7d1060ccad46c086960f583d07dd7ffe9c1172a47"
+    },
+    "unicorn-1.0.15.jar": {
+      "bytes": 6193524,
+      "sha256": "7fbce2a0decf475b75b355cf33301349bf7c88f31cd93c7922e9dbbed3debf23"
+    },
+    "unidbg-dynarmic-0.9.9.jar": {
+      "bytes": 8217374,
+      "sha256": "d1decada24040ae543c7cd1182c87433b4a8e9700162e7129f18937b4f3edbb9"
+    },
+    "unidbg-resources-2ded0545.jar": {
+      "bytes": 77140055,
+      "sha256": "d8b44b7e013f3ebe0461f92e7210e07be4c3a8dec265546b199e32e1dd61697d"
+    },
+    "unidbg-unicorn2-0.9.9.jar": {
+      "bytes": 6150256,
+      "sha256": "6c258e54e99da8a4e3ba4a705c5f78bcb658638ef16682ad1d3bc25953908ffb"
+    }
+  },
+  "java": {
+    "artifact": "temurin-jre",
+    "executable": "jdk-17.0.20.1+1-jre/bin/java.exe",
+    "files": {
+      "jdk-17.0.20.1+1-jre/NOTICE": {
+        "bytes": 2400,
+        "sha256": "c02756bcd9fa8191bf0fda4451bc018414dd44ee35bf09922c24377a475e4b5a"
+      },
+      "jdk-17.0.20.1+1-jre/bin/WinFallbackLookup.dll": {
+        "bytes": 28800,
+        "sha256": "e60e70b34a67bd9d28abb5f0c5ce2d8b8a9bf05625bdc73a19b7aba312bf06fd"
+      },
+      "jdk-17.0.20.1+1-jre/bin/api-ms-win-core-console-l1-1-0.dll": {
+        "bytes": 22072,
+        "sha256": "88ace577a9c51061cb7d1a36babbbefa48212fadc838ffde98fdfff60de18386"
+      },
+      "jdk-17.0.20.1+1-jre/bin/api-ms-win-core-console-l1-2-0.dll": {
+        "bytes": 22056,
+        "sha256": "c062477ad3bfdc57b0cc402179637a214dab5045c8d644592c7decca7d18aa50"
+      },
+      "jdk-17.0.20.1+1-jre/bin/api-ms-win-core-datetime-l1-1-0.dll": {
+        "bytes": 22056,
+        "sha256": "1bd81dfd19204b44662510d9054852fb77c9f25c1088d647881c9b976cc16818"
+      },
+      "jdk-17.0.20.1+1-jre/bin/api-ms-win-core-debug-l1-1-0.dll": {
+        "bytes": 21944,
+        "sha256": "591358eb4d1531e9563ee0813e4301c552ce364c912ce684d16576eabf195dc3"
+      },
+      "jdk-17.0.20.1+1-jre/bin/api-ms-win-core-errorhandling-l1-1-0.dll": {
+        "bytes": 22096,
+        "sha256": "d56ce7b1cd76108ad6c137326ec694a14c99d48c3d7b0ace8c3ff4d9bcee3ce8"
+      },
+      "jdk-17.0.20.1+1-jre/bin/api-ms-win-core-fibers-l1-1-0.dll": {
+        "bytes": 22072,
+        "sha256": "91d249d7bc0e38ef6bcb17158b1fdc6dd8888dc086615c9b8b750b87e52a5fb3"
+      },
+      "jdk-17.0.20.1+1-jre/bin/api-ms-win-core-fibers-l1-1-1.dll": {
+        "bytes": 22072,
+        "sha256": "fc9d86cec621383eab636ebc87ddd3f5c19a3cb2a33d97be112c051d0b275429"
+      },
+      "jdk-17.0.20.1+1-jre/bin/api-ms-win-core-file-l1-1-0.dll": {
+        "bytes": 26152,
+        "sha256": "1ca895aba4e7435563a6b43e85eba67a0f8c74aa6a6a94d0fc48fa35535e2585"
+      },
+      "jdk-17.0.20.1+1-jre/bin/api-ms-win-core-file-l1-2-0.dll": {
+        "bytes": 22056,
+        "sha256": "4cadbc0c39da7c6722206fdcebd670abe5b8d261e7b041dd94f9397a89d1990d"
+      },
+      "jdk-17.0.20.1+1-jre/bin/api-ms-win-core-file-l2-1-0.dll": {
+        "bytes": 21960,
+        "sha256": "93c624b366ba16c643fc8933070a26f03b073ad0cf7f80173266d67536c61989"
+      },
+      "jdk-17.0.20.1+1-jre/bin/api-ms-win-core-handle-l1-1-0.dll": {
+        "bytes": 21944,
+        "sha256": "39095f59c41d76ec81bb2723d646fde4c148e7cc3402f4980d2ade95cb9c84f9"
+      },
+      "jdk-17.0.20.1+1-jre/bin/api-ms-win-core-heap-l1-1-0.dll": {
+        "bytes": 22072,
+        "sha256": "8f105771b236dbcb859de271f0a6822ce1cb79c36988dd42c9e3f6f55c5f7eb9"
+      },
+      "jdk-17.0.20.1+1-jre/bin/api-ms-win-core-interlocked-l1-1-0.dll": {
+        "bytes": 22072,
+        "sha256": "53b25e753ca785bf8b695d89dde5818a318890211dc992a89146f16658f0b606"
+      },
+      "jdk-17.0.20.1+1-jre/bin/api-ms-win-core-kernel32-legacy-l1-1-1.dll": {
+        "bytes": 22080,
+        "sha256": "a9b13a1cd1b8c19b0c6b4afcd5bb0dd29c0e2288231ac9e6db8510094ce68ba6"
+      },
+      "jdk-17.0.20.1+1-jre/bin/api-ms-win-core-libraryloader-l1-1-0.dll": {
+        "bytes": 22056,
+        "sha256": "7f39ba298b41e4963047341288cab36b6a241835ee11ba4ad70f44dacd40906c"
+      },
+      "jdk-17.0.20.1+1-jre/bin/api-ms-win-core-localization-l1-2-0.dll": {
+        "bytes": 22080,
+        "sha256": "6ee44dd0d8510dc024c9f7c79b1b9fa88c987b26b6beb6653ddd11751c34e5dc"
+      },
+      "jdk-17.0.20.1+1-jre/bin/api-ms-win-core-memory-l1-1-0.dll": {
+        "bytes": 22056,
+        "sha256": "0512a35316ec9180437f86696a84c5c06a7e4e82e050055a656e5bf9fca206f9"
+      },
+      "jdk-17.0.20.1+1-jre/bin/api-ms-win-core-namedpipe-l1-1-0.dll": {
+        "bytes": 22096,
+        "sha256": "c05f1fffe3b5a2738ea54ce9485cca026fb9635f982626fba1e1dcc531897273"
+      },
+      "jdk-17.0.20.1+1-jre/bin/api-ms-win-core-processenvironment-l1-1-0.dll": {
+        "bytes": 21968,
+        "sha256": "c4eca98c3c67b6395d5b005b00ac1eb0318b86b23aa71035a44c2b1602befba9"
+      },
+      "jdk-17.0.20.1+1-jre/bin/api-ms-win-core-processthreads-l1-1-0.dll": {
+        "bytes": 22096,
+        "sha256": "5ccb89e93d67bc3288d4e84649c5346e66e15e3d7cd65d989daf3f4cb584be9a"
+      },
+      "jdk-17.0.20.1+1-jre/bin/api-ms-win-core-processthreads-l1-1-1.dll": {
+        "bytes": 22072,
+        "sha256": "4ad565a8ba3ef0ea8ab87221ad11f83ee0bc844ce236607958406663b407333e"
+      },
+      "jdk-17.0.20.1+1-jre/bin/api-ms-win-core-profile-l1-1-0.dll": {
+        "bytes": 22080,
+        "sha256": "7809160932f44e59b021699f5bc68799eb7293ee1fa926d6fcca3c3445302e61"
+      },
+      "jdk-17.0.20.1+1-jre/bin/api-ms-win-core-rtlsupport-l1-1-0.dll": {
+        "bytes": 21960,
+        "sha256": "9dc1e91e71c7c054854bd1487cb4e6946d82c9f463430f1c4e8d1471005172b1"
+      },
+      "jdk-17.0.20.1+1-jre/bin/api-ms-win-core-string-l1-1-0.dll": {
+        "bytes": 22056,
+        "sha256": "60fc31d2a0c634412f529dba76af3b9bf991352877c6dae528186d3935704cfd"
+      },
+      "jdk-17.0.20.1+1-jre/bin/api-ms-win-core-synch-l1-1-0.dll": {
+        "bytes": 22056,
+        "sha256": "3a72b4f29f39a265d32ad12f0ce15dbf60129c840e10d84d427829ede45e78ad"
+      },
+      "jdk-17.0.20.1+1-jre/bin/api-ms-win-core-synch-l1-2-0.dll": {
+        "bytes": 22080,
+        "sha256": "efc1e4460984a73cf47a3def033af1c8f3b1dbc1a56cd27781d3aacf3e3330cb"
+      },
+      "jdk-17.0.20.1+1-jre/bin/api-ms-win-core-sysinfo-l1-1-0.dll": {
+        "bytes": 22072,
+        "sha256": "b203d862ddef1dd62bf623fc866c7f7a9c317c1c2ae30d1f52cb41f955b5698e"
+      },
+      "jdk-17.0.20.1+1-jre/bin/api-ms-win-core-sysinfo-l1-2-0.dll": {
+        "bytes": 22080,
+        "sha256": "2703635d835396afd0f138d7c73751afe7e33a24f4225d08c1690b0a371932c0"
+      },
+      "jdk-17.0.20.1+1-jre/bin/api-ms-win-core-timezone-l1-1-0.dll": {
+        "bytes": 22056,
+        "sha256": "33f4fddc181066fce06b2227bded813f95e94ed1f3d785e982c6b6b56c510c57"
+      },
+      "jdk-17.0.20.1+1-jre/bin/api-ms-win-core-util-l1-1-0.dll": {
+        "bytes": 21944,
+        "sha256": "6eda016742a6171205a387a14b3c0b331841567740376f56768f8c151724207d"
+      },
+      "jdk-17.0.20.1+1-jre/bin/api-ms-win-crt-conio-l1-1-0.dll": {
+        "bytes": 22056,
+        "sha256": "b762061b688aae679afe788904d2c9970f74a7dac98f3b42463d08f25e483d3f"
+      },
+      "jdk-17.0.20.1+1-jre/bin/api-ms-win-crt-convert-l1-1-0.dll": {
+        "bytes": 26056,
+        "sha256": "ebb2ae5535a64f65daeab8235585114fc9dd2cf1a49f5852d446250b998b6ae4"
+      },
+      "jdk-17.0.20.1+1-jre/bin/api-ms-win-crt-environment-l1-1-0.dll": {
+        "bytes": 22080,
+        "sha256": "17d63275d00bdd8670422b95bd264c532998e0a1b041079e54fce4b6b7a55819"
+      },
+      "jdk-17.0.20.1+1-jre/bin/api-ms-win-crt-filesystem-l1-1-0.dll": {
+        "bytes": 22056,
+        "sha256": "9a9e2a65a281644e368d0f272b95ba5f6b445d1c35910d06056c5ebeb77402db"
+      },
+      "jdk-17.0.20.1+1-jre/bin/api-ms-win-crt-heap-l1-1-0.dll": {
+        "bytes": 22096,
+        "sha256": "bab9ac3ec83e380ae51e4295ef3bf2c738627812d3a49d1e713661abbc8dc57a"
+      },
+      "jdk-17.0.20.1+1-jre/bin/api-ms-win-crt-locale-l1-1-0.dll": {
+        "bytes": 22080,
+        "sha256": "bd14c67ea28e21d6257ad780a37122c9b5773f69e693f5db6bffaee4d839526e"
+      },
+      "jdk-17.0.20.1+1-jre/bin/api-ms-win-crt-math-l1-1-0.dll": {
+        "bytes": 30248,
+        "sha256": "606d66d82db562ea7979179d06486a0f94d079941d26b80a1e2c49d29959df6f"
+      },
+      "jdk-17.0.20.1+1-jre/bin/api-ms-win-crt-multibyte-l1-1-0.dll": {
+        "bytes": 30248,
+        "sha256": "95f49efbe8107786733fa7c474025cf3fee0ac632f240367b296c736d06572aa"
+      },
+      "jdk-17.0.20.1+1-jre/bin/api-ms-win-crt-private-l1-1-0.dll": {
+        "bytes": 75328,
+        "sha256": "1bc82bed6143d2bf1b6b08a7809f4a5e29317d6fddd338a7da3c0223522e4bbf"
+      },
+      "jdk-17.0.20.1+1-jre/bin/api-ms-win-crt-process-l1-1-0.dll": {
+        "bytes": 22096,
+        "sha256": "f6156b1020380ec4f0e48577ebedaaef5fb1ab1f337d8b4e72e6a33a7567a9cc"
+      },
+      "jdk-17.0.20.1+1-jre/bin/api-ms-win-crt-runtime-l1-1-0.dll": {
+        "bytes": 26152,
+        "sha256": "c5902934d026d7e15fbe9917d474f3322846a41a25e66f4b2b1f758801879f4b"
+      },
+      "jdk-17.0.20.1+1-jre/bin/api-ms-win-crt-stdio-l1-1-0.dll": {
+        "bytes": 26168,
+        "sha256": "a9c5a153d8c0286f9b41a2b1c65854ad9e6471b8755b7de87bae4470e60bcab6"
+      },
+      "jdk-17.0.20.1+1-jre/bin/api-ms-win-crt-string-l1-1-0.dll": {
+        "bytes": 26176,
+        "sha256": "25b8f83a7767211b11132775a0e27a45aa4ec8ab4e6572599f9c172ae3606b40"
+      },
+      "jdk-17.0.20.1+1-jre/bin/api-ms-win-crt-time-l1-1-0.dll": {
+        "bytes": 22096,
+        "sha256": "7c7f6393f06de11750adb09cc5698ae55cd9fb27b2e51e207286feb1b5b2b156"
+      },
+      "jdk-17.0.20.1+1-jre/bin/api-ms-win-crt-utility-l1-1-0.dll": {
+        "bytes": 21952,
+        "sha256": "d8ba5f17b9ffcbf3aeaf3fa1da226832d2fa90f81acce0cd669464e76ce434ac"
+      },
+      "jdk-17.0.20.1+1-jre/bin/awt.dll": {
+        "bytes": 1493112,
+        "sha256": "358e7d8b59bf2f544a6a2b495d070abe34c6aeacc91667fdd46572bb19b73cc5"
+      },
+      "jdk-17.0.20.1+1-jre/bin/dt_socket.dll": {
+        "bytes": 36480,
+        "sha256": "3678022ec5c6bb5d3acf6fbf047f204b617aca57cb01ce3698d23e80da0667d5"
+      },
+      "jdk-17.0.20.1+1-jre/bin/extnet.dll": {
+        "bytes": 24192,
+        "sha256": "12b6d1760f218c75ea70885cc22f1cf22d6f1f87dc7b75c583729e478bea4bd7"
+      },
+      "jdk-17.0.20.1+1-jre/bin/fontmanager.dll": {
+        "bytes": 1030272,
+        "sha256": "b08bad15f0497ae383e9db02cc548a323692cc77dccdf9166392f7f528231f64"
+      },
+      "jdk-17.0.20.1+1-jre/bin/freetype.dll": {
+        "bytes": 560768,
+        "sha256": "1fca733dd0035e6f0030baec539e9d9790e04497e715c4fdb58d39e9da5208cb"
+      },
+      "jdk-17.0.20.1+1-jre/bin/instrument.dll": {
+        "bytes": 51832,
+        "sha256": "58a7f2472125697c608b7bc6f3647d574d1574ecff49339845e28b0f15743aa9"
+      },
+      "jdk-17.0.20.1+1-jre/bin/j2gss.dll": {
+        "bytes": 50816,
+        "sha256": "8138fff7985f7b0c301d571350e49598567533dabaa9b1b9b711d1d5e9a4c01d"
+      },
+      "jdk-17.0.20.1+1-jre/bin/j2pcsc.dll": {
+        "bytes": 26744,
+        "sha256": "b2dccd537940d16cea49fda42df5ac7bbc72f24bc8fc4b55e7c2cb8ea5091cda"
+      },
+      "jdk-17.0.20.1+1-jre/bin/j2pkcs11.dll": {
+        "bytes": 79992,
+        "sha256": "a022757d606ac072090122429d80d9a52534901003d048579f65727669e498bd"
+      },
+      "jdk-17.0.20.1+1-jre/bin/jaas.dll": {
+        "bytes": 28800,
+        "sha256": "06a942b0231fbea64bcd784ead65d5ed70698551a64ce4907d424062191c6b9b"
+      },
+      "jdk-17.0.20.1+1-jre/bin/jabswitch.exe": {
+        "bytes": 45184,
+        "sha256": "e316cf5faaa6d542f2a2f30d2c4a5d051f61811cb1e7440867ef1f80edfa61c8"
+      },
+      "jdk-17.0.20.1+1-jre/bin/jaccessinspector.exe": {
+        "bytes": 106112,
+        "sha256": "b6384de220119f7e9c649fc08ca2bd15f4ad06af06b813c798e44c12fc521d98"
+      },
+      "jdk-17.0.20.1+1-jre/bin/jaccesswalker.exe": {
+        "bytes": 71296,
+        "sha256": "398d912243dc42ad032d19c0a83ebf67bba65ea27d457e73a0ae636c10d6c180"
+      },
+      "jdk-17.0.20.1+1-jre/bin/java.dll": {
+        "bytes": 148088,
+        "sha256": "e4cbd1c144a8347463240ce4d567b31c4a4994f031f082d7b60d55738f9d36aa"
+      },
+      "jdk-17.0.20.1+1-jre/bin/java.exe": {
+        "bytes": 50296,
+        "sha256": "1977f302375adbb920d41dac65c7e22eb9c2ed8e1e8d6258964154ff16f14406"
+      },
+      "jdk-17.0.20.1+1-jre/bin/javaaccessbridge.dll": {
+        "bytes": 308864,
+        "sha256": "3c2e48a555d95085e2647d545acf6f29df402c24f12c558b190e511b0ec691b5"
+      },
+      "jdk-17.0.20.1+1-jre/bin/javajpeg.dll": {
+        "bytes": 180856,
+        "sha256": "f3ceecee8d9035e1712d9a36487dc2af563db897a277c824245f2b27580da544"
+      },
+      "jdk-17.0.20.1+1-jre/bin/javaw.exe": {
+        "bytes": 50296,
+        "sha256": "326c477cf91039f50f4ffb507801972882ea09546bd9e2c9f36e9d32a5aa7a97"
+      },
+      "jdk-17.0.20.1+1-jre/bin/jawt.dll": {
+        "bytes": 21632,
+        "sha256": "7a3414204ebd9980ca8e9e20c3866d9f3768a485e00deeeeb2499e2d28c8b521"
+      },
+      "jdk-17.0.20.1+1-jre/bin/jdwp.dll": {
+        "bytes": 230008,
+        "sha256": "7c99c9ee8c2888b810d61956990811d65eb1bc2646e08ce42fd85329fb363ac9"
+      },
+      "jdk-17.0.20.1+1-jre/bin/jfr.exe": {
+        "bytes": 24192,
+        "sha256": "d870dbd21cbee75546738700f6ecc587d59538d26d63f47cac8d6b4eef9b8e7b"
+      },
+      "jdk-17.0.20.1+1-jre/bin/jimage.dll": {
+        "bytes": 34424,
+        "sha256": "ccbd2249f4437395977cdca262cdce4a27e077a14ac9dec63095b0db0c88a23c"
+      },
+      "jdk-17.0.20.1+1-jre/bin/jli.dll": {
+        "bytes": 89720,
+        "sha256": "6c15f990b5d849859d090becbf92365d08dd249971d4fa2236a7e653e7b7630f"
+      },
+      "jdk-17.0.20.1+1-jre/bin/jrunscript.exe": {
+        "bytes": 24696,
+        "sha256": "3f7410356090a9d09c7001a0ca8383362f6e6a7be076ce1814303551a27ca3db"
+      },
+      "jdk-17.0.20.1+1-jre/bin/jsound.dll": {
+        "bytes": 61048,
+        "sha256": "7aeb27db70236f5d324be556286b51fd2155272308657c80e7cbf56753e562b3"
+      },
+      "jdk-17.0.20.1+1-jre/bin/jsvml.dll": {
+        "bytes": 870016,
+        "sha256": "9545eba8addf14c7f46b8bd1c08ec2ce85bf9a08e641dd927ad25fc810aaa2b3"
+      },
+      "jdk-17.0.20.1+1-jre/bin/keytool.exe": {
+        "bytes": 24184,
+        "sha256": "38767197bb826db7bcdfbd0eae3c7578dc4d05d6d7db8368e677aad7505f6678"
+      },
+      "jdk-17.0.20.1+1-jre/bin/kinit.exe": {
+        "bytes": 24184,
+        "sha256": "11674d20f9f793a382c78ba29a6d916cab85e867fd23fc44fabca5d2429ce51c"
+      },
+      "jdk-17.0.20.1+1-jre/bin/klist.exe": {
+        "bytes": 24192,
+        "sha256": "adb5a4b2ec292fd9536fe8ba56b5405a7d10c77fbdcf7ddc41b2dba2e657366a"
+      },
+      "jdk-17.0.20.1+1-jre/bin/ktab.exe": {
+        "bytes": 24184,
+        "sha256": "0e7f6a7349a2a6618cb27387200ac55d91fbf887eceb3978c739cf067fe00353"
+      },
+      "jdk-17.0.20.1+1-jre/bin/lcms.dll": {
+        "bytes": 261760,
+        "sha256": "5d081163a10593e581051a804d463f02c2e0e506b7a0577c4642c56ce7803dff"
+      },
+      "jdk-17.0.20.1+1-jre/bin/management.dll": {
+        "bytes": 29816,
+        "sha256": "a6796610847846548e10c35ba237c05fe74a05002968d2c4388ac1c5a22d1a58"
+      },
+      "jdk-17.0.20.1+1-jre/bin/management_agent.dll": {
+        "bytes": 25216,
+        "sha256": "3db84603fb0aa3d7274e161acdfd4dac52449c6ad12253f55e6827aea92bfc0c"
+      },
+      "jdk-17.0.20.1+1-jre/bin/management_ext.dll": {
+        "bytes": 36472,
+        "sha256": "0b870da11960755b3ca9b94a13b11b85edf9249299b3865fdb1c03c364b0f46e"
+      },
+      "jdk-17.0.20.1+1-jre/bin/mlib_image.dll": {
+        "bytes": 521336,
+        "sha256": "3161b6a9fad7d3a929be2d578c63add47648c4be336ecbacd413689844762ca1"
+      },
+      "jdk-17.0.20.1+1-jre/bin/msvcp140.dll": {
+        "bytes": 575056,
+        "sha256": "a4c2229bdc2a2a630acdc095b4d86008e5c3e3bc7773174354f3da4f5beb9cde"
+      },
+      "jdk-17.0.20.1+1-jre/bin/net.dll": {
+        "bytes": 98432,
+        "sha256": "363b5784dc8a64eb82f10eae337ab0e600a9e10aa88fabca15cb1fe9950be653"
+      },
+      "jdk-17.0.20.1+1-jre/bin/nio.dll": {
+        "bytes": 80504,
+        "sha256": "4571b9e62b49e18561b29aa13ce9257c3f3529967657d8386e39e26e37b4922f"
+      },
+      "jdk-17.0.20.1+1-jre/bin/prefs.dll": {
+        "bytes": 25720,
+        "sha256": "cd2a65c7e10f5e1352103fa1f3bc79a0297865f403dbbff8485d72f5b2fc004a"
+      },
+      "jdk-17.0.20.1+1-jre/bin/rmi.dll": {
+        "bytes": 21112,
+        "sha256": "4b5da9c92ca0d20ee1910b74f9e6286ca3a25f94bc3eb75806f55d90b03daef6"
+      },
+      "jdk-17.0.20.1+1-jre/bin/rmiregistry.exe": {
+        "bytes": 24704,
+        "sha256": "22a3d2924fc06fade7ad2c9e146133ac7ffd3d2dbc16af5723d68820b2b548d8"
+      },
+      "jdk-17.0.20.1+1-jre/bin/server/classes.jsa": {
+        "bytes": 11075584,
+        "sha256": "d647693e0b1a645fa8b23b8ff783818c58c017d635d8ed538e115365d21f9aa1"
+      },
+      "jdk-17.0.20.1+1-jre/bin/server/classes_nocoops.jsa": {
+        "bytes": 11075584,
+        "sha256": "87efdf477f33643fda8faf1aaff5cf6127b1329792dc6e341c64cc43507281ac"
+      },
+      "jdk-17.0.20.1+1-jre/bin/server/jvm.dll": {
+        "bytes": 12684920,
+        "sha256": "6b9a2354b41134986d61d1f8ff0f9614e3a6b7e235469b7e9260fe7a1d9bb84a"
+      },
+      "jdk-17.0.20.1+1-jre/bin/splashscreen.dll": {
+        "bytes": 216704,
+        "sha256": "9b35352de5ed51a4f109c03f41e075163a076dcd80b12f9dc5391311f4e8ab30"
+      },
+      "jdk-17.0.20.1+1-jre/bin/sspi_bridge.dll": {
+        "bytes": 45176,
+        "sha256": "29d8884b5acf67eac9ade73c07d879c0fc911ead1c8293f670bc11006a30a7ce"
+      },
+      "jdk-17.0.20.1+1-jre/bin/sunmscapi.dll": {
+        "bytes": 47744,
+        "sha256": "8043cb27ba90a68185441d59aacceeb241fa603aa90d70ba453c0e78c789e205"
+      },
+      "jdk-17.0.20.1+1-jre/bin/ucrtbase.dll": {
+        "bytes": 1361448,
+        "sha256": "2e5fb14b7bf8540278f3614a12f0226e56a7cc9e64b81cbd976c6fcf2f71cbfb"
+      },
+      "jdk-17.0.20.1+1-jre/bin/vcruntime140.dll": {
+        "bytes": 119888,
+        "sha256": "02c6aa0e6e624411a9f19b0360a7865ab15908e26024510e5c38a9c08362c35a"
+      },
+      "jdk-17.0.20.1+1-jre/bin/vcruntime140_1.dll": {
+        "bytes": 49640,
+        "sha256": "7dd9aa02e271c68ca6d5f18d651d23a15d7259715af43326578f7dde27f37637"
+      },
+      "jdk-17.0.20.1+1-jre/bin/verify.dll": {
+        "bytes": 54904,
+        "sha256": "5337b2ead28600e047c974b0121ade3a62006ec2b74461be0a0538eef2293c90"
+      },
+      "jdk-17.0.20.1+1-jre/bin/w2k_lsa_auth.dll": {
+        "bytes": 31352,
+        "sha256": "9cf25a59b2ff5714f5bccd53f149eef503917f7128da4e630c78ab980e951ba6"
+      },
+      "jdk-17.0.20.1+1-jre/bin/windowsaccessbridge-64.dll": {
+        "bytes": 72824,
+        "sha256": "93a24f4948a90e71332a4e379e0259c7e41e72934fd2f5d4f6033833f7dbe961"
+      },
+      "jdk-17.0.20.1+1-jre/bin/zip.dll": {
+        "bytes": 87672,
+        "sha256": "a96a5cd67013edf93fac2044c0797cd35759dd2237f1940968bcc1952ed294cd"
+      },
+      "jdk-17.0.20.1+1-jre/conf/logging.properties": {
+        "bytes": 2732,
+        "sha256": "b62d2733ab99556b108a1951d894c5a8d76b1ac7a00c02c388f9eb9be046c56f"
+      },
+      "jdk-17.0.20.1+1-jre/conf/management/jmxremote.access": {
+        "bytes": 3997,
+        "sha256": "0c25d26ee212ca1e8c33f67c3c460d43fe849c3a1d23dbe341148517602b280c"
+      },
+      "jdk-17.0.20.1+1-jre/conf/management/jmxremote.password.template": {
+        "bytes": 5690,
+        "sha256": "0273b6a6b9e20e6ce54c5aee70164028e0395063b2b7d39060a40b6495543dbf"
+      },
+      "jdk-17.0.20.1+1-jre/conf/management/management.properties": {
+        "bytes": 14410,
+        "sha256": "f80096ec028dcb71625c398ec16d12023cafc6a1c055aceaed07d02e8d56f637"
+      },
+      "jdk-17.0.20.1+1-jre/conf/net.properties": {
+        "bytes": 7504,
+        "sha256": "56dd1f6095c189c1052f6baa32e457efc09de4832e19cdb82bb236dc8abfee9f"
+      },
+      "jdk-17.0.20.1+1-jre/conf/security/java.policy": {
+        "bytes": 2293,
+        "sha256": "1224c11b69032c80e1493416641c82a37e558913a41f959f83ab2f96f097d6c0"
+      },
+      "jdk-17.0.20.1+1-jre/conf/security/java.security": {
+        "bytes": 69696,
+        "sha256": "5cd497073edfd7fc26c68e92caee264a739db43d6781f8d8e8b74efbd107cfe7"
+      },
+      "jdk-17.0.20.1+1-jre/conf/security/policy/README.txt": {
+        "bytes": 2390,
+        "sha256": "6da0747334b0fea7592fd92614b2bbc8b126535e129b1fee483774d914e98eb5"
+      },
+      "jdk-17.0.20.1+1-jre/conf/security/policy/limited/default_US_export.policy": {
+        "bytes": 146,
+        "sha256": "758b930a526fc670ab7537f8c26321527050a31f5f42149a2dda623c56a0a1a9"
+      },
+      "jdk-17.0.20.1+1-jre/conf/security/policy/limited/default_local.policy": {
+        "bytes": 647,
+        "sha256": "2b2627548e61316150d47ffc3e6cad465ca05b3cccd4785eb7d21aa7baa0f441"
+      },
+      "jdk-17.0.20.1+1-jre/conf/security/policy/limited/exempt_local.policy": {
+        "bytes": 566,
+        "sha256": "8c3d7648abcd95a272ce12db870082937f4d7f6878d730d83cb7fbb31eb8b2c9"
+      },
+      "jdk-17.0.20.1+1-jre/conf/security/policy/unlimited/default_US_export.policy": {
+        "bytes": 146,
+        "sha256": "758b930a526fc670ab7537f8c26321527050a31f5f42149a2dda623c56a0a1a9"
+      },
+      "jdk-17.0.20.1+1-jre/conf/security/policy/unlimited/default_local.policy": {
+        "bytes": 193,
+        "sha256": "8d8a318e6d90dfd7e26612d2b6385aa704f686ca6134c551f8928418d92b851a"
+      },
+      "jdk-17.0.20.1+1-jre/conf/sound.properties": {
+        "bytes": 1210,
+        "sha256": "299c2360b6155eb28990ec49cd21753f97e43442fe8fab03e04f3e213df43a66"
+      },
+      "jdk-17.0.20.1+1-jre/legal/java.base/ADDITIONAL_LICENSE_INFO": {
+        "bytes": 2114,
+        "sha256": "a69bce275ba7a3570af6579cb0f55682cd75fedfcd49e0e8e9022270c447c916"
+      },
+      "jdk-17.0.20.1+1-jre/legal/java.base/ASSEMBLY_EXCEPTION": {
+        "bytes": 1522,
+        "sha256": "a44eb7b5caf5534c6ef536b21edb40b4d6babf91bf97d9d45596868618b2c6fb"
+      },
+      "jdk-17.0.20.1+1-jre/legal/java.base/LICENSE": {
+        "bytes": 19274,
+        "sha256": "4b9abebc4338048a7c2dc184e9f800deb349366bdf28eb23c2677a77b4c87726"
+      },
+      "jdk-17.0.20.1+1-jre/legal/java.base/aes.md": {
+        "bytes": 1444,
+        "sha256": "45c6d4da48325edfbff3dcf71c704e504c057904435ed23c6d57046d551eb69d"
+      },
+      "jdk-17.0.20.1+1-jre/legal/java.base/asm.md": {
+        "bytes": 1584,
+        "sha256": "1ff912740e84e024711def5fa482ffbb46eff64559760c467352dfa7c39a3307"
+      },
+      "jdk-17.0.20.1+1-jre/legal/java.base/c-libutl.md": {
+        "bytes": 1556,
+        "sha256": "bef40679922d6fdfb7e4ddb223ad6722300f6054ba737bbf6188d60fcec517f9"
+      },
+      "jdk-17.0.20.1+1-jre/legal/java.base/cldr.md": {
+        "bytes": 9130,
+        "sha256": "f2bd33ded550a05d59e8f659416ef382490504548d846e6388b1dffd273aa077"
+      },
+      "jdk-17.0.20.1+1-jre/legal/java.base/icu.md": {
+        "bytes": 11086,
+        "sha256": "af0057e8553906083f69c2fb9fe9ed4ae8bc2340a0b1e376a424702f00300b29"
+      },
+      "jdk-17.0.20.1+1-jre/legal/java.base/public_suffix.md": {
+        "bytes": 17785,
+        "sha256": "e7705b408e894e91c93968640773b1532cd9927f8a7f178020aa3c3f38c8b363"
+      },
+      "jdk-17.0.20.1+1-jre/legal/java.base/siphash.md": {
+        "bytes": 8256,
+        "sha256": "5a792b5a74ad2a5f3d6a7ad8b7a841116e58a772c18bc6e392320a365b222c76"
+      },
+      "jdk-17.0.20.1+1-jre/legal/java.base/unicode.md": {
+        "bytes": 2384,
+        "sha256": "5e4e6623a21a63f9bc16ea54af4133b8038e490c0d499a74676f9e5a61b9c5b2"
+      },
+      "jdk-17.0.20.1+1-jre/legal/java.base/wepoll.md": {
+        "bytes": 1454,
+        "sha256": "3ac2992770080453b98c42afa807ba4b2c1738ef756b92a55c645f55e7df48f0"
+      },
+      "jdk-17.0.20.1+1-jre/legal/java.base/zlib.md": {
+        "bytes": 1010,
+        "sha256": "c9c70c36a1f0325e8788771906202d42ba6ab4205caca44ec0f665707e83226b"
+      },
+      "jdk-17.0.20.1+1-jre/legal/java.compiler/ADDITIONAL_LICENSE_INFO": {
+        "bytes": 49,
+        "sha256": "ebf9777bd307ed789ceabf282a9aca168c391c7f48e15a60939352efb3ea33f9"
+      },
+      "jdk-17.0.20.1+1-jre/legal/java.compiler/ASSEMBLY_EXCEPTION": {
+        "bytes": 44,
+        "sha256": "b998cda101e5a1ebcfb5ff9cddd76ed43a2f2169676592d428b7c0d780665f2a"
+      },
+      "jdk-17.0.20.1+1-jre/legal/java.compiler/LICENSE": {
+        "bytes": 33,
+        "sha256": "86e0516b888276a492b19f9a84f5a866ed36925fae1510b3a94a0b6213e69192"
+      },
+      "jdk-17.0.20.1+1-jre/legal/java.datatransfer/ADDITIONAL_LICENSE_INFO": {
+        "bytes": 49,
+        "sha256": "ebf9777bd307ed789ceabf282a9aca168c391c7f48e15a60939352efb3ea33f9"
+      },
+      "jdk-17.0.20.1+1-jre/legal/java.datatransfer/ASSEMBLY_EXCEPTION": {
+        "bytes": 44,
+        "sha256": "b998cda101e5a1ebcfb5ff9cddd76ed43a2f2169676592d428b7c0d780665f2a"
+      },
+      "jdk-17.0.20.1+1-jre/legal/java.datatransfer/LICENSE": {
+        "bytes": 33,
+        "sha256": "86e0516b888276a492b19f9a84f5a866ed36925fae1510b3a94a0b6213e69192"
+      },
+      "jdk-17.0.20.1+1-jre/legal/java.desktop/ADDITIONAL_LICENSE_INFO": {
+        "bytes": 49,
+        "sha256": "ebf9777bd307ed789ceabf282a9aca168c391c7f48e15a60939352efb3ea33f9"
+      },
+      "jdk-17.0.20.1+1-jre/legal/java.desktop/ASSEMBLY_EXCEPTION": {
+        "bytes": 44,
+        "sha256": "b998cda101e5a1ebcfb5ff9cddd76ed43a2f2169676592d428b7c0d780665f2a"
+      },
+      "jdk-17.0.20.1+1-jre/legal/java.desktop/LICENSE": {
+        "bytes": 33,
+        "sha256": "86e0516b888276a492b19f9a84f5a866ed36925fae1510b3a94a0b6213e69192"
+      },
+      "jdk-17.0.20.1+1-jre/legal/java.desktop/colorimaging.md": {
+        "bytes": 167,
+        "sha256": "04d61e3e8e71dd452ebe52008af5378d9f6640d14578aeb515dc5375973b0189"
+      },
+      "jdk-17.0.20.1+1-jre/legal/java.desktop/freetype.md": {
+        "bytes": 30465,
+        "sha256": "553e804baecb7de7129d77c7259a6b70037d1893f1c600b41b35201695fb7758"
+      },
+      "jdk-17.0.20.1+1-jre/legal/java.desktop/giflib.md": {
+        "bytes": 1689,
+        "sha256": "206aab89ec75968e48a6a1ed6df7d8b9bfb7aea12cbe4c9345d93e5d97460a25"
+      },
+      "jdk-17.0.20.1+1-jre/legal/java.desktop/harfbuzz.md": {
+        "bytes": 3629,
+        "sha256": "5ec7cba7f8e7fc3a089213140aab6fa1b3bd5bf8a91bf8bddb3b8d315fc5f7d0"
+      },
+      "jdk-17.0.20.1+1-jre/legal/java.desktop/jpeg.md": {
+        "bytes": 3475,
+        "sha256": "580be596216ee11e2554b24ce944973acaede2ebf5ffba34a6bd8cc441c05043"
+      },
+      "jdk-17.0.20.1+1-jre/legal/java.desktop/lcms.md": {
+        "bytes": 2654,
+        "sha256": "843f9f6fa9c3f8109fcf4d5fe74caf7f2ae8e9bcd92238e4aff2d428c932b24b"
+      },
+      "jdk-17.0.20.1+1-jre/legal/java.desktop/libpng.md": {
+        "bytes": 7519,
+        "sha256": "f73afb394792f3aeecd959e89487603677a430e56b44eba596d8b572accfd540"
+      },
+      "jdk-17.0.20.1+1-jre/legal/java.desktop/mesa3d.md": {
+        "bytes": 5732,
+        "sha256": "63f4e6f75caebbccb95d903fb43e46ac7111b3624d0a34f146b276d7d9e7b152"
+      },
+      "jdk-17.0.20.1+1-jre/legal/java.instrument/ADDITIONAL_LICENSE_INFO": {
+        "bytes": 49,
+        "sha256": "ebf9777bd307ed789ceabf282a9aca168c391c7f48e15a60939352efb3ea33f9"
+      },
+      "jdk-17.0.20.1+1-jre/legal/java.instrument/ASSEMBLY_EXCEPTION": {
+        "bytes": 44,
+        "sha256": "b998cda101e5a1ebcfb5ff9cddd76ed43a2f2169676592d428b7c0d780665f2a"
+      },
+      "jdk-17.0.20.1+1-jre/legal/java.instrument/LICENSE": {
+        "bytes": 33,
+        "sha256": "86e0516b888276a492b19f9a84f5a866ed36925fae1510b3a94a0b6213e69192"
+      },
+      "jdk-17.0.20.1+1-jre/legal/java.logging/ADDITIONAL_LICENSE_INFO": {
+        "bytes": 49,
+        "sha256": "ebf9777bd307ed789ceabf282a9aca168c391c7f48e15a60939352efb3ea33f9"
+      },
+      "jdk-17.0.20.1+1-jre/legal/java.logging/ASSEMBLY_EXCEPTION": {
+        "bytes": 44,
+        "sha256": "b998cda101e5a1ebcfb5ff9cddd76ed43a2f2169676592d428b7c0d780665f2a"
+      },
+      "jdk-17.0.20.1+1-jre/legal/java.logging/LICENSE": {
+        "bytes": 33,
+        "sha256": "86e0516b888276a492b19f9a84f5a866ed36925fae1510b3a94a0b6213e69192"
+      },
+      "jdk-17.0.20.1+1-jre/legal/java.management.rmi/ADDITIONAL_LICENSE_INFO": {
+        "bytes": 49,
+        "sha256": "ebf9777bd307ed789ceabf282a9aca168c391c7f48e15a60939352efb3ea33f9"
+      },
+      "jdk-17.0.20.1+1-jre/legal/java.management.rmi/ASSEMBLY_EXCEPTION": {
+        "bytes": 44,
+        "sha256": "b998cda101e5a1ebcfb5ff9cddd76ed43a2f2169676592d428b7c0d780665f2a"
+      },
+      "jdk-17.0.20.1+1-jre/legal/java.management.rmi/LICENSE": {
+        "bytes": 33,
+        "sha256": "86e0516b888276a492b19f9a84f5a866ed36925fae1510b3a94a0b6213e69192"
+      },
+      "jdk-17.0.20.1+1-jre/legal/java.management/ADDITIONAL_LICENSE_INFO": {
+        "bytes": 49,
+        "sha256": "ebf9777bd307ed789ceabf282a9aca168c391c7f48e15a60939352efb3ea33f9"
+      },
+      "jdk-17.0.20.1+1-jre/legal/java.management/ASSEMBLY_EXCEPTION": {
+        "bytes": 44,
+        "sha256": "b998cda101e5a1ebcfb5ff9cddd76ed43a2f2169676592d428b7c0d780665f2a"
+      },
+      "jdk-17.0.20.1+1-jre/legal/java.management/LICENSE": {
+        "bytes": 33,
+        "sha256": "86e0516b888276a492b19f9a84f5a866ed36925fae1510b3a94a0b6213e69192"
+      },
+      "jdk-17.0.20.1+1-jre/legal/java.naming/ADDITIONAL_LICENSE_INFO": {
+        "bytes": 49,
+        "sha256": "ebf9777bd307ed789ceabf282a9aca168c391c7f48e15a60939352efb3ea33f9"
+      },
+      "jdk-17.0.20.1+1-jre/legal/java.naming/ASSEMBLY_EXCEPTION": {
+        "bytes": 44,
+        "sha256": "b998cda101e5a1ebcfb5ff9cddd76ed43a2f2169676592d428b7c0d780665f2a"
+      },
+      "jdk-17.0.20.1+1-jre/legal/java.naming/LICENSE": {
+        "bytes": 33,
+        "sha256": "86e0516b888276a492b19f9a84f5a866ed36925fae1510b3a94a0b6213e69192"
+      },
+      "jdk-17.0.20.1+1-jre/legal/java.net.http/ADDITIONAL_LICENSE_INFO": {
+        "bytes": 49,
+        "sha256": "ebf9777bd307ed789ceabf282a9aca168c391c7f48e15a60939352efb3ea33f9"
+      },
+      "jdk-17.0.20.1+1-jre/legal/java.net.http/ASSEMBLY_EXCEPTION": {
+        "bytes": 44,
+        "sha256": "b998cda101e5a1ebcfb5ff9cddd76ed43a2f2169676592d428b7c0d780665f2a"
+      },
+      "jdk-17.0.20.1+1-jre/legal/java.net.http/LICENSE": {
+        "bytes": 33,
+        "sha256": "86e0516b888276a492b19f9a84f5a866ed36925fae1510b3a94a0b6213e69192"
+      },
+      "jdk-17.0.20.1+1-jre/legal/java.prefs/ADDITIONAL_LICENSE_INFO": {
+        "bytes": 49,
+        "sha256": "ebf9777bd307ed789ceabf282a9aca168c391c7f48e15a60939352efb3ea33f9"
+      },
+      "jdk-17.0.20.1+1-jre/legal/java.prefs/ASSEMBLY_EXCEPTION": {
+        "bytes": 44,
+        "sha256": "b998cda101e5a1ebcfb5ff9cddd76ed43a2f2169676592d428b7c0d780665f2a"
+      },
+      "jdk-17.0.20.1+1-jre/legal/java.prefs/LICENSE": {
+        "bytes": 33,
+        "sha256": "86e0516b888276a492b19f9a84f5a866ed36925fae1510b3a94a0b6213e69192"
+      },
+      "jdk-17.0.20.1+1-jre/legal/java.rmi/ADDITIONAL_LICENSE_INFO": {
+        "bytes": 49,
+        "sha256": "ebf9777bd307ed789ceabf282a9aca168c391c7f48e15a60939352efb3ea33f9"
+      },
+      "jdk-17.0.20.1+1-jre/legal/java.rmi/ASSEMBLY_EXCEPTION": {
+        "bytes": 44,
+        "sha256": "b998cda101e5a1ebcfb5ff9cddd76ed43a2f2169676592d428b7c0d780665f2a"
+      },
+      "jdk-17.0.20.1+1-jre/legal/java.rmi/LICENSE": {
+        "bytes": 33,
+        "sha256": "86e0516b888276a492b19f9a84f5a866ed36925fae1510b3a94a0b6213e69192"
+      },
+      "jdk-17.0.20.1+1-jre/legal/java.scripting/ADDITIONAL_LICENSE_INFO": {
+        "bytes": 49,
+        "sha256": "ebf9777bd307ed789ceabf282a9aca168c391c7f48e15a60939352efb3ea33f9"
+      },
+      "jdk-17.0.20.1+1-jre/legal/java.scripting/ASSEMBLY_EXCEPTION": {
+        "bytes": 44,
+        "sha256": "b998cda101e5a1ebcfb5ff9cddd76ed43a2f2169676592d428b7c0d780665f2a"
+      },
+      "jdk-17.0.20.1+1-jre/legal/java.scripting/LICENSE": {
+        "bytes": 33,
+        "sha256": "86e0516b888276a492b19f9a84f5a866ed36925fae1510b3a94a0b6213e69192"
+      },
+      "jdk-17.0.20.1+1-jre/legal/java.se/ADDITIONAL_LICENSE_INFO": {
+        "bytes": 49,
+        "sha256": "ebf9777bd307ed789ceabf282a9aca168c391c7f48e15a60939352efb3ea33f9"
+      },
+      "jdk-17.0.20.1+1-jre/legal/java.se/ASSEMBLY_EXCEPTION": {
+        "bytes": 44,
+        "sha256": "b998cda101e5a1ebcfb5ff9cddd76ed43a2f2169676592d428b7c0d780665f2a"
+      },
+      "jdk-17.0.20.1+1-jre/legal/java.se/LICENSE": {
+        "bytes": 33,
+        "sha256": "86e0516b888276a492b19f9a84f5a866ed36925fae1510b3a94a0b6213e69192"
+      },
+      "jdk-17.0.20.1+1-jre/legal/java.security.jgss/ADDITIONAL_LICENSE_INFO": {
+        "bytes": 49,
+        "sha256": "ebf9777bd307ed789ceabf282a9aca168c391c7f48e15a60939352efb3ea33f9"
+      },
+      "jdk-17.0.20.1+1-jre/legal/java.security.jgss/ASSEMBLY_EXCEPTION": {
+        "bytes": 44,
+        "sha256": "b998cda101e5a1ebcfb5ff9cddd76ed43a2f2169676592d428b7c0d780665f2a"
+      },
+      "jdk-17.0.20.1+1-jre/legal/java.security.jgss/LICENSE": {
+        "bytes": 33,
+        "sha256": "86e0516b888276a492b19f9a84f5a866ed36925fae1510b3a94a0b6213e69192"
+      },
+      "jdk-17.0.20.1+1-jre/legal/java.security.sasl/ADDITIONAL_LICENSE_INFO": {
+        "bytes": 49,
+        "sha256": "ebf9777bd307ed789ceabf282a9aca168c391c7f48e15a60939352efb3ea33f9"
+      },
+      "jdk-17.0.20.1+1-jre/legal/java.security.sasl/ASSEMBLY_EXCEPTION": {
+        "bytes": 44,
+        "sha256": "b998cda101e5a1ebcfb5ff9cddd76ed43a2f2169676592d428b7c0d780665f2a"
+      },
+      "jdk-17.0.20.1+1-jre/legal/java.security.sasl/LICENSE": {
+        "bytes": 33,
+        "sha256": "86e0516b888276a492b19f9a84f5a866ed36925fae1510b3a94a0b6213e69192"
+      },
+      "jdk-17.0.20.1+1-jre/legal/java.smartcardio/ADDITIONAL_LICENSE_INFO": {
+        "bytes": 49,
+        "sha256": "ebf9777bd307ed789ceabf282a9aca168c391c7f48e15a60939352efb3ea33f9"
+      },
+      "jdk-17.0.20.1+1-jre/legal/java.smartcardio/ASSEMBLY_EXCEPTION": {
+        "bytes": 44,
+        "sha256": "b998cda101e5a1ebcfb5ff9cddd76ed43a2f2169676592d428b7c0d780665f2a"
+      },
+      "jdk-17.0.20.1+1-jre/legal/java.smartcardio/LICENSE": {
+        "bytes": 33,
+        "sha256": "86e0516b888276a492b19f9a84f5a866ed36925fae1510b3a94a0b6213e69192"
+      },
+      "jdk-17.0.20.1+1-jre/legal/java.sql.rowset/ADDITIONAL_LICENSE_INFO": {
+        "bytes": 49,
+        "sha256": "ebf9777bd307ed789ceabf282a9aca168c391c7f48e15a60939352efb3ea33f9"
+      },
+      "jdk-17.0.20.1+1-jre/legal/java.sql.rowset/ASSEMBLY_EXCEPTION": {
+        "bytes": 44,
+        "sha256": "b998cda101e5a1ebcfb5ff9cddd76ed43a2f2169676592d428b7c0d780665f2a"
+      },
+      "jdk-17.0.20.1+1-jre/legal/java.sql.rowset/LICENSE": {
+        "bytes": 33,
+        "sha256": "86e0516b888276a492b19f9a84f5a866ed36925fae1510b3a94a0b6213e69192"
+      },
+      "jdk-17.0.20.1+1-jre/legal/java.sql/ADDITIONAL_LICENSE_INFO": {
+        "bytes": 49,
+        "sha256": "ebf9777bd307ed789ceabf282a9aca168c391c7f48e15a60939352efb3ea33f9"
+      },
+      "jdk-17.0.20.1+1-jre/legal/java.sql/ASSEMBLY_EXCEPTION": {
+        "bytes": 44,
+        "sha256": "b998cda101e5a1ebcfb5ff9cddd76ed43a2f2169676592d428b7c0d780665f2a"
+      },
+      "jdk-17.0.20.1+1-jre/legal/java.sql/LICENSE": {
+        "bytes": 33,
+        "sha256": "86e0516b888276a492b19f9a84f5a866ed36925fae1510b3a94a0b6213e69192"
+      },
+      "jdk-17.0.20.1+1-jre/legal/java.transaction.xa/ADDITIONAL_LICENSE_INFO": {
+        "bytes": 49,
+        "sha256": "ebf9777bd307ed789ceabf282a9aca168c391c7f48e15a60939352efb3ea33f9"
+      },
+      "jdk-17.0.20.1+1-jre/legal/java.transaction.xa/ASSEMBLY_EXCEPTION": {
+        "bytes": 44,
+        "sha256": "b998cda101e5a1ebcfb5ff9cddd76ed43a2f2169676592d428b7c0d780665f2a"
+      },
+      "jdk-17.0.20.1+1-jre/legal/java.transaction.xa/LICENSE": {
+        "bytes": 33,
+        "sha256": "86e0516b888276a492b19f9a84f5a866ed36925fae1510b3a94a0b6213e69192"
+      },
+      "jdk-17.0.20.1+1-jre/legal/java.xml.crypto/ADDITIONAL_LICENSE_INFO": {
+        "bytes": 49,
+        "sha256": "ebf9777bd307ed789ceabf282a9aca168c391c7f48e15a60939352efb3ea33f9"
+      },
+      "jdk-17.0.20.1+1-jre/legal/java.xml.crypto/ASSEMBLY_EXCEPTION": {
+        "bytes": 44,
+        "sha256": "b998cda101e5a1ebcfb5ff9cddd76ed43a2f2169676592d428b7c0d780665f2a"
+      },
+      "jdk-17.0.20.1+1-jre/legal/java.xml.crypto/LICENSE": {
+        "bytes": 33,
+        "sha256": "86e0516b888276a492b19f9a84f5a866ed36925fae1510b3a94a0b6213e69192"
+      },
+      "jdk-17.0.20.1+1-jre/legal/java.xml.crypto/santuario.md": {
+        "bytes": 11505,
+        "sha256": "d08690d25f660f145c73365d260ed522cd0aace8a0e1396706551b7a1ae8c9a3"
+      },
+      "jdk-17.0.20.1+1-jre/legal/java.xml/ADDITIONAL_LICENSE_INFO": {
+        "bytes": 49,
+        "sha256": "ebf9777bd307ed789ceabf282a9aca168c391c7f48e15a60939352efb3ea33f9"
+      },
+      "jdk-17.0.20.1+1-jre/legal/java.xml/ASSEMBLY_EXCEPTION": {
+        "bytes": 44,
+        "sha256": "b998cda101e5a1ebcfb5ff9cddd76ed43a2f2169676592d428b7c0d780665f2a"
+      },
+      "jdk-17.0.20.1+1-jre/legal/java.xml/LICENSE": {
+        "bytes": 33,
+        "sha256": "86e0516b888276a492b19f9a84f5a866ed36925fae1510b3a94a0b6213e69192"
+      },
+      "jdk-17.0.20.1+1-jre/legal/java.xml/bcel.md": {
+        "bytes": 11196,
+        "sha256": "cd578186ad93de46cca29ec8ace2b11f9da751987f3f140e6095c528596cc8c1"
+      },
+      "jdk-17.0.20.1+1-jre/legal/java.xml/dom.md": {
+        "bytes": 3761,
+        "sha256": "6686e8877667584a3a7c07344baadca1a03e29f677162d87c3c0811e990d1148"
+      },
+      "jdk-17.0.20.1+1-jre/legal/java.xml/jcup.md": {
+        "bytes": 1448,
+        "sha256": "8d5dcfdf50455a3c34c753a98f21e953248af200415a9084e3f102cb6c43b8bf"
+      },
+      "jdk-17.0.20.1+1-jre/legal/java.xml/xalan.md": {
+        "bytes": 13494,
+        "sha256": "ea67226be5cfe19c7e79725c2c24a16676323264d69f9747c528de0b44541b03"
+      },
+      "jdk-17.0.20.1+1-jre/legal/java.xml/xerces.md": {
+        "bytes": 11852,
+        "sha256": "472224f99de833f4f4c19f2f8a0317f22114e1c641f5d77ffa3a4280a1b80176"
+      },
+      "jdk-17.0.20.1+1-jre/legal/jdk.accessibility/ADDITIONAL_LICENSE_INFO": {
+        "bytes": 49,
+        "sha256": "ebf9777bd307ed789ceabf282a9aca168c391c7f48e15a60939352efb3ea33f9"
+      },
+      "jdk-17.0.20.1+1-jre/legal/jdk.accessibility/ASSEMBLY_EXCEPTION": {
+        "bytes": 44,
+        "sha256": "b998cda101e5a1ebcfb5ff9cddd76ed43a2f2169676592d428b7c0d780665f2a"
+      },
+      "jdk-17.0.20.1+1-jre/legal/jdk.accessibility/LICENSE": {
+        "bytes": 33,
+        "sha256": "86e0516b888276a492b19f9a84f5a866ed36925fae1510b3a94a0b6213e69192"
+      },
+      "jdk-17.0.20.1+1-jre/legal/jdk.charsets/ADDITIONAL_LICENSE_INFO": {
+        "bytes": 49,
+        "sha256": "ebf9777bd307ed789ceabf282a9aca168c391c7f48e15a60939352efb3ea33f9"
+      },
+      "jdk-17.0.20.1+1-jre/legal/jdk.charsets/ASSEMBLY_EXCEPTION": {
+        "bytes": 44,
+        "sha256": "b998cda101e5a1ebcfb5ff9cddd76ed43a2f2169676592d428b7c0d780665f2a"
+      },
+      "jdk-17.0.20.1+1-jre/legal/jdk.charsets/LICENSE": {
+        "bytes": 33,
+        "sha256": "86e0516b888276a492b19f9a84f5a866ed36925fae1510b3a94a0b6213e69192"
+      },
+      "jdk-17.0.20.1+1-jre/legal/jdk.crypto.cryptoki/ADDITIONAL_LICENSE_INFO": {
+        "bytes": 49,
+        "sha256": "ebf9777bd307ed789ceabf282a9aca168c391c7f48e15a60939352efb3ea33f9"
+      },
+      "jdk-17.0.20.1+1-jre/legal/jdk.crypto.cryptoki/ASSEMBLY_EXCEPTION": {
+        "bytes": 44,
+        "sha256": "b998cda101e5a1ebcfb5ff9cddd76ed43a2f2169676592d428b7c0d780665f2a"
+      },
+      "jdk-17.0.20.1+1-jre/legal/jdk.crypto.cryptoki/LICENSE": {
+        "bytes": 33,
+        "sha256": "86e0516b888276a492b19f9a84f5a866ed36925fae1510b3a94a0b6213e69192"
+      },
+      "jdk-17.0.20.1+1-jre/legal/jdk.crypto.cryptoki/pkcs11cryptotoken.md": {
+        "bytes": 4095,
+        "sha256": "1f36ff1342a581142c858f90064e20633d43529ac82adb85345bd902a14e18b2"
+      },
+      "jdk-17.0.20.1+1-jre/legal/jdk.crypto.cryptoki/pkcs11wrapper.md": {
+        "bytes": 2131,
+        "sha256": "371974b1fca3744a3892c7ee1fcc593b8b4281fc218f4cafd2f709e9df5fd81d"
+      },
+      "jdk-17.0.20.1+1-jre/legal/jdk.crypto.ec/ADDITIONAL_LICENSE_INFO": {
+        "bytes": 49,
+        "sha256": "ebf9777bd307ed789ceabf282a9aca168c391c7f48e15a60939352efb3ea33f9"
+      },
+      "jdk-17.0.20.1+1-jre/legal/jdk.crypto.ec/ASSEMBLY_EXCEPTION": {
+        "bytes": 44,
+        "sha256": "b998cda101e5a1ebcfb5ff9cddd76ed43a2f2169676592d428b7c0d780665f2a"
+      },
+      "jdk-17.0.20.1+1-jre/legal/jdk.crypto.ec/LICENSE": {
+        "bytes": 33,
+        "sha256": "86e0516b888276a492b19f9a84f5a866ed36925fae1510b3a94a0b6213e69192"
+      },
+      "jdk-17.0.20.1+1-jre/legal/jdk.crypto.mscapi/ADDITIONAL_LICENSE_INFO": {
+        "bytes": 49,
+        "sha256": "ebf9777bd307ed789ceabf282a9aca168c391c7f48e15a60939352efb3ea33f9"
+      },
+      "jdk-17.0.20.1+1-jre/legal/jdk.crypto.mscapi/ASSEMBLY_EXCEPTION": {
+        "bytes": 44,
+        "sha256": "b998cda101e5a1ebcfb5ff9cddd76ed43a2f2169676592d428b7c0d780665f2a"
+      },
+      "jdk-17.0.20.1+1-jre/legal/jdk.crypto.mscapi/LICENSE": {
+        "bytes": 33,
+        "sha256": "86e0516b888276a492b19f9a84f5a866ed36925fae1510b3a94a0b6213e69192"
+      },
+      "jdk-17.0.20.1+1-jre/legal/jdk.dynalink/ADDITIONAL_LICENSE_INFO": {
+        "bytes": 49,
+        "sha256": "ebf9777bd307ed789ceabf282a9aca168c391c7f48e15a60939352efb3ea33f9"
+      },
+      "jdk-17.0.20.1+1-jre/legal/jdk.dynalink/ASSEMBLY_EXCEPTION": {
+        "bytes": 44,
+        "sha256": "b998cda101e5a1ebcfb5ff9cddd76ed43a2f2169676592d428b7c0d780665f2a"
+      },
+      "jdk-17.0.20.1+1-jre/legal/jdk.dynalink/LICENSE": {
+        "bytes": 33,
+        "sha256": "86e0516b888276a492b19f9a84f5a866ed36925fae1510b3a94a0b6213e69192"
+      },
+      "jdk-17.0.20.1+1-jre/legal/jdk.dynalink/dynalink.md": {
+        "bytes": 1502,
+        "sha256": "17312591cabee3ef6c34ed8897d92e4e361ba9cea41ec00dcd61a322a8fc2cdb"
+      },
+      "jdk-17.0.20.1+1-jre/legal/jdk.httpserver/ADDITIONAL_LICENSE_INFO": {
+        "bytes": 49,
+        "sha256": "ebf9777bd307ed789ceabf282a9aca168c391c7f48e15a60939352efb3ea33f9"
+      },
+      "jdk-17.0.20.1+1-jre/legal/jdk.httpserver/ASSEMBLY_EXCEPTION": {
+        "bytes": 44,
+        "sha256": "b998cda101e5a1ebcfb5ff9cddd76ed43a2f2169676592d428b7c0d780665f2a"
+      },
+      "jdk-17.0.20.1+1-jre/legal/jdk.httpserver/LICENSE": {
+        "bytes": 33,
+        "sha256": "86e0516b888276a492b19f9a84f5a866ed36925fae1510b3a94a0b6213e69192"
+      },
+      "jdk-17.0.20.1+1-jre/legal/jdk.incubator.foreign/ADDITIONAL_LICENSE_INFO": {
+        "bytes": 49,
+        "sha256": "ebf9777bd307ed789ceabf282a9aca168c391c7f48e15a60939352efb3ea33f9"
+      },
+      "jdk-17.0.20.1+1-jre/legal/jdk.incubator.foreign/ASSEMBLY_EXCEPTION": {
+        "bytes": 44,
+        "sha256": "b998cda101e5a1ebcfb5ff9cddd76ed43a2f2169676592d428b7c0d780665f2a"
+      },
+      "jdk-17.0.20.1+1-jre/legal/jdk.incubator.foreign/LICENSE": {
+        "bytes": 33,
+        "sha256": "86e0516b888276a492b19f9a84f5a866ed36925fae1510b3a94a0b6213e69192"
+      },
+      "jdk-17.0.20.1+1-jre/legal/jdk.incubator.vector/ADDITIONAL_LICENSE_INFO": {
+        "bytes": 49,
+        "sha256": "ebf9777bd307ed789ceabf282a9aca168c391c7f48e15a60939352efb3ea33f9"
+      },
+      "jdk-17.0.20.1+1-jre/legal/jdk.incubator.vector/ASSEMBLY_EXCEPTION": {
+        "bytes": 44,
+        "sha256": "b998cda101e5a1ebcfb5ff9cddd76ed43a2f2169676592d428b7c0d780665f2a"
+      },
+      "jdk-17.0.20.1+1-jre/legal/jdk.incubator.vector/LICENSE": {
+        "bytes": 33,
+        "sha256": "86e0516b888276a492b19f9a84f5a866ed36925fae1510b3a94a0b6213e69192"
+      },
+      "jdk-17.0.20.1+1-jre/legal/jdk.internal.vm.ci/ADDITIONAL_LICENSE_INFO": {
+        "bytes": 49,
+        "sha256": "ebf9777bd307ed789ceabf282a9aca168c391c7f48e15a60939352efb3ea33f9"
+      },
+      "jdk-17.0.20.1+1-jre/legal/jdk.internal.vm.ci/ASSEMBLY_EXCEPTION": {
+        "bytes": 44,
+        "sha256": "b998cda101e5a1ebcfb5ff9cddd76ed43a2f2169676592d428b7c0d780665f2a"
+      },
+      "jdk-17.0.20.1+1-jre/legal/jdk.internal.vm.ci/LICENSE": {
+        "bytes": 33,
+        "sha256": "86e0516b888276a492b19f9a84f5a866ed36925fae1510b3a94a0b6213e69192"
+      },
+      "jdk-17.0.20.1+1-jre/legal/jdk.internal.vm.compiler.management/ADDITIONAL_LICENSE_INFO": {
+        "bytes": 49,
+        "sha256": "ebf9777bd307ed789ceabf282a9aca168c391c7f48e15a60939352efb3ea33f9"
+      },
+      "jdk-17.0.20.1+1-jre/legal/jdk.internal.vm.compiler.management/ASSEMBLY_EXCEPTION": {
+        "bytes": 44,
+        "sha256": "b998cda101e5a1ebcfb5ff9cddd76ed43a2f2169676592d428b7c0d780665f2a"
+      },
+      "jdk-17.0.20.1+1-jre/legal/jdk.internal.vm.compiler.management/LICENSE": {
+        "bytes": 33,
+        "sha256": "86e0516b888276a492b19f9a84f5a866ed36925fae1510b3a94a0b6213e69192"
+      },
+      "jdk-17.0.20.1+1-jre/legal/jdk.internal.vm.compiler/ADDITIONAL_LICENSE_INFO": {
+        "bytes": 49,
+        "sha256": "ebf9777bd307ed789ceabf282a9aca168c391c7f48e15a60939352efb3ea33f9"
+      },
+      "jdk-17.0.20.1+1-jre/legal/jdk.internal.vm.compiler/ASSEMBLY_EXCEPTION": {
+        "bytes": 44,
+        "sha256": "b998cda101e5a1ebcfb5ff9cddd76ed43a2f2169676592d428b7c0d780665f2a"
+      },
+      "jdk-17.0.20.1+1-jre/legal/jdk.internal.vm.compiler/LICENSE": {
+        "bytes": 33,
+        "sha256": "86e0516b888276a492b19f9a84f5a866ed36925fae1510b3a94a0b6213e69192"
+      },
+      "jdk-17.0.20.1+1-jre/legal/jdk.jdwp.agent/ADDITIONAL_LICENSE_INFO": {
+        "bytes": 49,
+        "sha256": "ebf9777bd307ed789ceabf282a9aca168c391c7f48e15a60939352efb3ea33f9"
+      },
+      "jdk-17.0.20.1+1-jre/legal/jdk.jdwp.agent/ASSEMBLY_EXCEPTION": {
+        "bytes": 44,
+        "sha256": "b998cda101e5a1ebcfb5ff9cddd76ed43a2f2169676592d428b7c0d780665f2a"
+      },
+      "jdk-17.0.20.1+1-jre/legal/jdk.jdwp.agent/LICENSE": {
+        "bytes": 33,
+        "sha256": "86e0516b888276a492b19f9a84f5a866ed36925fae1510b3a94a0b6213e69192"
+      },
+      "jdk-17.0.20.1+1-jre/legal/jdk.jfr/ADDITIONAL_LICENSE_INFO": {
+        "bytes": 49,
+        "sha256": "ebf9777bd307ed789ceabf282a9aca168c391c7f48e15a60939352efb3ea33f9"
+      },
+      "jdk-17.0.20.1+1-jre/legal/jdk.jfr/ASSEMBLY_EXCEPTION": {
+        "bytes": 44,
+        "sha256": "b998cda101e5a1ebcfb5ff9cddd76ed43a2f2169676592d428b7c0d780665f2a"
+      },
+      "jdk-17.0.20.1+1-jre/legal/jdk.jfr/LICENSE": {
+        "bytes": 33,
+        "sha256": "86e0516b888276a492b19f9a84f5a866ed36925fae1510b3a94a0b6213e69192"
+      },
+      "jdk-17.0.20.1+1-jre/legal/jdk.jsobject/ADDITIONAL_LICENSE_INFO": {
+        "bytes": 49,
+        "sha256": "ebf9777bd307ed789ceabf282a9aca168c391c7f48e15a60939352efb3ea33f9"
+      },
+      "jdk-17.0.20.1+1-jre/legal/jdk.jsobject/ASSEMBLY_EXCEPTION": {
+        "bytes": 44,
+        "sha256": "b998cda101e5a1ebcfb5ff9cddd76ed43a2f2169676592d428b7c0d780665f2a"
+      },
+      "jdk-17.0.20.1+1-jre/legal/jdk.jsobject/LICENSE": {
+        "bytes": 33,
+        "sha256": "86e0516b888276a492b19f9a84f5a866ed36925fae1510b3a94a0b6213e69192"
+      },
+      "jdk-17.0.20.1+1-jre/legal/jdk.localedata/ADDITIONAL_LICENSE_INFO": {
+        "bytes": 49,
+        "sha256": "ebf9777bd307ed789ceabf282a9aca168c391c7f48e15a60939352efb3ea33f9"
+      },
+      "jdk-17.0.20.1+1-jre/legal/jdk.localedata/ASSEMBLY_EXCEPTION": {
+        "bytes": 44,
+        "sha256": "b998cda101e5a1ebcfb5ff9cddd76ed43a2f2169676592d428b7c0d780665f2a"
+      },
+      "jdk-17.0.20.1+1-jre/legal/jdk.localedata/LICENSE": {
+        "bytes": 33,
+        "sha256": "86e0516b888276a492b19f9a84f5a866ed36925fae1510b3a94a0b6213e69192"
+      },
+      "jdk-17.0.20.1+1-jre/legal/jdk.localedata/cldr.md": {
+        "bytes": 33,
+        "sha256": "09972449731a1d1a0863af0384aeb7839f84cac74983c96856e6c305e31ed8b2"
+      },
+      "jdk-17.0.20.1+1-jre/legal/jdk.localedata/thaidict.md": {
+        "bytes": 1346,
+        "sha256": "c326144a2351c9608fa708b5d7d3c5a3da03e82b66479b128e9db4969539824a"
+      },
+      "jdk-17.0.20.1+1-jre/legal/jdk.management.agent/ADDITIONAL_LICENSE_INFO": {
+        "bytes": 49,
+        "sha256": "ebf9777bd307ed789ceabf282a9aca168c391c7f48e15a60939352efb3ea33f9"
+      },
+      "jdk-17.0.20.1+1-jre/legal/jdk.management.agent/ASSEMBLY_EXCEPTION": {
+        "bytes": 44,
+        "sha256": "b998cda101e5a1ebcfb5ff9cddd76ed43a2f2169676592d428b7c0d780665f2a"
+      },
+      "jdk-17.0.20.1+1-jre/legal/jdk.management.agent/LICENSE": {
+        "bytes": 33,
+        "sha256": "86e0516b888276a492b19f9a84f5a866ed36925fae1510b3a94a0b6213e69192"
+      },
+      "jdk-17.0.20.1+1-jre/legal/jdk.management.jfr/ADDITIONAL_LICENSE_INFO": {
+        "bytes": 49,
+        "sha256": "ebf9777bd307ed789ceabf282a9aca168c391c7f48e15a60939352efb3ea33f9"
+      },
+      "jdk-17.0.20.1+1-jre/legal/jdk.management.jfr/ASSEMBLY_EXCEPTION": {
+        "bytes": 44,
+        "sha256": "b998cda101e5a1ebcfb5ff9cddd76ed43a2f2169676592d428b7c0d780665f2a"
+      },
+      "jdk-17.0.20.1+1-jre/legal/jdk.management.jfr/LICENSE": {
+        "bytes": 33,
+        "sha256": "86e0516b888276a492b19f9a84f5a866ed36925fae1510b3a94a0b6213e69192"
+      },
+      "jdk-17.0.20.1+1-jre/legal/jdk.management/ADDITIONAL_LICENSE_INFO": {
+        "bytes": 49,
+        "sha256": "ebf9777bd307ed789ceabf282a9aca168c391c7f48e15a60939352efb3ea33f9"
+      },
+      "jdk-17.0.20.1+1-jre/legal/jdk.management/ASSEMBLY_EXCEPTION": {
+        "bytes": 44,
+        "sha256": "b998cda101e5a1ebcfb5ff9cddd76ed43a2f2169676592d428b7c0d780665f2a"
+      },
+      "jdk-17.0.20.1+1-jre/legal/jdk.management/LICENSE": {
+        "bytes": 33,
+        "sha256": "86e0516b888276a492b19f9a84f5a866ed36925fae1510b3a94a0b6213e69192"
+      },
+      "jdk-17.0.20.1+1-jre/legal/jdk.naming.dns/ADDITIONAL_LICENSE_INFO": {
+        "bytes": 49,
+        "sha256": "ebf9777bd307ed789ceabf282a9aca168c391c7f48e15a60939352efb3ea33f9"
+      },
+      "jdk-17.0.20.1+1-jre/legal/jdk.naming.dns/ASSEMBLY_EXCEPTION": {
+        "bytes": 44,
+        "sha256": "b998cda101e5a1ebcfb5ff9cddd76ed43a2f2169676592d428b7c0d780665f2a"
+      },
+      "jdk-17.0.20.1+1-jre/legal/jdk.naming.dns/LICENSE": {
+        "bytes": 33,
+        "sha256": "86e0516b888276a492b19f9a84f5a866ed36925fae1510b3a94a0b6213e69192"
+      },
+      "jdk-17.0.20.1+1-jre/legal/jdk.naming.rmi/ADDITIONAL_LICENSE_INFO": {
+        "bytes": 49,
+        "sha256": "ebf9777bd307ed789ceabf282a9aca168c391c7f48e15a60939352efb3ea33f9"
+      },
+      "jdk-17.0.20.1+1-jre/legal/jdk.naming.rmi/ASSEMBLY_EXCEPTION": {
+        "bytes": 44,
+        "sha256": "b998cda101e5a1ebcfb5ff9cddd76ed43a2f2169676592d428b7c0d780665f2a"
+      },
+      "jdk-17.0.20.1+1-jre/legal/jdk.naming.rmi/LICENSE": {
+        "bytes": 33,
+        "sha256": "86e0516b888276a492b19f9a84f5a866ed36925fae1510b3a94a0b6213e69192"
+      },
+      "jdk-17.0.20.1+1-jre/legal/jdk.net/ADDITIONAL_LICENSE_INFO": {
+        "bytes": 49,
+        "sha256": "ebf9777bd307ed789ceabf282a9aca168c391c7f48e15a60939352efb3ea33f9"
+      },
+      "jdk-17.0.20.1+1-jre/legal/jdk.net/ASSEMBLY_EXCEPTION": {
+        "bytes": 44,
+        "sha256": "b998cda101e5a1ebcfb5ff9cddd76ed43a2f2169676592d428b7c0d780665f2a"
+      },
+      "jdk-17.0.20.1+1-jre/legal/jdk.net/LICENSE": {
+        "bytes": 33,
+        "sha256": "86e0516b888276a492b19f9a84f5a866ed36925fae1510b3a94a0b6213e69192"
+      },
+      "jdk-17.0.20.1+1-jre/legal/jdk.nio.mapmode/ADDITIONAL_LICENSE_INFO": {
+        "bytes": 49,
+        "sha256": "ebf9777bd307ed789ceabf282a9aca168c391c7f48e15a60939352efb3ea33f9"
+      },
+      "jdk-17.0.20.1+1-jre/legal/jdk.nio.mapmode/ASSEMBLY_EXCEPTION": {
+        "bytes": 44,
+        "sha256": "b998cda101e5a1ebcfb5ff9cddd76ed43a2f2169676592d428b7c0d780665f2a"
+      },
+      "jdk-17.0.20.1+1-jre/legal/jdk.nio.mapmode/LICENSE": {
+        "bytes": 33,
+        "sha256": "86e0516b888276a492b19f9a84f5a866ed36925fae1510b3a94a0b6213e69192"
+      },
+      "jdk-17.0.20.1+1-jre/legal/jdk.sctp/ADDITIONAL_LICENSE_INFO": {
+        "bytes": 49,
+        "sha256": "ebf9777bd307ed789ceabf282a9aca168c391c7f48e15a60939352efb3ea33f9"
+      },
+      "jdk-17.0.20.1+1-jre/legal/jdk.sctp/ASSEMBLY_EXCEPTION": {
+        "bytes": 44,
+        "sha256": "b998cda101e5a1ebcfb5ff9cddd76ed43a2f2169676592d428b7c0d780665f2a"
+      },
+      "jdk-17.0.20.1+1-jre/legal/jdk.sctp/LICENSE": {
+        "bytes": 33,
+        "sha256": "86e0516b888276a492b19f9a84f5a866ed36925fae1510b3a94a0b6213e69192"
+      },
+      "jdk-17.0.20.1+1-jre/legal/jdk.security.auth/ADDITIONAL_LICENSE_INFO": {
+        "bytes": 49,
+        "sha256": "ebf9777bd307ed789ceabf282a9aca168c391c7f48e15a60939352efb3ea33f9"
+      },
+      "jdk-17.0.20.1+1-jre/legal/jdk.security.auth/ASSEMBLY_EXCEPTION": {
+        "bytes": 44,
+        "sha256": "b998cda101e5a1ebcfb5ff9cddd76ed43a2f2169676592d428b7c0d780665f2a"
+      },
+      "jdk-17.0.20.1+1-jre/legal/jdk.security.auth/LICENSE": {
+        "bytes": 33,
+        "sha256": "86e0516b888276a492b19f9a84f5a866ed36925fae1510b3a94a0b6213e69192"
+      },
+      "jdk-17.0.20.1+1-jre/legal/jdk.security.jgss/ADDITIONAL_LICENSE_INFO": {
+        "bytes": 49,
+        "sha256": "ebf9777bd307ed789ceabf282a9aca168c391c7f48e15a60939352efb3ea33f9"
+      },
+      "jdk-17.0.20.1+1-jre/legal/jdk.security.jgss/ASSEMBLY_EXCEPTION": {
+        "bytes": 44,
+        "sha256": "b998cda101e5a1ebcfb5ff9cddd76ed43a2f2169676592d428b7c0d780665f2a"
+      },
+      "jdk-17.0.20.1+1-jre/legal/jdk.security.jgss/LICENSE": {
+        "bytes": 33,
+        "sha256": "86e0516b888276a492b19f9a84f5a866ed36925fae1510b3a94a0b6213e69192"
+      },
+      "jdk-17.0.20.1+1-jre/legal/jdk.unsupported/ADDITIONAL_LICENSE_INFO": {
+        "bytes": 49,
+        "sha256": "ebf9777bd307ed789ceabf282a9aca168c391c7f48e15a60939352efb3ea33f9"
+      },
+      "jdk-17.0.20.1+1-jre/legal/jdk.unsupported/ASSEMBLY_EXCEPTION": {
+        "bytes": 44,
+        "sha256": "b998cda101e5a1ebcfb5ff9cddd76ed43a2f2169676592d428b7c0d780665f2a"
+      },
+      "jdk-17.0.20.1+1-jre/legal/jdk.unsupported/LICENSE": {
+        "bytes": 33,
+        "sha256": "86e0516b888276a492b19f9a84f5a866ed36925fae1510b3a94a0b6213e69192"
+      },
+      "jdk-17.0.20.1+1-jre/legal/jdk.xml.dom/ADDITIONAL_LICENSE_INFO": {
+        "bytes": 49,
+        "sha256": "ebf9777bd307ed789ceabf282a9aca168c391c7f48e15a60939352efb3ea33f9"
+      },
+      "jdk-17.0.20.1+1-jre/legal/jdk.xml.dom/ASSEMBLY_EXCEPTION": {
+        "bytes": 44,
+        "sha256": "b998cda101e5a1ebcfb5ff9cddd76ed43a2f2169676592d428b7c0d780665f2a"
+      },
+      "jdk-17.0.20.1+1-jre/legal/jdk.xml.dom/LICENSE": {
+        "bytes": 33,
+        "sha256": "86e0516b888276a492b19f9a84f5a866ed36925fae1510b3a94a0b6213e69192"
+      },
+      "jdk-17.0.20.1+1-jre/legal/jdk.zipfs/ADDITIONAL_LICENSE_INFO": {
+        "bytes": 49,
+        "sha256": "ebf9777bd307ed789ceabf282a9aca168c391c7f48e15a60939352efb3ea33f9"
+      },
+      "jdk-17.0.20.1+1-jre/legal/jdk.zipfs/ASSEMBLY_EXCEPTION": {
+        "bytes": 44,
+        "sha256": "b998cda101e5a1ebcfb5ff9cddd76ed43a2f2169676592d428b7c0d780665f2a"
+      },
+      "jdk-17.0.20.1+1-jre/legal/jdk.zipfs/LICENSE": {
+        "bytes": 33,
+        "sha256": "86e0516b888276a492b19f9a84f5a866ed36925fae1510b3a94a0b6213e69192"
+      },
+      "jdk-17.0.20.1+1-jre/lib/classlist": {
+        "bytes": 72950,
+        "sha256": "5e70bc24a91a857eb0d01eefe04a9a2d4726010a89046d972b37378336ea046d"
+      },
+      "jdk-17.0.20.1+1-jre/lib/fontconfig.bfc": {
+        "bytes": 4630,
+        "sha256": "968ac99bbaaf8a49a474c934e73ad58f88c6c7f2a363cb44771e0378444e36ba"
+      },
+      "jdk-17.0.20.1+1-jre/lib/fontconfig.properties.src": {
+        "bytes": 12345,
+        "sha256": "b44540473b97364e0f7a8a0002dd21d7a0717028fa1533f139bc98f40c91c0f0"
+      },
+      "jdk-17.0.20.1+1-jre/lib/jawt.lib": {
+        "bytes": 1682,
+        "sha256": "af64af138d14b9fd0849d7f66ad6b529a4e5ec9c25476557bf6b3d65a8ac6884"
+      },
+      "jdk-17.0.20.1+1-jre/lib/jfr/default.jfc": {
+        "bytes": 35918,
+        "sha256": "51099f07cbdafe8c9e12e94ea74db1c92c3e1ae950679ebf6d37a9b4be4f7634"
+      },
+      "jdk-17.0.20.1+1-jre/lib/jfr/profile.jfc": {
+        "bytes": 35871,
+        "sha256": "9da7ab71c763344677cabe8898496b0aad1fb42fe49363d5e1ae00df8a1baded"
+      },
+      "jdk-17.0.20.1+1-jre/lib/jrt-fs.jar": {
+        "bytes": 110515,
+        "sha256": "c0ca05b7af856766e6bd6bd8af6155b7066e5bc38b6c5398be435c0d57144cd1"
+      },
+      "jdk-17.0.20.1+1-jre/lib/jvm.cfg": {
+        "bytes": 29,
+        "sha256": "aa9efb969444c1484e29adecab55a122458090616e766b2f1230ef05bc3867e0"
+      },
+      "jdk-17.0.20.1+1-jre/lib/jvm.lib": {
+        "bytes": 1040306,
+        "sha256": "78d6360d8daef6bbffb3c0c4b62fb9e3d21d529de1101d167f5d533843edf321"
+      },
+      "jdk-17.0.20.1+1-jre/lib/modules": {
+        "bytes": 83211937,
+        "sha256": "b6180caf1b218506f1cfa425cb6571a043f5a15b394dc09f6d3290ad0150713a"
+      },
+      "jdk-17.0.20.1+1-jre/lib/psfont.properties.ja": {
+        "bytes": 3793,
+        "sha256": "5a4bd51b969bf187ff86d94f4a71fdfbfa602762975fa3c73d264b4575f7c78f"
+      },
+      "jdk-17.0.20.1+1-jre/lib/psfontj2d.properties": {
+        "bytes": 11390,
+        "sha256": "780c565d5af3ee6f68b887b75c041cdf46a0592f67012f12eeb691283e92630a"
+      },
+      "jdk-17.0.20.1+1-jre/lib/security/blocked.certs": {
+        "bytes": 2527,
+        "sha256": "583500b76965eb54b03493372989ab4d3426f85462d1db232c5ae6706a4d6c58"
+      },
+      "jdk-17.0.20.1+1-jre/lib/security/cacerts": {
+        "bytes": 137281,
+        "sha256": "229eba133aba1e538de07e695155d1c3443059d298d3a1de02d7818887ff9043"
+      },
+      "jdk-17.0.20.1+1-jre/lib/security/default.policy": {
+        "bytes": 10936,
+        "sha256": "f6340c1f4084d6927dc6491d9a1747e5d9b761f9f8158c0e36cb4d3ce519fcda"
+      },
+      "jdk-17.0.20.1+1-jre/lib/security/public_suffix_list.dat": {
+        "bytes": 229254,
+        "sha256": "37e71e43c8605f29b9072f152d0ea4708735cdf335a5b68b2bc2f875760806c3"
+      },
+      "jdk-17.0.20.1+1-jre/lib/tzdb.dat": {
+        "bytes": 102956,
+        "sha256": "5906b44e25a8a730131d7ba1beb5d15af27043f6536f1a169ca8a5d8b8bed8f8"
+      },
+      "jdk-17.0.20.1+1-jre/lib/tzmappings": {
+        "bytes": 22143,
+        "sha256": "36dc51c4bf787f640a4b45cbb84ab6954f6e595cbd3617c2f5a4e1e607b38bff"
+      },
+      "jdk-17.0.20.1+1-jre/release": {
+        "bytes": 1674,
+        "sha256": "9c921ee9192c9abd72d5f398481e1ed6c7204928eb29a9f42f69a0e4a2ea93d0"
+      }
+    }
+  },
+  "platform": "windows-x86_64",
+  "profile_id": "heybox-arm64-001c9a49-v1",
+  "resources": {
+    "artifact": "unidbg-source",
+    "members": {
+      "unidbg-2ded0545d4ae053055f469ef4a4c49e3f15196a7/backend/dynarmic/src/main/resources/natives/linux_64/libdynarmic.so": {
+        "bytes": 9382736,
+        "path": "natives/linux_64/libdynarmic.so",
+        "sha256": "39eaa95e2701821a161105b9ce51f8082a4be87c970af77ac62a73ecd66dcdb6"
+      },
+      "unidbg-2ded0545d4ae053055f469ef4a4c49e3f15196a7/backend/dynarmic/src/main/resources/natives/linux_arm64/libdynarmic.so": {
+        "bytes": 5422320,
+        "path": "natives/linux_arm64/libdynarmic.so",
+        "sha256": "011e43e0b84506d73245b7acdd04c4cec25dc92b6c307e4f633c83bfdb914c9c"
+      },
+      "unidbg-2ded0545d4ae053055f469ef4a4c49e3f15196a7/backend/dynarmic/src/main/resources/natives/osx_64/libdynarmic.dylib": {
+        "bytes": 9872976,
+        "path": "natives/osx_64/libdynarmic.dylib",
+        "sha256": "e50b5211c2090ee63a15b39335b55928a54989def404bc398fe9355e1546eb76"
+      },
+      "unidbg-2ded0545d4ae053055f469ef4a4c49e3f15196a7/backend/dynarmic/src/main/resources/natives/osx_arm64/libdynarmic.dylib": {
+        "bytes": 5095104,
+        "path": "natives/osx_arm64/libdynarmic.dylib",
+        "sha256": "cc553d3902634aa5cdd1430fbadf9e305b4edf4ddfdd035ebb06fc5ba1f64df2"
+      },
+      "unidbg-2ded0545d4ae053055f469ef4a4c49e3f15196a7/backend/dynarmic/src/main/resources/natives/windows_64/dynarmic.dll": {
+        "bytes": 14992578,
+        "path": "natives/windows_64/dynarmic.dll",
+        "sha256": "287b85a46596416be44fe749db00fe95a77aa5728099c8e416c0f21cf606c13a"
+      },
+      "unidbg-2ded0545d4ae053055f469ef4a4c49e3f15196a7/backend/unicorn2/src/main/resources/natives/linux_64/libunicorn.so": {
+        "bytes": 4304096,
+        "path": "natives/linux_64/libunicorn.so",
+        "sha256": "76924bad55c3d4b5361678aa01b65f8a8639bda775fea190e138b021872bfd15"
+      },
+      "unidbg-2ded0545d4ae053055f469ef4a4c49e3f15196a7/backend/unicorn2/src/main/resources/natives/linux_arm64/libunicorn.so": {
+        "bytes": 4161000,
+        "path": "natives/linux_arm64/libunicorn.so",
+        "sha256": "3d538deb093a52e695e74f8c5f2bc71af0d77d788ee50a20899f9082b2ea1dcc"
+      },
+      "unidbg-2ded0545d4ae053055f469ef4a4c49e3f15196a7/backend/unicorn2/src/main/resources/natives/osx_64/libunicorn.dylib": {
+        "bytes": 3547952,
+        "path": "natives/osx_64/libunicorn.dylib",
+        "sha256": "8159b7dc9c1a6c1288f395d811949f134c545bfe30cb3a9135807400fb6ea13e"
+      },
+      "unidbg-2ded0545d4ae053055f469ef4a4c49e3f15196a7/backend/unicorn2/src/main/resources/natives/osx_arm64/libunicorn.dylib": {
+        "bytes": 3183872,
+        "path": "natives/osx_arm64/libunicorn.dylib",
+        "sha256": "11702994a3cc4562b0b809b56805404b5a977c1e3dc0bc3f7b5c037a9449587c"
+      },
+      "unidbg-2ded0545d4ae053055f469ef4a4c49e3f15196a7/backend/unicorn2/src/main/resources/natives/windows_64/unicorn.dll": {
+        "bytes": 4919161,
+        "path": "natives/windows_64/unicorn.dll",
+        "sha256": "24cef082e798b23c71f493a1c2d9e0e95fea89287884dc1b4865426b2598442c"
+      },
+      "unidbg-2ded0545d4ae053055f469ef4a4c49e3f15196a7/unidbg-android/src/main/resources/android/lib/arm64-v8a/libdobby.so": {
+        "bytes": 444080,
+        "path": "android/lib/arm64-v8a/libdobby.so",
+        "sha256": "25b8ffe10cea81aebde6993f910d60788e3e187f45083eb5eca06d6e41e29d78"
+      },
+      "unidbg-2ded0545d4ae053055f469ef4a4c49e3f15196a7/unidbg-android/src/main/resources/android/lib/arm64-v8a/libhookzz.so": {
+        "bytes": 235672,
+        "path": "android/lib/arm64-v8a/libhookzz.so",
+        "sha256": "a5553a45a8a069d544e55320f5744ccb11349a40a8922dcfd4435e4e3b0cc561"
+      },
+      "unidbg-2ded0545d4ae053055f469ef4a4c49e3f15196a7/unidbg-android/src/main/resources/android/lib/arm64-v8a/libwhale.so": {
+        "bytes": 1251960,
+        "path": "android/lib/arm64-v8a/libwhale.so",
+        "sha256": "8b8f641953b33e1df58eb100da65f010f8bf79efa09ea8da3d0d4befe1e7f416"
+      },
+      "unidbg-2ded0545d4ae053055f469ef4a4c49e3f15196a7/unidbg-android/src/main/resources/android/lib/arm64-v8a/libxhook.so": {
+        "bytes": 22320,
+        "path": "android/lib/arm64-v8a/libxhook.so",
+        "sha256": "16b564f73a8715e9f6025bbd47679f53b607e99465193d174eb147652768c380"
+      },
+      "unidbg-2ded0545d4ae053055f469ef4a4c49e3f15196a7/unidbg-android/src/main/resources/android/lib/armeabi-v7a/libdobby.so": {
+        "bytes": 165552,
+        "path": "android/lib/armeabi-v7a/libdobby.so",
+        "sha256": "d19afb8dccd6a5dacbaa8aa90192bd9cee98ed1c8ca8427d12f6b5ef56d84512"
+      },
+      "unidbg-2ded0545d4ae053055f469ef4a4c49e3f15196a7/unidbg-android/src/main/resources/android/lib/armeabi-v7a/libhookzz.so": {
+        "bytes": 120508,
+        "path": "android/lib/armeabi-v7a/libhookzz.so",
+        "sha256": "59989e3dcb0cad2f468dcee66e155441893774749d99244e32515fcb4bf5e950"
+      },
+      "unidbg-2ded0545d4ae053055f469ef4a4c49e3f15196a7/unidbg-android/src/main/resources/android/lib/armeabi-v7a/libwhale.so": {
+        "bytes": 804840,
+        "path": "android/lib/armeabi-v7a/libwhale.so",
+        "sha256": "aa7e63126d4be8be85d56c24824fc1bf1a14b22c2771f28f03d175b245c86b90"
+      },
+      "unidbg-2ded0545d4ae053055f469ef4a4c49e3f15196a7/unidbg-android/src/main/resources/android/lib/armeabi-v7a/libxhook.so": {
+        "bytes": 26104,
+        "path": "android/lib/armeabi-v7a/libxhook.so",
+        "sha256": "02d96df92980fc06ffdd95c353a426afe58987f46ecfd1e194f6bdfe327ccebd"
+      },
+      "unidbg-2ded0545d4ae053055f469ef4a4c49e3f15196a7/unidbg-android/src/main/resources/android/sdk19/dev/__properties__": {
+        "bytes": 131072,
+        "path": "android/sdk19/dev/__properties__",
+        "sha256": "c1d98e7a7f0734b43b1dec6bc4ab537b4db64bbf84cfa811f6da16d4d738e36d"
+      },
+      "unidbg-2ded0545d4ae053055f469ef4a4c49e3f15196a7/unidbg-android/src/main/resources/android/sdk19/lib/libc.so": {
+        "bytes": 310660,
+        "path": "android/sdk19/lib/libc.so",
+        "sha256": "7ca3538285210d3a99afc6522535fae527e3171ca8a6c1055c0589000a20d9b2"
+      },
+      "unidbg-2ded0545d4ae053055f469ef4a4c49e3f15196a7/unidbg-android/src/main/resources/android/sdk19/lib/libcrypto.so": {
+        "bytes": 953324,
+        "path": "android/sdk19/lib/libcrypto.so",
+        "sha256": "03117cd4619a3bd1a622d3acfc673c113aea6d0c603ddf66683cfa1cb24c4ae4"
+      },
+      "unidbg-2ded0545d4ae053055f469ef4a4c49e3f15196a7/unidbg-android/src/main/resources/android/sdk19/lib/libdl.so": {
+        "bytes": 9300,
+        "path": "android/sdk19/lib/libdl.so",
+        "sha256": "a912bbf7e4e92449fd8cb7f7d0613ebdda6ac7ae25d1a45f1ce5c2521b28037a"
+      },
+      "unidbg-2ded0545d4ae053055f469ef4a4c49e3f15196a7/unidbg-android/src/main/resources/android/sdk19/lib/liblog.so": {
+        "bytes": 13512,
+        "path": "android/sdk19/lib/liblog.so",
+        "sha256": "583318d9210bc18796d8be1cf56767f17cec48c73623f4b05c1598882aadf408"
+      },
+      "unidbg-2ded0545d4ae053055f469ef4a4c49e3f15196a7/unidbg-android/src/main/resources/android/sdk19/lib/libm.so": {
+        "bytes": 103704,
+        "path": "android/sdk19/lib/libm.so",
+        "sha256": "d8188d3365e3e0fa732c94d9df1e4763e08cfecdab9e327b549348d308eddf98"
+      },
+      "unidbg-2ded0545d4ae053055f469ef4a4c49e3f15196a7/unidbg-android/src/main/resources/android/sdk19/lib/libssl.so": {
+        "bytes": 249656,
+        "path": "android/sdk19/lib/libssl.so",
+        "sha256": "bfc6f026f75e562e797e575919c8862f87741881128f4e919ccb726d596b591c"
+      },
+      "unidbg-2ded0545d4ae053055f469ef4a4c49e3f15196a7/unidbg-android/src/main/resources/android/sdk19/lib/libstdcpp.so": {
+        "bytes": 5312,
+        "path": "android/sdk19/lib/libstdcpp.so",
+        "sha256": "96ea75dd6c97eccfeab46d75f8feea0fa423c0e7c5b007108c6e561a3ea6bb0d"
+      },
+      "unidbg-2ded0545d4ae053055f469ef4a4c49e3f15196a7/unidbg-android/src/main/resources/android/sdk19/lib/libz.so": {
+        "bytes": 95572,
+        "path": "android/sdk19/lib/libz.so",
+        "sha256": "1041525c1742ffc7b63958e78bd17e714b5987acd3cbdd922a84ee92ca5efde9"
+      },
+      "unidbg-2ded0545d4ae053055f469ef4a4c49e3f15196a7/unidbg-android/src/main/resources/android/sdk19/system/usr/share/zoneinfo/tzdata": {
+        "bytes": 560918,
+        "path": "android/sdk19/system/usr/share/zoneinfo/tzdata",
+        "sha256": "75daa7d948b866727d778dd354d5d408af71e2a0dc84cc3541b4df6b4272ecf4"
+      },
+      "unidbg-2ded0545d4ae053055f469ef4a4c49e3f15196a7/unidbg-android/src/main/resources/android/sdk23/dev/__properties__": {
+        "bytes": 131107,
+        "path": "android/sdk23/dev/__properties__",
+        "sha256": "282a1d35838d0bc67224078b34dc15963da66397716e58cad2bbeab0391ec308"
+      },
+      "unidbg-2ded0545d4ae053055f469ef4a4c49e3f15196a7/unidbg-android/src/main/resources/android/sdk23/lib/libc.so": {
+        "bytes": 678416,
+        "path": "android/sdk23/lib/libc.so",
+        "sha256": "059ba02149eb58b607bf6eb93033fe9f3d29dd19cb761017ecba88b5a8cf3e25"
+      },
+      "unidbg-2ded0545d4ae053055f469ef4a4c49e3f15196a7/unidbg-android/src/main/resources/android/sdk23/lib/libcpp.so": {
+        "bytes": 575088,
+        "path": "android/sdk23/lib/libcpp.so",
+        "sha256": "4c7a56fc8698323907bfd14cc237aa4434df0979c788c663bad5f09a0a11c9d5"
+      },
+      "unidbg-2ded0545d4ae053055f469ef4a4c49e3f15196a7/unidbg-android/src/main/resources/android/sdk23/lib/libcrypto.so": {
+        "bytes": 636976,
+        "path": "android/sdk23/lib/libcrypto.so",
+        "sha256": "50088b33d5ff4b87bcbcb0ace898320c2a0de8cd72c1a2d5dc8bd8b1e1fe37f1"
+      },
+      "unidbg-2ded0545d4ae053055f469ef4a4c49e3f15196a7/unidbg-android/src/main/resources/android/sdk23/lib/libdl.so": {
+        "bytes": 9492,
+        "path": "android/sdk23/lib/libdl.so",
+        "sha256": "920ff35f13b1bfdee97171e26becd46a5df860d46c11f15625da961d90455b4a"
+      },
+      "unidbg-2ded0545d4ae053055f469ef4a4c49e3f15196a7/unidbg-android/src/main/resources/android/sdk23/lib/liblog.so": {
+        "bytes": 34408,
+        "path": "android/sdk23/lib/liblog.so",
+        "sha256": "a25b685f61c3a4de3a6580a4aa5d2315946e52b5b551ac4a78b8a54e2376c1f5"
+      },
+      "unidbg-2ded0545d4ae053055f469ef4a4c49e3f15196a7/unidbg-android/src/main/resources/android/sdk23/lib/libm.so": {
+        "bytes": 132824,
+        "path": "android/sdk23/lib/libm.so",
+        "sha256": "03089b7a1865c38730c3e8a22d82852aded761b3c6d830a183a753b1aa12e08c"
+      },
+      "unidbg-2ded0545d4ae053055f469ef4a4c49e3f15196a7/unidbg-android/src/main/resources/android/sdk23/lib/libssl.so": {
+        "bytes": 148876,
+        "path": "android/sdk23/lib/libssl.so",
+        "sha256": "1dc078aa8fd66654dc1c681db8bb86fffbda8d178f695d0535558d952ad5fa6d"
+      },
+      "unidbg-2ded0545d4ae053055f469ef4a4c49e3f15196a7/unidbg-android/src/main/resources/android/sdk23/lib/libstdcpp.so": {
+        "bytes": 21972,
+        "path": "android/sdk23/lib/libstdcpp.so",
+        "sha256": "3c3767b97d583dcf260d7c552bafcee3dc649b5fc730da60449a4fbf759d3e7b"
+      },
+      "unidbg-2ded0545d4ae053055f469ef4a4c49e3f15196a7/unidbg-android/src/main/resources/android/sdk23/lib/libz.so": {
+        "bytes": 108128,
+        "path": "android/sdk23/lib/libz.so",
+        "sha256": "526999a903365c999c470a8a44e49eccea4cd2cfcc63a87b664e61535644770d"
+      },
+      "unidbg-2ded0545d4ae053055f469ef4a4c49e3f15196a7/unidbg-android/src/main/resources/android/sdk23/lib64/libc.so": {
+        "bytes": 1036464,
+        "path": "android/sdk23/lib64/libc.so",
+        "sha256": "d2376df6d2ac3e0213f85e3614c4c7ad1d28c84c44926058d5c1b95c855563db"
+      },
+      "unidbg-2ded0545d4ae053055f469ef4a4c49e3f15196a7/unidbg-android/src/main/resources/android/sdk23/lib64/libcpp.so": {
+        "bytes": 944056,
+        "path": "android/sdk23/lib64/libcpp.so",
+        "sha256": "b88f180cb1c490a331b280f7ecbe0f9fdd97b19e2900adec8d5b912d82f5658d"
+      },
+      "unidbg-2ded0545d4ae053055f469ef4a4c49e3f15196a7/unidbg-android/src/main/resources/android/sdk23/lib64/libcrypto.so": {
+        "bytes": 1137280,
+        "path": "android/sdk23/lib64/libcrypto.so",
+        "sha256": "c4d313a5589c950c1396485df845bf57d3af75e732e05942314d9e34106cb22a"
+      },
+      "unidbg-2ded0545d4ae053055f469ef4a4c49e3f15196a7/unidbg-android/src/main/resources/android/sdk23/lib64/libdl.so": {
+        "bytes": 5696,
+        "path": "android/sdk23/lib64/libdl.so",
+        "sha256": "af9800fb1e46d5b877d2136e3376ffe52f7a7d210363fe34b3c552819fc21d8b"
+      },
+      "unidbg-2ded0545d4ae053055f469ef4a4c49e3f15196a7/unidbg-android/src/main/resources/android/sdk23/lib64/liblog.so": {
+        "bytes": 38704,
+        "path": "android/sdk23/lib64/liblog.so",
+        "sha256": "1556d7bd8629a12043d2385d83cb7ad16d3a17d20d28f8a9a87280b464ac7683"
+      },
+      "unidbg-2ded0545d4ae053055f469ef4a4c49e3f15196a7/unidbg-android/src/main/resources/android/sdk23/lib64/libm.so": {
+        "bytes": 235544,
+        "path": "android/sdk23/lib64/libm.so",
+        "sha256": "c7ed11763d11eafacb5e96309f228f60c3fabbddcbd843f0add6253574b3094e"
+      },
+      "unidbg-2ded0545d4ae053055f469ef4a4c49e3f15196a7/unidbg-android/src/main/resources/android/sdk23/lib64/libssl.so": {
+        "bytes": 247376,
+        "path": "android/sdk23/lib64/libssl.so",
+        "sha256": "446f3a34abb964f9cceac5ead974c767d92b1ff2a1543987cb25e1a5361a1d37"
+      },
+      "unidbg-2ded0545d4ae053055f469ef4a4c49e3f15196a7/unidbg-android/src/main/resources/android/sdk23/lib64/libstdcpp.so": {
+        "bytes": 13960,
+        "path": "android/sdk23/lib64/libstdcpp.so",
+        "sha256": "c544e9ab09cd76ae5e0dfc476fa73d3ec4b6202a71f99a38d7b342b66a169f80"
+      },
+      "unidbg-2ded0545d4ae053055f469ef4a4c49e3f15196a7/unidbg-android/src/main/resources/android/sdk23/lib64/libz.so": {
+        "bytes": 116536,
+        "path": "android/sdk23/lib64/libz.so",
+        "sha256": "4313ca9e219894c79a62faf4db625c902e4bfc55790fab3c82771bebbc4a43a8"
+      },
+      "unidbg-2ded0545d4ae053055f469ef4a4c49e3f15196a7/unidbg-android/src/main/resources/android/sdk23/proc/stat": {
+        "bytes": 1871,
+        "path": "android/sdk23/proc/stat",
+        "sha256": "ff9df9f2d13caa5ad4bf7e6ba76bc7dedf7385457371a8ae6b35e18d921eb23a"
+      },
+      "unidbg-2ded0545d4ae053055f469ef4a4c49e3f15196a7/unidbg-android/src/main/resources/android/sdk23/system/usr/share/zoneinfo/tzdata": {
+        "bytes": 491816,
+        "path": "android/sdk23/system/usr/share/zoneinfo/tzdata",
+        "sha256": "ec0e88e248510df62518445de8774d4f54c56c0560f3aab5e54249ddb3c19afe"
+      },
+      "unidbg-2ded0545d4ae053055f469ef4a4c49e3f15196a7/unidbg-api/src/main/resources/cc.c": {
+        "bytes": 792,
+        "path": "cc.c",
+        "sha256": "2d04c482e32f235755bcf13127f40479d002f2a23fce17d882ab3a25952eb7c3"
+      }
+    },
+    "name": "unidbg-resources-2ded0545.jar"
+  },
+  "schema_version": 1,
+  "selftest": {
+    "_rnd": "14:E94DBC87",
+    "app_version": "1.3.385",
+    "device_info": "25102RKBEC",
+    "hkey": "FC0EAF1B",
+    "identity": "123",
+    "imei": "0123456789abcdef",
+    "os_version": "14",
+    "path": "/account/info",
+    "timestamp": 1700000000
+  },
+  "version": "0.2.0"
+}

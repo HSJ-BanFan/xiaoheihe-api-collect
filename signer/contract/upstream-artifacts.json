@@ -1,0 +1,116 @@
+{
+  "apk-parser": {
+    "name": "apk-parser-2.6.10.jar",
+    "url": "https://repo.maven.apache.org/maven2/net/dongliu/apk-parser/2.6.10/apk-parser-2.6.10.jar",
+    "sha256": "4e07ef65005c0d7e7149f6e903828fdaa031f542ad3956f0d827197a5ccac640",
+    "bytes": 213647
+  },
+  "capstone": {
+    "name": "capstone-3.1.8.jar",
+    "url": "https://repo.maven.apache.org/maven2/com/github/zhkl0228/capstone/3.1.8/capstone-3.1.8.jar",
+    "sha256": "920e5fd1d514f146891a82cfbbfb33ef20cfca746ddcd1a6e2b54fff2a2e53dc",
+    "bytes": 3159591
+  },
+  "commons-codec": {
+    "name": "commons-codec-1.21.0.jar",
+    "url": "https://repo.maven.apache.org/maven2/commons-codec/commons-codec/1.21.0/commons-codec-1.21.0.jar",
+    "sha256": "4da851cb6abfb98bfe9eb77c5e5fc47f5414fa28b94e21b7fd9a646705dc167f",
+    "bytes": 402494
+  },
+  "commons-collections4": {
+    "name": "commons-collections4-4.5.0.jar",
+    "url": "https://repo.maven.apache.org/maven2/org/apache/commons/commons-collections4/4.5.0/commons-collections4-4.5.0.jar",
+    "sha256": "00f93263c267be201b8ae521b44a7137271b16688435340bf629db1bac0a5845",
+    "bytes": 898652
+  },
+  "commons-io": {
+    "name": "commons-io-2.21.0.jar",
+    "url": "https://repo.maven.apache.org/maven2/commons-io/commons-io/2.21.0/commons-io-2.21.0.jar",
+    "sha256": "7d643a2afea8b058b762aa6fb90e5b256f6c729739f8b3784c3370ddc609e88d",
+    "bytes": 585274
+  },
+  "demumble": {
+    "name": "demumble-1.0.4.jar",
+    "url": "https://repo.maven.apache.org/maven2/com/github/zhkl0228/demumble/1.0.4/demumble-1.0.4.jar",
+    "sha256": "2351bff06a0a494734924f4fa2e7084c0699d7e959a0be6e85e7d9ee17ae6eb6",
+    "bytes": 968653
+  },
+  "fastjson": {
+    "name": "fastjson-2.0.65.jar",
+    "url": "https://repo.maven.apache.org/maven2/com/alibaba/fastjson/2.0.65/fastjson-2.0.65.jar",
+    "sha256": "085f276d7406dad6faf7d4f767492189b5f99925c48c6ba51b8c440452c6244c",
+    "bytes": 200924
+  },
+  "fastjson2": {
+    "name": "fastjson2-2.0.65.jar",
+    "url": "https://repo.maven.apache.org/maven2/com/alibaba/fastjson2/fastjson2/2.0.65/fastjson2-2.0.65.jar",
+    "sha256": "e12cd0e49047e052533d897d4b45d1074a21229f2a1939404234398d4c10c06d",
+    "bytes": 2239002
+  },
+  "fastjson2-extension": {
+    "name": "fastjson2-extension-2.0.65.jar",
+    "url": "https://repo.maven.apache.org/maven2/com/alibaba/fastjson2/fastjson2-extension/2.0.65/fastjson2-extension-2.0.65.jar",
+    "sha256": "9a5c4bd4f42085ead8c26d202025690788905afade1d05b09b5aca2521235979",
+    "bytes": 56181
+  },
+  "jna": {
+    "name": "jna-5.10.0.jar",
+    "url": "https://repo.maven.apache.org/maven2/net/java/dev/jna/jna/5.10.0/jna-5.10.0.jar",
+    "sha256": "e335c10679f743207d822c5f7948e930319835492575a9dba6b94f8a3b96fcc8",
+    "bytes": 1756400
+  },
+  "keystone": {
+    "name": "keystone-0.9.7.jar",
+    "url": "https://repo.maven.apache.org/maven2/com/github/zhkl0228/keystone/0.9.7/keystone-0.9.7.jar",
+    "sha256": "3db2ee22fa5b3a70800bc5dfb515acf6bcb62888be0da43c311ff8304411558b",
+    "bytes": 4731494
+  },
+  "native-lib-loader": {
+    "name": "native-lib-loader-2.3.5.jar",
+    "url": "https://repo.maven.apache.org/maven2/org/scijava/native-lib-loader/2.3.5/native-lib-loader-2.3.5.jar",
+    "sha256": "7db19cf3e9cfe993e725e82cd9593a8f3e2d340ed3047c98d5c54370571c759d",
+    "bytes": 20352
+  },
+  "slf4j-api": {
+    "name": "slf4j-api-2.0.16.jar",
+    "url": "https://repo.maven.apache.org/maven2/org/slf4j/slf4j-api/2.0.16/slf4j-api-2.0.16.jar",
+    "sha256": "a12578dde1ba00bd9b816d388a0b879928d00bab3c83c240f7013bf4196c579a",
+    "bytes": 69435
+  },
+  "slf4j-simple": {
+    "name": "slf4j-simple-2.0.16.jar",
+    "url": "https://repo.maven.apache.org/maven2/org/slf4j/slf4j-simple/2.0.16/slf4j-simple-2.0.16.jar",
+    "sha256": "effc32018658bea09d1e08c7d1060ccad46c086960f583d07dd7ffe9c1172a47",
+    "bytes": 15704
+  },
+  "temurin-jre": {
+    "name": "OpenJDK17U-jre_x64_windows_hotspot_17.0.20.1_1.zip",
+    "url": "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.20.1%2B1/OpenJDK17U-jre_x64_windows_hotspot_17.0.20.1_1.zip",
+    "sha256": "bc21a93923103cdaac93ee337b0ae4365e739fde36df823dd456bc67c8a9d352",
+    "bytes": 43780109
+  },
+  "unicorn": {
+    "name": "unicorn-1.0.15.jar",
+    "url": "https://repo.maven.apache.org/maven2/com/github/zhkl0228/unicorn/1.0.15/unicorn-1.0.15.jar",
+    "sha256": "7fbce2a0decf475b75b355cf33301349bf7c88f31cd93c7922e9dbbed3debf23",
+    "bytes": 6193524
+  },
+  "unidbg-dynarmic": {
+    "name": "unidbg-dynarmic-0.9.9.jar",
+    "url": "https://repo.maven.apache.org/maven2/com/github/zhkl0228/unidbg-dynarmic/0.9.9/unidbg-dynarmic-0.9.9.jar",
+    "sha256": "d1decada24040ae543c7cd1182c87433b4a8e9700162e7129f18937b4f3edbb9",
+    "bytes": 8217374
+  },
+  "unidbg-source": {
+    "name": "unidbg-2ded0545-upstream.zip",
+    "url": "https://codeload.github.com/zhkl0228/unidbg/zip/2ded0545d4ae053055f469ef4a4c49e3f15196a7",
+    "sha256": "8dc3a72a906887892f2efe23b645bb06cc268da7e77b9b2260dcaaa2c06eb357",
+    "bytes": 85465563
+  },
+  "unidbg-unicorn2": {
+    "name": "unidbg-unicorn2-0.9.9.jar",
+    "url": "https://repo.maven.apache.org/maven2/com/github/zhkl0228/unidbg-unicorn2/0.9.9/unidbg-unicorn2-0.9.9.jar",
+    "sha256": "6c258e54e99da8a4e3ba4a705c5f78bcb658638ef16682ad1d3bc25953908ffb",
+    "bytes": 6150256
+  }
+}

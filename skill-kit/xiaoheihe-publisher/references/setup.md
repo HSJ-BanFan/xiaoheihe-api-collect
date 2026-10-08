@@ -1,6 +1,6 @@
 # 本地设置与真实登录
 
-完整发布目录必须同时保留 SKILL、scripts、references、LICENSE、runtime 和 kit-manifest.json。Python 3.10+ 即可离线规划，不需要 pip 安装 SDK。在线签名需要用户自己准备 Java 17+ 和合法取得、核对过的签名器。此包不包含 APK、JAR、SO、账号、浏览器资料或默认账号。
+完整发布目录必须同时保留 SKILL、scripts、references、LICENSE、runtime 和 kit-manifest.json。Python 3.10+ 即可离线规划，不需要 pip 安装 SDK。签名器首次设置支持 Windows x64，通过固定版本的预编译 JAR 运行，不需要 JDK、Maven 或 Git。此技能 ZIP 不包含 APK、JAR、SO、账号、浏览器资料或默认账号。
 
 ## 查看当前能力
 
@@ -11,28 +11,35 @@ python scripts/xhh_cli.py signer --help
 python scripts/xhh_cli.py account list
 ```
 
-原版账号管理使用 Windows DPAPI，账号默认保存在用户主目录 `.xhh_sdk` 下。本 facade 不读取密文、不改变存储格式、不支持指定另一个账号目录。跨平台离线 plan/show 可用；其他系统上的原版账号登录受原 CLI 限制。
+原版账号管理使用 Windows DPAPI，账号默认保存在用户主目录 `.xhh_sdk` 下。设置器的 `--data-dir` 与原 CLI 的同名参数指定同一个账号目录，发布 facade 不支持另一个账号目录。若设置时使用自定义目录，后续使用原 CLI 时必须继续显式传入它，不要假定 facade 也会切换目录。跨平台离线 plan/show 可用。
 
-## 配置用户自备签名器
+## 一条命令导入 APK
 
-用户先检查 JAR 来源并明确选择 SHA-256。哈希只固定字节，不证明程序安全。下列本地变更也需要确认。
+用户提供合法取得的受支持 APK。程序先验证整个 APK，再下载固定版本依赖。不会上传 APK，不登录、不发短信、不发布内容。
 
 ```console
-python scripts/xhh_cli.py signer install USER_SIGNER.jar --sha256 TRUSTED_SHA256 --confirm
+python scripts/xhh_setup.py --apk USER.apk --confirm
+python scripts/xhh_setup.py --apk USER.apk --install-java --confirm
+python scripts/xhh_setup.py --apk USER.apk --java JAVA_EXECUTABLE --account ALIAS --confirm
+```
+
+第一条要求已有 Java 17+ x64。若输出 `java_missing`，第二条明确授权程序按内置哈希下载 Temurin JRE 17。JRE 只保存在私有缓存，不写注册表，不修改 PATH 或 JAVA_HOME。`--java` 显式指定的运行时不合适时直接拒绝。
+
+默认安装仅返回 `bundle:` 引用。`--account ALIAS` 只在真实本地签名与固定参考向量匹配后，修改该现有账号的 `signer_bundle` 和 `java`。未知别名不会创建，不会选择默认账号；其他设备参数、会话和账号保持原值。不要同时为同一别名运行设置和登录。
+
+首次设置约下载 165 MB，包括可选 JRE。上游依赖由发布者提供；原生资源在本机组装，不由本项目重新发布。所有下载都核对字节数和 SHA-256，修改过的缓存拒绝使用而非覆盖。默认缓存为 `~/.xhh_sdk/setup-cache`，可通过绝对路径 `XHH_SETUP_HOME` 指定；bundle 继续遵循原版 `XHH_BUNDLE_HOME`。这些目录不含默认账号。
+
+```console
+python scripts/xhh_setup.py --apk USER.apk --offline --confirm
 python scripts/xhh_cli.py account add ALIAS --identity USER_NUMERIC_ID
-python scripts/xhh_cli.py account configure ALIAS --set signer_jar=managed:TRUSTED_SHA256 --confirm
-python scripts/xhh_cli.py --account ALIAS doctor --offline
+python scripts/xhh_setup.py --apk USER.apk --account ALIAS --offline --confirm
 ```
 
-账号已存在时跳过 add，先核对别名。从源码构建 loader 的步骤见[签名器说明](https://github.com/HSJ-BanFan/xiaoheihe-api-collect/blob/main/signer/README.md)。用自己的受支持 APK 准备资源后安装：
+再次设置仍需 APK，`--offline` 只使用已核验缓存，每次重跑实际签名测试。安装完成后，日常签名不再需要原 APK、源码目录或网络下载。已安装 bundle 在每次签名时重新核对资源、loader 和依赖。旧 bundle 不自动删除。
 
-```console
-python scripts/xhh_cli.py signer prepare-apk USER_APK.apk --out USER_RESOURCES --confirm
-python scripts/xhh_cli.py signer bundle-install --resources USER_RESOURCES --loader USER_LOADER.jar --loader-sha256 TRUSTED_SHA256 --confirm
-python scripts/xhh_cli.py account configure ALIAS --set signer_bundle=bundle:RETURNED_BUNDLE_SHA256 --confirm
-```
+`ready` 与 `selftest.matched=true` 仅证明当前受支持配置可执行本地签名，不证明登录、网络接口或公开可见。错误不会回显账号凭据。`account_binding_failed` 可保留已测试 bundle，修复明确别名后重试；不要删改账号存储来修复依赖。
 
-`bundle:` 引用使用 signer_bundle，不是 signer_jar。受支持 APK 和 loader 由用户本地持有，不随此包分发。
+自行维护源码构建者可读[签名器说明](https://github.com/HSJ-BanFan/xiaoheihe-api-collect/blob/main/signer/README.md)。原版 CLI 的 prepare-apk、bundle-install 与 signer install 仍保留，`bundle:` 绑定键是 signer_bundle，不是 signer_jar。
 
 ## 短信登录
 

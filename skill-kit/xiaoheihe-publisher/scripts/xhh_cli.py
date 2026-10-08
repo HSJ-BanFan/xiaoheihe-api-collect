@@ -9,12 +9,13 @@ import sys
 sys.dont_write_bytecode = True
 
 KIT_NAME = "xhh-publisher-kit"
-KIT_VERSION = "0.1.0rc1"
+KIT_VERSION = "0.2.0rc1"
 CLI_VERSION = "0.5.0rc4+standalone.7"
 WHEEL_SHA256 = "2ca9af8ece4e105631e62c6c4043e1fa758c766e16031afd4e52028bc44293ff"
 SOURCE_MEMBERS = (
     "SKILL.md", "LICENSE", "scripts/xhh_cli.py", "scripts/xhh_publish.py",
     "references/setup.md", "references/publishing.md",
+    "scripts/xhh_setup.py", "scripts/setup_runtime.py", "references/signer-release.json",
 )
 RUNTIME_MEMBERS = tuple("xhh_sdk/" + name for name in (
     "__init__.py", "accounts.py", "api_catalog.json", "browse.py", "catalog.py",

@@ -19,7 +19,7 @@ public final class ContractTest {
     }
 
     private static SignRequest parse(String text) throws Exception {
-        return SignRequest.read(new ByteArrayInputStream(text.getBytes(StandardCharsets.US_ASCII)));
+        return SignRequest.read(new ByteArrayInputStream(text.getBytes(StandardCharsets.UTF_8)));
     }
 
     private static void rejected(String text) throws Exception {
@@ -60,6 +60,21 @@ public final class ContractTest {
         require(request.osVersion.equals("14") && request.appVersion.equals("1.3.385"),
             "version fields lost");
         require(request.directory.isAbsolute(), "resource directory is relative");
+        String unicodeRoot = scratch.resolve("\u6d4b\u8bd5 path+=value").toString();
+        require(parse(request(unicodeRoot, "/account/info")).directory.toString().equals(unicodeRoot),
+            "UTF-8 resource path changed");
+        rejected(request(root, "/account/info").replace("identity=123", "identity=\u6d4b\u8bd5"));
+        rejected(request(root, "/account/info").replace("imei=synthetic-device", "imei=\u6d4b\u8bd5"));
+        rejected(request(root + "\u0085", "/account/info"));
+        rejected(request(root + "\t", "/account/info"));
+        try {
+            byte[] invalid = request(root, "/account/info").getBytes(StandardCharsets.UTF_8);
+            invalid[invalid.length - 3] = (byte) 0xff;
+            SignRequest.read(new ByteArrayInputStream(invalid));
+            throw new AssertionError("malformed UTF-8 accepted");
+        } catch (IllegalArgumentException expected) {
+            // Decoder must report invalid sequences, not silently replace them.
+        }
 
         rejected(request(root, "/account/info").replace("identity=123\n", ""));
         rejected(request(root, "/account/info").replace("identity=123", "identity=synthetic-private"));

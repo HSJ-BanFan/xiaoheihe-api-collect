@@ -5,13 +5,22 @@ description: Use when 用户需要通过本地 CLI 登录小黑盒、上传自�
 
 # 小黑盒创作与发布
 
-本技能包含完整原版 `xhh-sdk 0.5.0rc4+standalone.7` 和受确认保护的发布入口。需要 Python 3.10+；登录、上传、草稿与公开发布都调用真实 CLI。不会自动下载签名器或代填账号。
+本技能包含完整原版 `xhh-sdk 0.5.0rc4+standalone.7` 和受确认保护的发布入口。需要 Python 3.10+；登录、上传、草稿与公开发布都调用真实 CLI。首次设置通过一条命令下载固定版本的预编译签名器，不需要用户安装 JDK、Maven 或 Git。不会代填账号。
 
 脚本位置相对本文件。以当前 Python 执行 `scripts/xhh_cli.py` 或 `scripts/xhh_publish.py`，从任意工作目录均可使用。不要依赖全局安装的 `xhh-sdk`。缺少 `runtime/` 或完整性检查失败时，停止并取得完整发布包，不要跳过校验。
 
 ## 账号与签名器
 
 首次配置或登录失败时先读 [setup.md](references/setup.md)。让用户明确选择账号别名；不要默认选择列表中的第一个账号。手机号、短信验证码、签名器、账号存储均留在用户机器上，不写入帖子 JSON、操作记录、报告或版本库。
+
+Windows x64 用户提供受支持 APK，并确认本地导入和签名测试后运行：
+
+```console
+python scripts/xhh_setup.py --apk USER.apk --install-java --confirm
+python scripts/xhh_setup.py --apk USER.apk --account ALIAS --confirm
+```
+
+第一条仅配置签名器。缺少可用 Java 时，`--install-java` 允许下载私有 JRE，不改全局环境。第二条只绑定已存在的明确别名。`ready` 只代表本地固定向量匹配，不代表账号登录或线上发布成功。
 
 完整 CLI 仍可直接使用：
 

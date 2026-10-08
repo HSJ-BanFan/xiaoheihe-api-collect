@@ -1,11 +1,11 @@
 # AI 发布技能包
 
-`xhh-publisher-kit 0.1.0rc1` 是独立版本的发布入口，不是新 SDK wheel。
+`xhh-publisher-kit 0.2.0rc1` 是独立版本的发布入口，不是新 SDK wheel。
 构建器固定原 `xhh-sdk 0.5.0rc4+standalone.7` 的 wheel SHA-256：
 `2ca9af8ece4e105631e62c6c4043e1fa758c766e16031afd4e52028bc44293ff`。
 旧 wheel 的验收不代表新发布入口已经完成线上验收。
 
-下载 [0.1.0rc1 技能包](https://github.com/HSJ-BanFan/xiaoheihe-api-collect/releases/tag/skill-kit-v0.1.0rc1)。
+发布页为 [0.2.0rc1 技能包](https://github.com/HSJ-BanFan/xiaoheihe-api-collect/releases/tag/skill-kit-v0.2.0rc1)。
 完整结果见[本轮验收记录](skill-kit-acceptance.md)，其中区分真实图文发帖、现有会话、新登录和模型执行结果。
 
 解压后将完整的 `xiaoheihe-publisher/` 放到所用 Agent 的技能目录，例如 `~/.agents/skills/`。
@@ -19,8 +19,8 @@
 python scripts/build_skill_kit.py --wheel cli/dist/standalone-7-clean/xhh_sdk-0.5.0rc4+standalone.7-py3-none-any.whl --out cli/dist/skill-kit-local
 ```
 
-输出为展开的 `xiaoheihe-publisher/`、`xhh-publisher-kit-0.1.0rc1.zip` 和 `SHA256SUMS`。
-构建只复制六个明确列出的技能源码文件及 25 个原 wheel 成员。
+输出为展开的 `xiaoheihe-publisher/`、`xhh-publisher-kit-0.2.0rc1.zip` 和 `SHA256SUMS`。
+构建只复制九个明确列出的技能源码文件及 25 个原 wheel 成员。
 kit-manifest.json 记录每个文件哈希及 SDK、kit 版本和输入 wheel 哈希。
 ZIP 固定顺序、时间、文件权限并使用无压缩条目，同样输入产生相同字节。
 构建器不下载资源，不包含主仓库图片、账号、签名器或私有资源。
@@ -32,6 +32,8 @@ ZIP 固定顺序、时间、文件权限并使用无压缩条目，同样输入�
 
 ```console
 python KIT/scripts/xhh_cli.py --version
+python KIT/scripts/xhh_setup.py --apk USER.apk --install-java --confirm
+python KIT/scripts/xhh_setup.py --apk USER.apk --account ALIAS --confirm
 python KIT/scripts/xhh_cli.py account list
 python KIT/scripts/xhh_cli.py account login ALIAS --method sms --phone USER_PHONE --confirm
 python KIT/scripts/xhh_cli.py --account ALIAS upload picture.png --confirm
@@ -43,6 +45,8 @@ python KIT/scripts/xhh_publish.py reconcile operation
 
 KIT 代表展开的技能目录。提交前必须审阅 show 输出并确认账号、模式、内容、图片和摘要。
 公开发帖在 plan 阶段选择 `--mode public`。不能通过修改 JSON 或省略确认扩大操作范围。
+
+Windows x64 的首次设置不需要用户编译 Java。`--install-java` 只在找不到合适运行时时允许下载私有 JRE；程序不修改全局环境。APK 先经完整哈希核对，全部依赖与资源以内置固定锁验证。只在本地真实签名参考向量匹配后才绑定明确的现有账号。`ready` 不表示已登录或发布。签名器说明见 [signer/README.md](../signer/README.md)。
 
 原版完整 CLI 没有删减，登录、签名器管理、独立上传和专门操作均可调用。
 facade 只接受已冻结的本地图片，不代管凭据，也不重建远端协议。

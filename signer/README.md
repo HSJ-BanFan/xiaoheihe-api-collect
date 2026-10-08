@@ -1,14 +1,41 @@
 # App 请求签名器
 
+## 无需编译的设置
+
+Windows x64 用户下载完整技能包后，用自己合法取得的[受支持 APK](../docs/supported-apk.md)运行：
+
+```console
+python KIT/scripts/xhh_setup.py --apk USER.apk --install-java --confirm
+python KIT/scripts/xhh_setup.py --apk USER.apk --account ALIAS --confirm
+```
+
+KIT 是解压目录。需要 Python 3.10+，不需要 JDK、Maven 或 Git。若已有 Java 17+ x64 可省略 `--install-java`，也可用 `--java JAVA_EXECUTABLE` 指定。只有显式 opt-in 才下载私有 Temurin JRE，不修改全局环境。完整参数见技能包的 `references/setup.md`。
+
+release 的 `xhh-signer-bootstrap-0.2.0.jar` 包含 JDK-only 入口、实际签名 main、选定的 Unidbg Java overlay 与不可变依赖锁。设置器直接从上游下载锁定 JAR 和源码归档，在本机组装资源 JAR。它不编译 Java，不上传 APK，也不下载本项目重新打包的原生依赖。许可与来源见 [THIRD-PARTY.md](THIRD-PARTY.md)。
+
+每次调用时 bootstrap 先验证精确依赖清单和哈希，再用平台 classloader 的子加载器执行固定 main。实际资源解析必须选中锁定的资源 JAR，覆盖旧 backend JAR 的同名资源。`bundle-inspect` 是原 SDK 的资源和 loader 检查，不代替 bootstrap 的依赖检查。完整性校验不是 OS 沙箱，也不消除本地文件在校验与使用之间被修改的竞态。
+
+## 维护者构建预编译资产
+
+```console
+python signer/scripts/build_precompiled.py --cache signer/target/upstream --out signer/target/release --javac javac
+```
+
+仅维护者需要 JDK 17+。构建器验证 `contract/upstream-artifacts.json` 的固定上游字节，编译 API、Android Java 源码和两个当前 factory，不编译或打包 GPL backend hook 类。它生成最终 JAR、源码 ZIP、THIRD-PARTY.md、signer-release.json 和 SHA256SUMS，并更新技能包内的 release 锁。源码 ZIP 内的同一命令可重建，不依赖原仓库或 Maven。
+
+输出中的 `unidbg-resources-2ded0545.jar` 仅供本机验证，严禁作为 release 资产上传。SHA256SUMS 排除它。目标 APK、提取资源、第三方依赖和 JRE 均不上传。旧 fat-JAR 构建仍仅供维护者研究，不能替换新 bootstrap 资产。
+
+预编译方案已在 Windows 的中文、空格与加号目录使用私有 Temurin JRE 17 执行真实固定向量签名。未使用真实账号、登录或发帖；本地通过不代表线上接受。最终公开下载的验收应另记发行资产哈希。
+
 该 Java loader 是 Python CLI 使用的本地 App 请求签名器。它通过 Unidbg 执行从用户 APK 提取的 ARM64 原生库，读取一条标准输入请求，并在标准输出返回签名 JSON。它不提供 HTTP 服务，也不包含账号身份。
 
 ## 验收状态
 
 版本 0.5.0rc4+standalone.7 已通过本地签名一致性验收，使用的 loader 与 `.6` 验收时的 SHA-256 相同。对受支持 APK 和同一组输入，loader 返回与研究参考一致的 hkey 和 _rnd。nonce 每次生成，因此不用于比较。
 
-Python CLI 已支持 APK 资源准备、bundle 安装与检查，并在 App 请求时调用安装的 loader。公开仓库和 wheel 不包含 APK、提取资源、SO 或 JAR。用户需在本地取得 APK 并构建运行时文件。
+Python CLI 已支持 APK 资源准备、bundle 安装与检查，并在 App 请求时调用安装的 loader。公开仓库和 wheel 不包含 APK、提取资源、SO 或 JAR。普通用户使用上方预编译设置入口，不必执行下方旧版构建。
 
-## 本地构建
+## 旧 fat-JAR 本地构建
 
 构建需要 JDK 17 或更高版本、Git 和 Maven。首次准备依赖还需要访问公开 Unidbg 源码及其构建依赖。
 
@@ -41,6 +68,8 @@ xhh-sdk --account <alias> doctor --offline
 ## 请求边界
 
 loader 只从标准输入读取协议版本、资源目录、请求路径、时间、账号身份、设备和 App 版本。未知、重复、过长或危险字段会在模拟执行前拒绝。它把诊断写到标准错误，不接收 Cookie、pkey 或网络请求。
+
+协议仍是 1。输入严格解码 UTF-8，只有 resource_dir 允许 Unicode；身份、设备等其他字段仍要求安全 ASCII。
 
 ~~~text
 protocol=1

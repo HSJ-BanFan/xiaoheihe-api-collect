@@ -79,7 +79,7 @@ def test_deterministic_and_exact_wheel_members(kit, tmp_path):
     out = tmp_path / "second"
     result = run(BUILDER, "--wheel", WHEEL, "--out", out)
     assert result.returncode == 0, result.stderr
-    archive = "xhh-publisher-kit-0.1.0rc1.zip"
+    archive = "xhh-publisher-kit-0.2.0rc1.zip"
     assert (out / archive).read_bytes() == (kit.parent / archive).read_bytes()
     manifest = json.loads((kit / "kit-manifest.json").read_text())
     with zipfile.ZipFile(WHEEL) as wheel:

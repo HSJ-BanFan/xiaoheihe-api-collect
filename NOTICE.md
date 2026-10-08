@@ -8,7 +8,7 @@ MIT 只覆盖本项目作者拥有的部分。它不覆盖目标应用的安装�
 
 ## 不随仓库分发
 
-研究样本、APK、签名器 JAR、账号数据与旧 Git 历史不在仓库或发布产物中，仓库也不包含任何从 APK 提取的资源。需要运行本地签名器时，使用者应自行取得官方安装包，并在本地提取和构建。
+研究样本、APK、提取资源、账号数据与旧 Git 历史不在仓库或发布产物中。使用者自行取得受支持安装包，设置器只在本机提取必要资源。预编译 bootstrap JAR 可作为单独 release 资产发布，Git 源码和技能 ZIP 不含 JAR。它只包含项目自有代码、选定的第三方 Java 源码编译结果及相应许可说明，不包含目标 APK、目标 SO、第三方原生文件或依赖 JAR。
 
 ## README 封面素材
 
@@ -28,6 +28,7 @@ Twemoji 图形采用 Creative Commons Attribution 4.0 International（[CC BY 4.0
 - Python 包没有任何运行时依赖，wheel 内不含第三方代码。
 - `signer/` 依赖公开发布的 Unidbg（Apache-2.0）及其传递依赖，例如 unicorn、capstone、keystone、demumble、commons-codec、commons-collections4、commons-io、fastjson2、apk-parser、jna、native-lib-loader 与 slf4j。仓库不代管这些构件，使用者按各自许可证获取与使用。
 - 使用者本地构建出的 `xhh-signer-loader.jar` 会把上述组件打进同一个 JAR。该产物不在本仓库的分发范围内，再分发它需要遵守各组件自己的许可证。
+- 新的 `xhh-signer-bootstrap-0.2.0.jar` 不使用旧 fat-JAR 分发方式。其选定源码、修改、许可和上游获取边界见 [signer/THIRD-PARTY.md](signer/THIRD-PARTY.md)。设置器直接从上游下载锁定字节，在本机组装资源 JAR；本项目不重新发布该资源 JAR、依赖或 JRE。
 
 ## 参考与免责
 

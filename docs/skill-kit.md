@@ -1,0 +1,62 @@
+# AI 发布技能包
+
+`xhh-publisher-kit 0.1.0rc1` 是独立版本的发布入口，不是新 SDK wheel。
+构建器固定原 `xhh-sdk 0.5.0rc4+standalone.7` 的 wheel SHA-256：
+`2ca9af8ece4e105631e62c6c4043e1fa758c766e16031afd4e52028bc44293ff`。
+旧 wheel 的验收不代表新发布入口已经完成线上验收。
+
+## 离线构建
+
+在仓库根目录运行。输出目录必须不存在。
+
+```console
+python scripts/build_skill_kit.py --wheel cli/dist/standalone-7-clean/xhh_sdk-0.5.0rc4+standalone.7-py3-none-any.whl --out cli/dist/skill-kit-local
+```
+
+输出为展开的 `xiaoheihe-publisher/`、`xhh-publisher-kit-0.1.0rc1.zip` 和 `SHA256SUMS`。
+构建只复制六个明确列出的技能源码文件及 25 个原 wheel 成员。
+kit-manifest.json 记录每个文件哈希及 SDK、kit 版本和输入 wheel 哈希。
+ZIP 固定顺序、时间、文件权限并使用无压缩条目，同样输入产生相同字节。
+构建器不下载资源，不包含主仓库图片、账号、签名器或私有资源。
+
+## 使用
+
+解压后保留完整目录。技能入口见 [SKILL.md](../skill-kit/xiaoheihe-publisher/SKILL.md)，
+真实登录和签名器配置见 [setup.md](../skill-kit/xiaoheihe-publisher/references/setup.md)。
+
+```console
+python KIT/scripts/xhh_cli.py --version
+python KIT/scripts/xhh_cli.py account list
+python KIT/scripts/xhh_cli.py account login ALIAS --method sms --phone USER_PHONE --confirm
+python KIT/scripts/xhh_cli.py --account ALIAS upload picture.png --confirm
+python KIT/scripts/xhh_publish.py plan post.json --account ALIAS --mode draft --out operation
+python KIT/scripts/xhh_publish.py show operation
+python KIT/scripts/xhh_publish.py submit operation --approval APPROVED_SHA256 --confirm
+python KIT/scripts/xhh_publish.py reconcile operation
+```
+
+KIT 代表展开的技能目录。提交前必须审阅 show 输出并确认账号、模式、内容、图片和摘要。
+公开发帖在 plan 阶段选择 `--mode public`。不能通过修改 JSON 或省略确认扩大操作范围。
+
+原版完整 CLI 没有删减，登录、签名器管理、独立上传和专门操作均可调用。
+facade 只接受已冻结的本地图片，不代管凭据，也不重建远端协议。
+API 与错误码见 [publishing.md](../skill-kit/xiaoheihe-publisher/references/publishing.md)。
+
+## 验证和限制
+
+```console
+python -m pytest tests/test_skill_kit.py -q
+python scripts/check_repo.py
+```
+
+测试实际构建包、移动后从无关目录执行原 CLI/plan/show、固定运行时字节、拒绝未知成员和篡改、
+严格规格、冻结图片、确认摘要、账号在线预检、单次尝试并发保护、发布参数、超时与回执失败。
+在线传输使用合成测试替身；这些测试不会读取真实账号、运行签名器或访问平台。
+
+创建回执是 acknowledged，不是公开可见性验证。当前 readback 只核对本人列表的已知字段，
+始终保留 full_content_verified=false 和 public_visibility_verified=false。
+当前 facade 不输出 verified_draft/verified_public，也不在未知结果后自动重试。
+
+离线计划跨平台可用。原版账号存储依赖 Windows DPAPI；本包不实现跨平台账号迁移。
+多个外部进程同时修改账号不受本包锁保护。manifest 用于完整性检测，不是防恶意替换包的签名。
+操作目录含用户自己的待发内容，不得打入发布包或提交到版本库。

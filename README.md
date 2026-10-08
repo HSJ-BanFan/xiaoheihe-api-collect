@@ -57,6 +57,14 @@
 | [`data/`](data/) | 脱敏后的接口快照，是参考目录的公开数据源 |
 | [`cli/`](cli/README.md) | 用于离线查阅和部分受控操作的 Python CLI |
 | [`signer/`](signer/README.md) | 在用户本机从源码构建 App 请求签名器的 Java loader |
+| [`skill-kit/`](skill-kit/xiaoheihe-publisher/SKILL.md) | 可移动的 AI 创作技能与受确认保护的真实 CLI 发布入口 |
+
+## AI 发布技能包
+
+`xhh-publisher-kit 0.1.0rc1` 独立打包技能、发布脚本和原版
+`xhh-sdk 0.5.0rc4+standalone.7`，不修改原 wheel。支持本地计划、真实账号登录、
+图片上传、服务端草稿与公开发帖。签名器、Java 和账号由用户自己配置。
+构建命令、确认流程与验证范围见 [技能包说明](docs/skill-kit.md)。
 
 ## 离线查看接口
 

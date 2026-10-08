@@ -50,9 +50,10 @@ and exercises the installed CLI. It does not access a real account store.
 Version `0.5.0rc4+standalone.7` keeps user-owned signer storage and lazy
 signing, adds offline APK resource preparation plus content-addressed signer
 bundles, and reads PNG, JPEG or GIF dimensions without a third-party library.
-The platform rejects an upload allocation whose file entry has no dimensions, so
-Pillow is not required for uploads.
-Import a user-supplied artifact with a digest you have selected explicitly:
+
+The platform rejects an upload allocation whose file entry carries no
+dimensions, so uploads no longer depend on Pillow being installed. Import a
+user-supplied artifact with a digest you have selected explicitly:
 
 ```console
 xhh-sdk signer install <local.jar> --sha256 <trusted-sha256> --confirm

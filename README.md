@@ -8,7 +8,7 @@
 
 <p align="center">社区维护的非官方项目</p>
 
-本地候选版本为 `xhh-sdk 0.5.0rc4+standalone.7`。run-34 用这个 wheel 通过 12 项本地检查，绑定的线上验收记录和权属记录都有效，开放项为空，`release_ready` 为 true。线上验收从空账号库冷启动短信登录开始，过程中发现并修复了 `.6` 的上传缺陷。发布产物是 `cli/dist/standalone-7-release` 里的 wheel 与 sdist，wheel 的 SHA-256 为 `782eccb156b10c048a87d99f10180b9a760c906ace58245c5661cf6a4110e027`。项目尚无 GitHub Release。详情见[首发验收记录](docs/first-release-gate.md)。
+本地候选版本为 `xhh-sdk 0.5.0rc4+standalone.7`。run-37 用这个 wheel 通过 12 项本地检查，绑定的线上验收记录和权属记录都有效，开放项为空，`release_ready` 为 true。线上验收从空账号库冷启动短信登录开始，过程中发现并修复了 `.6` 的上传缺陷，随后又更正了帮助文本与打包文档的过期描述。发布产物是 `cli/dist/standalone-7-clean` 里的 wheel 与 sdist，wheel 的 SHA-256 为 `2ca9af8ece4e105631e62c6c4043e1fa758c766e16031afd4e52028bc44293ff`。项目尚无 GitHub Release。详情见[首发验收记录](docs/first-release-gate.md)。
 
 ## 项目内容
 

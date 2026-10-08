@@ -22,7 +22,7 @@ run-24 使用 `.6` wheel 在门槛内构建签名器，并通过 13 项本地检
 
 run-26 使用同一 wheel、同一 loader 哈希、APK、schema 2 live record 和权属记录重新验收。12 项本地检查全部通过。发布前复核随后发现该记录绑定的是更早构建的 `.6` wheel，与当前源码构建出的 wheel 在包内 README 上有两段差异，记录不覆盖拟发布的字节。用 `.6` wheel 重跑线上验收时，上传步骤返回 `status=failed`，暴露出缺少图片尺寸字段的缺陷。
 
-修复后包内 README 仍写着 `.6`，与 `.7` 版本矛盾，因此重建发布包并补了防回归测试。run-33 用最终 wheel（SHA-256 `782eccb156b10c048a87d99f10180b9a760c906ace58245c5661cf6a4110e027`）通过 12 项本地检查。run-34 加入绑定该 wheel 的 schema 2 live record 和 schema 2 权属记录，12 项本地检查全部通过，live 与权属记录有效，`open_items` 为空，`release_ready` 为 true。当前门槛明确检查两个不同账号的自身身份匹配、交叉身份拒绝、各自草稿读回、链接 JSON 的 SHA-256，以及权属记录列出的每个素材的摘要。最终发布摘要依据 run-34。原始门槛报告不随仓库分发。
+修复后包内 README 仍写着 `.6`，`account` 帮助索引也仍把登录描述成只用微信扫码，与已记录的登录结论矛盾，因此重建发布包并补了防回归测试。run-36 用最终 wheel（SHA-256 `2ca9af8ece4e105631e62c6c4043e1fa758c766e16031afd4e52028bc44293ff`）通过 12 项本地检查。run-37 加入绑定该 wheel 的 schema 2 live record 和 schema 2 权属记录，12 项本地检查全部通过，live 与权属记录有效，`open_items` 为空，`release_ready` 为 true。当前门槛明确检查两个不同账号的自身身份匹配、交叉身份拒绝、各自草稿读回、链接 JSON 的 SHA-256，以及权属记录列出的每个素材的摘要。最终发布摘要依据 run-37。原始门槛报告不随仓库分发。
 
 ## 分析推断
 

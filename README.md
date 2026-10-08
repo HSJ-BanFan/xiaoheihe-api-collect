@@ -64,7 +64,9 @@
 `xhh-publisher-kit 0.1.0rc1` 独立打包技能、发布脚本和原版
 `xhh-sdk 0.5.0rc4+standalone.7`，不修改原 wheel。支持本地计划、真实账号登录、
 图片上传、服务端草稿与公开发帖。签名器、Java 和账号由用户自己配置。
-构建命令、确认流程与验证范围见 [技能包说明](docs/skill-kit.md)。
+下载 [技能包 0.1.0rc1](https://github.com/HSJ-BanFan/xiaoheihe-api-collect/releases/tag/skill-kit-v0.1.0rc1)。
+构建命令和确认流程见 [技能包说明](docs/skill-kit.md)，真实图文发布及限制见[本轮验收](docs/skill-kit-acceptance.md)。
+已集成到 [Easel master](https://github.com/HSJ-BanFan/Easel/tree/master/skills/openclaw/skill-xiaoheihe-publisher)。
 
 ## 离线查看接口
 

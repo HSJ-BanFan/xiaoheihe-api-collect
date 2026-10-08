@@ -5,6 +5,12 @@
 `2ca9af8ece4e105631e62c6c4043e1fa758c766e16031afd4e52028bc44293ff`。
 旧 wheel 的验收不代表新发布入口已经完成线上验收。
 
+下载 [0.1.0rc1 技能包](https://github.com/HSJ-BanFan/xiaoheihe-api-collect/releases/tag/skill-kit-v0.1.0rc1)。
+完整结果见[本轮验收记录](skill-kit-acceptance.md)，其中区分真实图文发帖、现有会话、新登录和模型执行结果。
+
+解压后将完整的 `xiaoheihe-publisher/` 放到所用 Agent 的技能目录，例如 `~/.agents/skills/`。
+保留 runtime 和 manifest，不要只复制 SKILL.md。Easel 使用仓库内集成版本，不需要另行安装全局 CLI。
+
 ## 离线构建
 
 在仓库根目录运行。输出目录必须不存在。

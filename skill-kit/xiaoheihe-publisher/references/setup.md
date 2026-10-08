@@ -43,7 +43,7 @@ python scripts/xhh_cli.py account configure ALIAS --set signer_bundle=bundle:RET
 ```console
 python -m pip install "playwright>=1.50,<2"
 python -m playwright install chromium
-python scripts/xhh_cli.py account risk-token ALIAS --confirm
+python scripts/xhh_cli.py account risk-token ALIAS --browser chromium --confirm
 ```
 
 ```console

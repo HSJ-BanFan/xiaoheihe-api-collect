@@ -89,7 +89,6 @@ def verify_runtime() -> dict:
 def activate_runtime() -> dict:
     manifest = verify_runtime()
     runtime = KIT_ROOT / "runtime"
-    # An embedding process must not substitute a globally installed SDK.
     for name, module in tuple(sys.modules.items()):
         if name == "xhh_sdk" or name.startswith("xhh_sdk."):
             origin = getattr(module, "__file__", None)
@@ -100,6 +99,9 @@ def activate_runtime() -> dict:
 
 
 def main(argv=None) -> int:
+    for stream in (sys.stdin, sys.stdout, sys.stderr):
+        if hasattr(stream, "reconfigure"):
+            stream.reconfigure(encoding="utf-8")
     try:
         activate_runtime()
     except (Refused, OSError):

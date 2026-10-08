@@ -1,4 +1,3 @@
-"""Offline contract tests. No credentials, network or signer are used."""
 import base64
 import hashlib
 import importlib.util
@@ -115,6 +114,36 @@ def test_moved_isolated_kit_uses_pinned_cli_and_renderer(kit, tmp_path):
     result = run(moved / "scripts" / "xhh_publish.py", "show", tmp_path / "op", cwd=unrelated)
     assert result.returncode == 0
     assert json.loads(result.stdout)["spec"]["content"] == "Only synthetic text"
+
+
+def test_plan_and_show_keep_unicode_in_real_isolated_process(kit, tmp_path):
+    text = "\u6d4b\u8bd5\u53d1\u5e16\U0001f680"
+    result = run(kit / "scripts" / "xhh_publish.py", "plan",
+                 source(tmp_path, title=text, content=text),
+                 "--account", "synthetic-test", "--mode", "draft", "--out", tmp_path / "op")
+    assert result.returncode == 0, result.stdout + result.stderr
+    result = run(kit / "scripts" / "xhh_publish.py", "show", tmp_path / "op")
+    assert result.returncode == 0, result.stdout + result.stderr
+    assert json.loads(result.stdout)["spec"]["content"] == text
+
+
+def test_original_cli_reads_unicode_stdin_before_any_upload(kit, tmp_path):
+    config = tmp_path / "synthetic.json"
+    config.write_text(json.dumps({
+        "pkey": "<synthetic-test-session>", "heybox_id": "12345",
+        "api_base": "https://example.invalid",
+    }), encoding="utf-8")
+    missing = tmp_path / "\u6d4b\u8bd5.png"
+    payload = {"content": "\u6d4b\u8bd5\U0001f680", "content_format": "text", "images": [str(missing)]}
+    result = subprocess.run(
+        [sys.executable, "-I", str(kit / "scripts" / "xhh_cli.py"),
+         "--config", str(config), "publish", "-", "--confirm"],
+        input=json.dumps(payload, ensure_ascii=False), capture_output=True,
+        text=True, encoding="utf-8", timeout=15,
+    )
+    assert result.returncode == 1
+    assert "media file missing or empty" in result.stderr
+    assert str(missing) in result.stderr
 
 
 @pytest.mark.parametrize("change", ["runtime", "extra", "source"])

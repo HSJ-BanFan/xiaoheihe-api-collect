@@ -1,3 +1,4 @@
 # Pinned assets are verified by SHA-256 in scripts/check_repo.py, so Git must
 # never rewrite their bytes on checkout.
 docs/assets/* -text
+skill-kit/** text eol=lf

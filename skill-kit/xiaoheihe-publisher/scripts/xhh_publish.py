@@ -51,7 +51,7 @@ def validate_spec(spec: object) -> dict:
 
 
 def check_identity(account: str, mode: str) -> None:
-    if type(account) is not str or not re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9_.-]{0,63}", account):
+    if type(account) is not str or not re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9_-]{0,31}", account):
         raise Refused("explicit_account_required")
     if mode not in {"draft", "public"}:
         raise Refused("invalid_mode")
@@ -225,7 +225,6 @@ def submit(operation: Path, approval: str, confirm: bool) -> dict:
     fresh, blobs = snapshot(operation)
     if fresh["approval_sha256"] != approval:
         raise Refused("approval_mismatch")
-    # The child reads these private byte copies, not mutable source paths.
     with tempfile.TemporaryDirectory(prefix="xhh-publish-", ignore_cleanup_errors=True) as temporary:
         outgoing = {**fresh["spec"], "images": []}
         for descriptor, raw in zip(fresh["media"], blobs):
@@ -300,6 +299,9 @@ class Parser(argparse.ArgumentParser):
 
 
 def main(argv=None) -> int:
+    for stream in (sys.stdin, sys.stdout, sys.stderr):
+        if hasattr(stream, "reconfigure"):
+            stream.reconfigure(encoding="utf-8")
     parser = Parser(description=__doc__)
     actions = parser.add_subparsers(dest="command", required=True)
     prepare = actions.add_parser("plan")

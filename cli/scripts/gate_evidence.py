@@ -15,7 +15,7 @@ from __future__ import annotations
 from datetime import datetime, timedelta, timezone
 import hashlib
 import json
-from pathlib import Path
+from pathlib import Path, PurePosixPath
 import re
 
 SCHEMA_VERSION = 2
@@ -233,7 +233,27 @@ def load(path: str | Path) -> dict:
     return json.loads(Path(path).read_text(encoding="utf-8"))
 
 
-RIGHTS_SCHEMA_VERSION = 1
+# Asset types the repository distributes. The rights review must name each one
+# with its digest, so the decision is bound to files instead of to prose.
+RIGHTS_SCHEMA_VERSION = 2
+ASSET_SUFFIXES = frozenset({".svg", ".png", ".jpg", ".jpeg", ".gif", ".pdf"})
+GENERATED_DIRS = frozenset({
+    ".git", ".venv", "__pycache__", ".pytest_cache", ".mypy_cache", "build", "dist",
+})
+
+
+def find_assets(root: Path) -> dict[str, str]:
+    """Map every distributed asset under `root` to its SHA-256."""
+    assets: dict[str, str] = {}
+    for path in sorted(root.rglob("*")):
+        if not path.is_file() or path.is_symlink():
+            continue
+        parts = path.relative_to(root).parts
+        if set(parts) & GENERATED_DIRS or any(part.endswith(".egg-info") for part in parts):
+            continue
+        if path.suffix.lower() in ASSET_SUFFIXES:
+            assets[path.relative_to(root).as_posix()] = hashlib.sha256(path.read_bytes()).hexdigest()
+    return assets
 
 
 def rights_template() -> dict:
@@ -244,11 +264,79 @@ def rights_template() -> dict:
         "license": "",
         "redistribution_allowed": False,
         "third_party_reviewed": False,
+        "distributed_assets": [
+            {"path": "", "sha256": "", "license": "", "attribution": "",
+             "redistributable": False},
+        ],
         "notes": "",
     }
 
 
-def validate_rights(record: dict, *, now: datetime | None = None) -> list[str]:
+def _validate_asset(entry: object, index: int, problems: list[str]) -> tuple[str, str] | None:
+    code = f"distributed_assets[{index}]"
+    if not isinstance(entry, dict):
+        _problem(problems, f"{code}.shape", "asset entry is not an object")
+        return None
+    path = entry.get("path")
+    digest = entry.get("sha256")
+    if not isinstance(path, str) or not path.strip():
+        _problem(problems, f"{code}.path", "asset path is missing")
+        return None
+    candidate = PurePosixPath(path)
+    if candidate.is_absolute() or ".." in candidate.parts or "\\" in path or ":" in path:
+        _problem(problems, f"{code}.path", "asset path is not repository-relative")
+        return None
+    if candidate.suffix.lower() not in ASSET_SUFFIXES:
+        _problem(problems, f"{code}.path", "asset path is not a distributed asset type")
+        return None
+    if not isinstance(digest, str) or not re.fullmatch(r"[0-9a-f]{64}", digest):
+        _problem(problems, f"{code}.sha256", "asset digest is missing or malformed")
+        return None
+    if not str(entry.get("license", "")).strip():
+        _problem(problems, f"{code}.license", "asset licence is missing")
+    if not str(entry.get("attribution", "")).strip():
+        _problem(problems, f"{code}.attribution", "asset attribution is missing")
+    if entry.get("redistributable") is not True:
+        _problem(problems, f"{code}.redistributable", "asset is not cleared for redistribution")
+    return path, digest
+
+
+def _validate_asset_list(record: dict, repository: Path | None, problems: list[str]) -> int:
+    """Check the recorded assets against the checkout they describe."""
+    entries = record.get("distributed_assets")
+    if not isinstance(entries, list):
+        _problem(problems, "distributed_assets.shape", "asset list is not an array")
+        return 0
+    recorded: dict[str, str] = {}
+    for index, entry in enumerate(entries):
+        parsed = _validate_asset(entry, index, problems)
+        if parsed is None:
+            continue
+        path, digest = parsed
+        if path in recorded:
+            _problem(problems, "distributed_assets.duplicate", "asset is listed twice")
+            continue
+        recorded[path] = digest
+    if repository is None:
+        _problem(problems, "distributed_assets.unchecked",
+                 "the review could not be checked against the repository contents")
+        return len(recorded)
+    present = find_assets(repository)
+    for path in sorted(set(present) - set(recorded)):
+        _problem(problems, f"distributed_assets.unlisted:{path}",
+                 "repository asset is not covered by the review")
+    for path in sorted(set(recorded) - set(present)):
+        _problem(problems, f"distributed_assets.missing:{path}",
+                 "recorded asset is not in the repository")
+    for path in sorted(set(recorded) & set(present)):
+        if recorded[path] != present[path]:
+            _problem(problems, f"distributed_assets.drift:{path}",
+                     "recorded asset digest does not match the checkout")
+    return len(recorded)
+
+
+def validate_rights(record: dict, *, now: datetime | None = None,
+                    repository: Path | None = None) -> list[str]:
     """The distribution gate: no wording here may be inferred from the code."""
     problems: list[str] = []
     if not isinstance(record, dict):
@@ -271,4 +359,5 @@ def validate_rights(record: dict, *, now: datetime | None = None) -> list[str]:
         problems.append("rights review does not allow redistribution")
     if record.get("third_party_reviewed") is not True:
         problems.append("rights review has not covered the third-party components")
+    _validate_asset_list(record, repository, problems)
     return problems

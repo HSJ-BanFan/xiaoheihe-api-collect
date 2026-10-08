@@ -260,13 +260,17 @@ def test_loader_choice_requires_exactly_one_source():
         gate.loader_choice(args)
 
 
-def rights_record(module, **overrides):
+def rights_record(module, digest, **overrides):
     record = module.rights_template()
     record.update({"reviewed_by": "synthetic-reviewer",
                    "reviewed_at": datetime.now(timezone.utc).isoformat(),
                    "license": "CC-BY-NC-4.0",
                    "redistribution_allowed": True,
-                   "third_party_reviewed": True})
+                   "third_party_reviewed": True,
+                   "distributed_assets": [
+                       {"path": "docs/assets/cover.svg", "sha256": digest,
+                        "license": "CC-BY-4.0", "attribution": "NOTICE.md",
+                        "redistributable": True}]})
     record.update(overrides)
     return record
 
@@ -276,14 +280,69 @@ def test_rights_review_template_never_validates():
     assert module.validate_rights(module.rights_template())
 
 
-def test_rights_review_accepts_only_a_complete_decision():
+def reviewed_assets(tmp_path, payload=b"<svg/>"):
+    target = tmp_path / "docs" / "assets" / "cover.svg"
+    target.parent.mkdir(parents=True, exist_ok=True)
+    target.write_bytes(payload)
+    return hashlib.sha256(payload).hexdigest()
+
+
+def test_rights_review_accepts_only_a_complete_decision(tmp_path):
     module = evidence_module()
-    assert module.validate_rights(rights_record(module)) == []
+    digest = reviewed_assets(tmp_path)
+    assert module.validate_rights(rights_record(module, digest), repository=tmp_path) == []
     assert any("license" in problem
-               for problem in module.validate_rights(rights_record(module, license="")))
+               for problem in module.validate_rights(
+                   rights_record(module, digest, license=""), repository=tmp_path))
     assert any("redistribution" in problem
-               for problem in module.validate_rights(rights_record(module, redistribution_allowed=False)))
+               for problem in module.validate_rights(
+                   rights_record(module, digest, redistribution_allowed=False), repository=tmp_path))
     assert any("third-party" in problem
-               for problem in module.validate_rights(rights_record(module, third_party_reviewed=False)))
+               for problem in module.validate_rights(
+                   rights_record(module, digest, third_party_reviewed=False), repository=tmp_path))
     assert any("who decided" in problem
-               for problem in module.validate_rights(rights_record(module, reviewed_by="")))
+               for problem in module.validate_rights(
+                   rights_record(module, digest, reviewed_by=""), repository=tmp_path))
+
+
+def test_rights_review_must_cover_every_repository_asset(tmp_path):
+    module = evidence_module()
+    digest = reviewed_assets(tmp_path)
+    extra = tmp_path / "docs" / "assets" / "later-addition.png"
+    extra.write_bytes(b"not-reviewed")
+    problems = module.validate_rights(rights_record(module, digest), repository=tmp_path)
+    assert any(problem.startswith("distributed_assets.unlisted:") for problem in problems)
+
+
+def test_rights_review_detects_a_changed_asset(tmp_path):
+    module = evidence_module()
+    digest = reviewed_assets(tmp_path)
+    (tmp_path / "docs" / "assets" / "cover.svg").write_bytes(b"<svg>replaced</svg>")
+    problems = module.validate_rights(rights_record(module, digest), repository=tmp_path)
+    assert any(problem.startswith("distributed_assets.drift:") for problem in problems)
+
+
+def test_rights_review_cannot_drop_the_asset_check(tmp_path):
+    module = evidence_module()
+    digest = reviewed_assets(tmp_path)
+    problems = module.validate_rights(rights_record(module, digest))
+    assert any("distributed_assets.unchecked" in problem for problem in problems)
+    problems = module.validate_rights(rights_record(module, digest, distributed_assets=[]),
+                                      repository=tmp_path)
+    assert any("distributed_assets.unlisted:" in problem for problem in problems)
+
+
+def test_rights_review_rejects_an_uncleared_asset(tmp_path):
+    module = evidence_module()
+    digest = reviewed_assets(tmp_path)
+    record = rights_record(module, digest)
+    record["distributed_assets"][0]["redistributable"] = False
+    problems = module.validate_rights(record, repository=tmp_path)
+    assert any("redistributable" in problem for problem in problems)
+
+
+def test_wheel_metadata_body_is_compared_ignoring_line_endings():
+    gate = gate_module()
+    metadata = "Metadata-Version: 2.4\r\nName: xhh-sdk\r\n\r\n# Title\r\n\r\nbody line\r\n"
+    assert gate._metadata_body(metadata) == "# Title\n\nbody line"
+    assert gate._normalized("a\r\n\r\nb\r\n") == "a\n\nb"

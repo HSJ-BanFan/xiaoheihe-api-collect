@@ -18,9 +18,19 @@ used a schema 1 live record, so its `release_ready` field is not the final
 readiness result. Run-26 reused the same wheel and loader hash with the current
 schema 2, hash-bound two-account evidence. It passed all 12 local steps, its
 live record and rights review validated, and it reported no open items with
-`release_ready: true`. Run-26 revalidated saved evidence without repeating
-online login or write operations. The raw report contains workstation paths
-and stays in the local research case.
+`release_ready: true`, but the later pre-release audit found that its record
+bound an earlier build of this wheel: two paragraphs of the package README
+differed. That record therefore does not cover the shipped bytes. The release
+gate now compares the wheel's embedded README against `README.md` and refuses a
+stale wheel instead of reporting a live-evidence digest mismatch, and the rights
+review names every shipped asset with its digest.
+
+Readiness is decided by `scripts/release_gate.py`, not by this file. The gate
+combines the local build and signing steps, a live record bound to the wheel,
+loader and APK digests, and the rights review. Editing any packaged file,
+including this file, changes the wheel or the source archive and needs a new
+build and a new record. The parent project keeps the current report and the raw
+logs, which contain workstation paths.
 
 Live acceptance on 2026-10-08 used the test account: SMS login into an empty
 store, an app-signed identity check, reads, image upload with a byte-for-byte

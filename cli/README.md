@@ -92,8 +92,8 @@ change needs reviewed evidence and an explicit update of the pinned hashes.
 
 ## Distribution status
 
-This is a locally verified research candidate that has not been uploaded to
-GitHub. The project's own code and documentation are MIT licensed; third-party
-components fetched during the signer build and material that is deliberately
-not distributed are described in the repository [NOTICE](../NOTICE.md). See
-[release notes](RELEASE.md) for acceptance scope and verification limits.
+This candidate is verified locally. The project's own code and documentation
+are MIT licensed; third-party components fetched during the signer build, the
+cover asset, and material that is deliberately not distributed are described in
+the repository [NOTICE](../NOTICE.md). See [release notes](RELEASE.md) for
+acceptance scope and verification limits.

@@ -1,6 +1,7 @@
 """Offline repository checks. This script never contacts an API or runs a signer."""
 import argparse
 import ast
+import hashlib
 import importlib.util
 import json
 import re
@@ -10,10 +11,16 @@ from urllib.parse import unquote, urlsplit
 
 ROOT = Path(__file__).resolve().parents[1]
 IGNORED = {".git", ".venv", "__pycache__", ".pytest_cache", "build", "dist"}
-BINARY_SUFFIXES = {".jar", ".apk", ".dex", ".so", ".dll", ".exe", ".p12", ".pfx", ".zip", ".png", ".jpg", ".jpeg", ".gif", ".pdf", ".whl"}
-ALLOWED_BINARY_ASSETS = {
-    "docs/assets/xhh-project-mascot.png": (b"\x89PNG\r\n\x1a\n", 2_000_000),
+BINARY_SUFFIXES = {".jar", ".apk", ".dex", ".so", ".dll", ".exe", ".p12", ".pfx", ".zip", ".svg", ".png", ".jpg", ".jpeg", ".gif", ".pdf", ".whl"}
+ASSET_SUFFIXES = {".svg", ".png", ".jpg", ".jpeg", ".gif", ".pdf"}
+# Assets that ship in the repository. Each digest pins the bytes the rights
+# review covers, so adding or editing an asset fails offline until both this
+# table and the recorded review name it.
+PINNED_ASSETS = {
+    "docs/assets/cover-emoji.svg":
+        "c5f4ca4764cc99f7630886806dbcc54a10d30337597bc0bf09f1ed548da676fd",
 }
+EXTERNAL_REFERENCE = re.compile(r"<image|<script|<use|\bhref\s*=|url\s*\(\s*['\"]?(?:https?:)?//", re.I)
 
 
 def files(root):
@@ -35,14 +42,21 @@ def scan_files(root):
             errors.append(f"symlink or external file dependency: {relative}")
             continue
         if path.suffix.lower() in BINARY_SUFFIXES:
-            asset = ALLOWED_BINARY_ASSETS.get(relative)
-            if asset is None:
+            if path.suffix.lower() not in ASSET_SUFFIXES:
                 errors.append(f"binary or credential container: {relative}")
                 continue
-            signature, max_bytes = asset
+            pinned = PINNED_ASSETS.get(relative)
             raw = path.read_bytes()
-            if not raw.startswith(signature) or len(raw) > max_bytes:
-                errors.append(f"invalid or oversized image asset: {relative}")
+            if pinned is None:
+                errors.append(f"unreviewed asset: {relative} (pin it in PINNED_ASSETS and record it in the rights review)")
+                continue
+            if hashlib.sha256(raw).hexdigest() != pinned:
+                errors.append(f"asset digest drift: {relative}")
+                continue
+            if path.suffix.lower() == ".svg":
+                text = raw.decode("utf-8", errors="replace")
+                if EXTERNAL_REFERENCE.search(text):
+                    errors.append(f"asset loads external content: {relative}")
             continue
         raw = path.read_bytes()
         if b"\x00" in raw:
@@ -80,6 +94,9 @@ def scan_files(root):
             synthetic_fixture = relative.startswith("cli/tests/") and value.startswith(("synthetic-", "test-only-", "stale-test-"))
             if not synthetic_fixture and not any(marker in value.lower() for marker in ("placeholder", "example", "redacted", "<", "os.environ", "getenv", "required")):
                 errors.append(f"possible credential literal: {relative}")
+    tracked = {path.relative_to(root).as_posix() for path in files(root)}
+    for relative in sorted(set(PINNED_ASSETS) - tracked):
+        errors.append(f"pinned asset is not in the repository: {relative}")
     return errors
 
 
@@ -161,7 +178,7 @@ def main():
     if errors:
         print(f"FAIL: {len(errors)} repository checks")
         return 1
-    print("PASS: reference counts, generated files, CLI path parity, Markdown links, and privacy checks")
+    print("PASS: reference counts, generated files, CLI path parity, Markdown links, privacy checks, and pinned assets")
     return 0
 
 

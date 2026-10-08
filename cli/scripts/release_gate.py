@@ -26,6 +26,7 @@ EXPECTED_SIGNATURE = {"hkey": "FC0EAF1B", "_rnd": "14:E94DBC87"}
 TEST_IDENTITY = "123"
 TEST_IMEI = "0123456789abcdef"
 TEST_DEVICE = "25102RKBEC"
+REPOSITORY = Path(__file__).resolve().parents[2]
 
 
 def sha256(path: Path) -> str:
@@ -211,11 +212,13 @@ def main(argv=None):
     if args.rights_review:
         try:
             rights_problems = gate_evidence.validate_rights(
-                gate_evidence.load(args.rights_review))
+                gate_evidence.load(args.rights_review), repository=REPOSITORY)
         except Exception:  # noqa: BLE001 - keep paths and parser details out of the report
             rights_problems = ["rights_review.read: review could not be read"]
         rights = {"provided": True, "path": str(args.rights_review),
                   "valid": not rights_problems, "problems": rights_problems}
+        if rights["valid"]:
+            rights["assets_checked"] = len(gate_evidence.find_assets(REPOSITORY))
     else:
         rights = {"provided": False, "valid": False,
                   "problems": ["no rights review recorded"],
@@ -306,24 +309,52 @@ def run_local_steps(gate, work, python, cli, wheel, apk, loader, loader_digest, 
 
 
 def verify_wheel_matches_source(gate, wheel):
-    """Refuse a wheel that was built before the current sources changed."""
-    source_sdk = Path(__file__).resolve().parents[1] / "xhh_sdk"
+    """Refuse a wheel that was built before the current sources changed.
+
+    The metadata long description is the package README. Comparing it here turns
+    a documentation edit into a named failure instead of a live-evidence digest
+    mismatch that looks like a broken live record.
+    """
+    package = Path(__file__).resolve().parents[1]
+    source_sdk = package / "xhh_sdk"
     with zipfile.ZipFile(wheel) as archive:
-        members = {name: archive.read(name) for name in archive.namelist()
-                   if name.startswith("xhh_sdk/") and not name.endswith("/")}
+        names = [name for name in archive.namelist() if not name.endswith("/")]
+        members = {name: archive.read(name) for name in names if name.startswith("xhh_sdk/")}
+        metadata = next((name for name in names if name.endswith(".dist-info/METADATA")), None)
+        embedded_readme = (_metadata_body(archive.read(metadata).decode("utf-8"))
+                           if metadata else None)
     stale = []
     for name, content in sorted(members.items()):
         source = source_sdk / name.split("/", 1)[1]
         if not source.is_file() or source.read_bytes() != content:
             stale.append(name)
+    current_readme = (package / "README.md").read_text(encoding="utf-8")
+    readme_matches = embedded_readme is not None and embedded_readme == _normalized(current_readme)
     gate.steps.append({
         "name": "wheel-matches-source",
-        "status": "passed" if not stale else "failed",
+        "status": "passed" if not stale and readme_matches else "failed",
         "command": f"compare {len(members)} wheel members against cli/xhh_sdk",
-        "detail": {"compared": len(members), "stale": stale},
+        "detail": {"compared": len(members), "stale": stale,
+                   "readme_matches_source": readme_matches},
     })
     if stale:
         raise SystemExit("wheel does not match the current sources: " + ", ".join(stale))
+    if not readme_matches:
+        raise SystemExit("the wheel embeds a different cli/README.md; "
+                         "rebuild the release wheel after editing it")
+
+
+def _metadata_body(metadata: str) -> str:
+    lines = _normalized(metadata).splitlines()
+    for index, line in enumerate(lines):
+        if not line:
+            return _normalized("\n".join(lines[index + 1:]))
+    return ""
+
+
+def _normalized(text: str) -> str:
+    text = text.replace("\r\n", "\n").replace("\r", "\n")
+    return "\n".join(line.rstrip() for line in text.strip().splitlines())
 
 
 def build_loader(gate, destination: Path, args) -> None:

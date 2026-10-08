@@ -1,4 +1,5 @@
 import copy
+import hashlib
 import importlib.util
 import tempfile
 import unittest
@@ -89,6 +90,47 @@ class ReferenceTests(unittest.TestCase):
         data = self.generator.load_data(ROOT)
         entry = next(x for x in data["interfaces"] if x["path"] == "/chat_group/user/list")
         self.assertEqual({x["name"] for x in entry["parameters"] if x["location"] == "query"}, {"chat_group_id", "offset", "limit"})
+
+
+class AssetRuleTests(unittest.TestCase):
+    """The repository must not ship an asset the rights review has not pinned."""
+
+    @classmethod
+    def setUpClass(cls):
+        cls.checker = module("check_repo")
+
+    def test_shipped_tree_passes_every_scan(self):
+        self.assertEqual(self.checker.scan_files(ROOT), [])
+
+    def test_unreviewed_asset_is_rejected(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            (root / "cover.svg").write_text("<svg xmlns='http://www.w3.org/2000/svg'/>", encoding="utf-8")
+            self.assertTrue(any("unreviewed asset" in error for error in self.checker.scan_files(root)))
+
+    def test_replaced_asset_is_detected(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            (root / "docs" / "assets").mkdir(parents=True)
+            (root / "docs" / "assets" / "cover-emoji.svg").write_text(
+                "<svg xmlns='http://www.w3.org/2000/svg'/>", encoding="utf-8")
+            self.assertTrue(any("digest drift" in error for error in self.checker.scan_files(root)))
+
+    def test_asset_that_loads_remote_content_is_detected(self):
+        payload = ("<svg xmlns='http://www.w3.org/2000/svg'><image href='https://example.com/a.png'/></svg>"
+                   ).encode("utf-8")
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            (root / "docs" / "assets").mkdir(parents=True)
+            (root / "docs" / "assets" / "cover-emoji.svg").write_bytes(payload)
+            original = self.checker.PINNED_ASSETS
+            self.checker.PINNED_ASSETS = {
+                "docs/assets/cover-emoji.svg": hashlib.sha256(payload).hexdigest()}
+            try:
+                errors = self.checker.scan_files(root)
+            finally:
+                self.checker.PINNED_ASSETS = original
+            self.assertTrue(any("loads external content" in error for error in errors))
 
 
 if __name__ == "__main__":

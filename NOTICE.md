@@ -8,11 +8,18 @@ MIT 只覆盖本项目作者拥有的部分。它不覆盖目标应用的安装�
 
 ## 不随仓库分发
 
-研究样本、APK、签名器 JAR、账号数据与旧 Git 历史不在仓库或发布产物中。除 README 封面图片外，仓库不包含 APK 提取出的资源。需要运行本地签名器时，使用者应自行取得官方安装包，并在本地提取和构建。
+研究样本、APK、签名器 JAR、账号数据与旧 Git 历史不在仓库或发布产物中，仓库也不包含任何从 APK 提取的资源。需要运行本地签名器时，使用者应自行取得官方安装包，并在本地提取和构建。
 
-## README 封面图片
+## README 封面素材
 
-`docs/assets/xhh-project-mascot.png` 使用小黑盒 App 安装包中的原版「开心」表情。源文件位于 `res/drawable-xxhdpi/expression_cube_kaixin.png`。封面图由 144 × 144 原图经 Lanczos 插值放大到 1152 × 1152，没有改绘。该图片不是本项目原创内容，也不在 MIT 许可范围内。相关权利归原权利人所有。使用或再分发该图片前，需取得权利人许可。
+`docs/assets/cover-emoji.svg` 是 Twemoji 项目绘制的「眯眼吐舌」表情（U+1F61D）图形，原样收录，未作改动。
+
+- 来源：[jdecked/twemoji](https://github.com/jdecked/twemoji) 仓库的 `assets/svg/1f61d.svg`（[原文链接](https://raw.githubusercontent.com/jdecked/twemoji/main/assets/svg/1f61d.svg)）。
+- 许可：Creative Commons Attribution 4.0 International（[CC BY 4.0](https://creativecommons.org/licenses/by/4.0/)）。许可证文本由上游仓库的 `LICENSE-GRAPHICS` 提供。
+- 署名：图形版权归 Twemoji 作者与贡献者所有。本项目未对其主张著作权，转载时需保留本段署名与许可说明。
+- 校验和：`c5f4ca4764cc99f7630886806dbcc54a10d30337597bc0bf09f1ed548da676fd`。`scripts/check_repo.py` 固定该值，仓库内改动该文件会让离线检查失败。
+
+该图片不在 MIT 许可范围内。仓库此前收录过目标应用安装包中的「开心」表情，因无法取得再分发许可已在公开发布前移除。
 
 ## 第三方组件
 

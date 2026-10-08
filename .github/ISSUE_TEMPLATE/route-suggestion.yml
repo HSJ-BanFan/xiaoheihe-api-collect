@@ -1,0 +1,65 @@
+name: 接口或字段补充
+description: 提交一条新接口、新字段或新的分类线索
+title: "[接口补充] "
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        感谢补充。只提交你确认存在的路径和字段；缺少证据的部分请标明“未验证”。
+
+        不要粘贴账号、Cookie、手机号、验证码、Token、完整原始响应或设备实值。
+  - type: input
+    id: route
+    attributes:
+      label: 接口路径或类别
+      placeholder: 例如 /game/get_game_detail
+    validations:
+      required: true
+  - type: input
+    id: purpose
+    attributes:
+      label: 用途
+      description: 这条接口在客户端里做什么。
+    validations:
+      required: true
+  - type: textarea
+    id: params
+    attributes:
+      label: 参数线索
+      description: 已知的参数名、取值示例和是否必填；不确定的写“未验证”。
+    validations:
+      required: false
+  - type: dropdown
+    id: evidence_kind
+    attributes:
+      label: 证据类型
+      options:
+        - 当前客户端实测
+        - 历史响应或抓包
+        - 代码或静态分析
+        - 其他来源（请在补充说明里写清）
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: 证据摘要（脱敏）
+      description: 在哪里看到的、能得到什么结果；不要贴完整响应。
+    validations:
+      required: true
+  - type: textarea
+    id: notes
+    attributes:
+      label: 补充说明
+    validations:
+      required: false
+  - type: checkboxes
+    id: confirm
+    attributes:
+      label: 提交前确认
+      options:
+        - label: 内容已脱敏，不含账号、Cookie、手机号、验证码、Token、完整原始响应或设备实值。
+          required: true
+        - label: 我知道合并前需要按贡献指南在 data/interfaces.json 里登记证据。
+          required: true

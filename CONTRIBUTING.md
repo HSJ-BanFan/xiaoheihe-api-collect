@@ -1,5 +1,9 @@
 # 贡献指南
 
+## 上报问题
+
+仓库提供两个 issue 表单：[接口失效或纠错](https://github.com/HSJ-BanFan/xiaoheihe-api-collect/issues/new?template=route-issue.yml) 和 [接口或字段补充](https://github.com/HSJ-BanFan/xiaoheihe-api-collect/issues/new?template=route-suggestion.yml)。表单会提示需要哪些证据，提交前必须确认内容已经脱敏；敏感或安全问题按 [安全说明](SECURITY.md) 处理，不要开公开 issue。
+
 ## 修改一个接口条目
 
 1. 在 `data/interfaces.json` 中找到稳定端点 ID。

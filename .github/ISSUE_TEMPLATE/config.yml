@@ -1,0 +1,11 @@
+blank_issues_enabled: true
+contact_links:
+  - name: 在线文档
+    url: https://hsj-banfan.github.io/xiaoheihe-api-collect/
+    about: 接口目录、登录与签名说明、证据口径和维护流程
+  - name: 贡献指南
+    url: https://github.com/HSJ-BanFan/xiaoheihe-api-collect/blob/main/CONTRIBUTING.md
+    about: 修改接口条目的流程、证据要求和隐私红线
+  - name: 安全说明
+    url: https://github.com/HSJ-BanFan/xiaoheihe-api-collect/blob/main/SECURITY.md
+    about: 敏感或安全问题请先读这里，不要开公开 issue

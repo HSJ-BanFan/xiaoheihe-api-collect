@@ -42,6 +42,10 @@ KIT 代表展开的技能目录。提交前必须审阅 show 输出并确认账�
 facade 只接受已冻结的本地图片，不代管凭据，也不重建远端协议。
 API 与错误码见 [publishing.md](../skill-kit/xiaoheihe-publisher/references/publishing.md)。
 
+图片提交经过 kit 适配：保留单次尝试记录后，调用原版 upload，检查返回的 HTTPS CDN URL 和尺寸，
+使用原版文本渲染结果追加带尺寸的内嵌 HTML img，再调用原版 publish，images=[]。
+原版 .7 的独立 images 块在实测中可能被服务端丢弃；其代码保持不变，AI 图片发帖使用 facade。
+
 ## 验证和限制
 
 ```console

@@ -29,9 +29,13 @@
 
 ## 单次尝试
 
-submit 先重新验证所有字节，再调用原版 `account status ALIAS --online`。身份通过后再验证快照，把已校验图片复制到私有临时目录，以标准输入 JSON 调用原版 `--account ALIAS publish - --confirm`。仅 public 计划添加 `--publish`。原版 publish 执行真实图片上传及发帖。
+submit 先重新验证所有字节，再调用原版 `account status ALIAS --online`。身份通过后再验证快照，把已校验图片复制到私有临时目录。保留 attempt.json 后，先用原版 `--account ALIAS upload IMAGE... --confirm` 上传这些副本。上传结果必须与图片数量一致，每项含可信 `imgheybox` 数字后缀 `.max-c.com` 主机的 HTTPS URL 和正整数宽高。
 
-调用发布子进程前，以独占方式创建 attempt.json。一旦存在，无论上次是否超时、进程是否崩溃，都不再发布。此保证只覆盖这个操作目录，不是服务端全局 exactly-once。图片可能已上传而发帖结果未知；不要自动重试或删除记录。
+facade 使用原版 Post 渲染文本，将上传 URL 转义后追加为带 `data-width`、`data-height` 的内嵌 HTML img 节点。随后以标准输入 JSON 调用原版 `--account ALIAS publish - --confirm`，指定 content_format=html、images=[]。仅 public 计划添加 `--publish`。用户批准的 spec/plan 不变；此转换仅适配图片提交格式，不增加远程图片来源。
+
+原版 .7 直接 publish 的 HTML 加独立 img 块在实测中可能被服务端丢弃，即使返回 link_id 也不能证明图片保存。AI 图片发帖应走本 facade，不能用原版 images 字段绕过适配。独立 upload 命令仍可正常使用。
+
+任何上传或发帖子进程启动前，以独占方式创建 attempt.json。一旦存在，无论上次是否超时、进程是否崩溃，都不再上传或发布。此保证只覆盖这个操作目录，不是服务端全局 exactly-once。上传失败、结果格式不符或发帖失败均保守返回 outcome_unknown；图片可能已上传而帖子未创建，不要自动重试或删除记录。
 
 ## 状态与退出码
 

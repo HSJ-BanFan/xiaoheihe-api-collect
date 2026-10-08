@@ -18,6 +18,7 @@ ROOT = Path(__file__).resolve().parents[1]
 BUILDER = ROOT / "scripts" / "build_skill_kit.py"
 WHEEL = ROOT / "cli" / "dist" / "standalone-7-clean" / "xhh_sdk-0.5.0rc4+standalone.7-py3-none-any.whl"
 PNG = base64.b64decode("iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+jRZkAAAAASUVORK5CYII=")
+UPLOADED = {"url": "https://imgheybox.max-c.com/synthetic.png", "width": 1, "height": 1}
 
 
 def run(*args, cwd=None):
@@ -201,12 +202,20 @@ def test_submit_dispatches_real_cli_shape_once_and_sanitizes(facade, tmp_path, m
         calls.append(argv)
         if "status" in argv:
             return 0, {"state": "verified", "api_identity_verified": True, "session_valid": True}
+        assert (op / "attempt.json").is_file()
+        if "upload" in argv:
+            assert argv[:3] == ["--account", "synthetic-test", "upload"]
+            assert argv[-1] == "--confirm"
+            assert Path(argv[3]).read_bytes() == PNG
+            return 0, [UPLOADED]
         assert argv[:4] == ["--account", "synthetic-test", "publish", "-"]
         assert "--confirm" in argv
         assert ("--publish" in argv) == (mode == "public")
         outgoing = json.loads(input_text)
-        assert Path(outgoing["images"][0]).read_bytes() == PNG
-        assert (op / "attempt.json").is_file()
+        assert outgoing["images"] == []
+        assert outgoing["content_format"] == "html"
+        assert outgoing["content"] == ('<p>Only synthetic text</p><p><img src="https://imgheybox.max-c.com/synthetic.png" '
+                                       'data-width="1" data-height="1" /></p>')
         return 0, {"link_id": "123", "url": "https://example.invalid/private-token", "draft": mode == "draft",
                    "payload": {"secret": "MUST-NOT-LEAK"}}
 
@@ -218,7 +227,7 @@ def test_submit_dispatches_real_cli_shape_once_and_sanitizes(facade, tmp_path, m
     assert "example.invalid" not in json.dumps(receipt)
     with pytest.raises(facade.Refused):
         facade.submit(op, plan["approval_sha256"], True)
-    assert len(calls) == 2
+    assert len(calls) == 3
 
 
 def test_online_identity_must_be_verified(facade, tmp_path, monkeypatch):
@@ -229,12 +238,15 @@ def test_online_identity_must_be_verified(facade, tmp_path, monkeypatch):
     assert not (op / "attempt.json").exists()
 
 
-def test_post_start_failure_is_unknown_and_never_retryable(facade, tmp_path, monkeypatch):
+@pytest.mark.parametrize("failed_command", ["upload", "publish"])
+def test_post_start_failure_is_unknown_and_never_retryable(facade, tmp_path, monkeypatch, failed_command):
     op, plan = prepared(facade, tmp_path)
 
     def transport(argv, **kwargs):
         if "status" in argv:
             return 0, {"state": "verified", "api_identity_verified": True, "session_valid": True}
+        if "upload" in argv and failed_command == "publish":
+            return 0, [UPLOADED]
         raise TimeoutError("private stderr MUST-NOT-LEAK")
 
     monkeypatch.setattr(facade, "run_cli", transport)
@@ -250,6 +262,7 @@ def test_post_start_failure_is_unknown_and_never_retryable(facade, tmp_path, mon
 def test_reconcile_does_not_upgrade_creation_ack_to_public(facade, tmp_path, monkeypatch):
     op, plan = prepared(facade, tmp_path, "public")
     responses = iter([(0, {"state": "verified", "api_identity_verified": True, "session_valid": True}),
+                      (0, [UPLOADED]),
                       (0, {"link_id": "123", "draft": False})])
     monkeypatch.setattr(facade, "run_cli", lambda *a, **k: next(responses))
     facade.submit(op, plan["approval_sha256"], True)
@@ -290,6 +303,8 @@ def test_two_submitters_cannot_publish_twice(facade, tmp_path, monkeypatch):
         if "status" in argv:
             barrier.wait(timeout=10)
             return 0, {"state": "verified", "api_identity_verified": True, "session_valid": True}
+        if "upload" in argv:
+            return 0, [UPLOADED]
         writes.append(argv)
         return 0, {"link_id": "123", "draft": True}
 
@@ -319,6 +334,8 @@ def test_receipt_storage_failure_after_dispatch_stays_unknown(facade, tmp_path, 
     def transport(argv, **kwargs):
         if "status" in argv:
             return 0, {"state": "verified", "api_identity_verified": True, "session_valid": True}
+        if "upload" in argv:
+            return 0, [UPLOADED]
         writes.append(argv)
         return 0, {"link_id": "123", "draft": True}
 
@@ -365,6 +382,7 @@ def test_original_cli_gets_real_publish_arguments_and_renders(facade, tmp_path, 
 def test_reconcile_matches_real_draft_fields_conservatively(facade, tmp_path, monkeypatch):
     op, plan = prepared(facade, tmp_path)
     responses = iter([(0, {"state": "verified", "api_identity_verified": True, "session_valid": True}),
+                      (0, [UPLOADED]),
                       (0, {"link_id": "123", "draft": True}),
                       (0, [{"linkid": 123, "draft": 1, "title": "Fixture", "description": "Only synthetic text", "imgs": []}])])
     monkeypatch.setattr(facade, "run_cli", lambda *a, **k: next(responses))
@@ -386,3 +404,77 @@ def test_unknown_source_member_fails_builder(kit, tmp_path):
     result = run(checkout / "scripts" / BUILDER.name, "--wheel", WHEEL, "--out", out)
     assert result.returncode == 2
     assert not out.exists()
+
+
+@pytest.mark.parametrize("uploads", [
+    None, {}, [], [UPLOADED, UPLOADED], [None],
+    [{**UPLOADED, "url": "http://imgheybox.max-c.com/a.png"}],
+    [{**UPLOADED, "url": "https://imgheybox.max-c.com.evil.invalid/a.png"}],
+    [{**UPLOADED, "url": "https://user:secret@imgheybox.max-c.com/a.png"}],
+    [{**UPLOADED, "url": "https://imgheybox.max-c.com:443/a.png"}],
+    [{**UPLOADED, "url": "https://imgheybox.max-c.com/a.png\n"}],
+    [{**UPLOADED, "width": True}], [{**UPLOADED, "width": "1"}],
+    [{**UPLOADED, "height": 0}], [{**UPLOADED, "height": -1}],
+])
+def test_invalid_upload_result_never_publishes_or_retries(facade, tmp_path, monkeypatch, uploads):
+    op, plan = prepared(facade, tmp_path)
+    calls = []
+
+    def transport(argv, **kwargs):
+        calls.append(argv)
+        if "status" in argv:
+            return 0, {"state": "verified", "api_identity_verified": True, "session_valid": True}
+        assert "publish" not in argv
+        assert (op / "attempt.json").is_file()
+        return 0, uploads
+
+    monkeypatch.setattr(facade, "run_cli", transport)
+    result = facade.submit(op, plan["approval_sha256"], True)
+    assert result["state"] == "outcome_unknown"
+    assert len(calls) == 2
+    assert calls[1][2] == "upload"
+    assert "imgheybox" not in json.dumps(result)
+    with pytest.raises(facade.Refused):
+        facade.submit(op, plan["approval_sha256"], True)
+    assert len(calls) == 2
+
+
+def test_multiple_inline_images_escape_urls_and_preserve_original_renderer(facade, tmp_path, monkeypatch):
+    op = tmp_path / "operation"
+    plan = facade.plan(source(tmp_path, content='<literal> & "text"', images=["pixel.png", "pixel.png"]),
+                       "synthetic-test", "draft", op)
+    calls = []
+
+    def transport(argv, *, input_text=None):
+        calls.append(argv)
+        if "status" in argv:
+            return 0, {"state": "verified", "api_identity_verified": True, "session_valid": True}
+        if "upload" in argv:
+            assert len(argv[3:-1]) == 2
+            assert all(Path(path).read_bytes() == PNG for path in argv[3:-1])
+            return 0, [{**UPLOADED, "url": 'https://imgheybox.max-c.com/a.png?x=1&y="quoted"'}, UPLOADED]
+        outgoing = json.loads(input_text)
+        assert outgoing["content"].startswith("<p>&lt;literal&gt; &amp; &quot;text&quot;</p>")
+        assert 'src="https://imgheybox.max-c.com/a.png?x=1&amp;y=&quot;quoted&quot;"' in outgoing["content"]
+        assert outgoing["content"].count("<img ") == 2
+        assert outgoing["images"] == []
+        return 0, {"link_id": "123", "draft": True}
+
+    monkeypatch.setattr(facade, "run_cli", transport)
+    assert facade.submit(op, plan["approval_sha256"], True)["state"] == "acknowledged"
+    assert len(calls) == 3
+
+
+def test_text_only_submit_does_not_upload(facade, tmp_path, monkeypatch):
+    op = tmp_path / "operation"
+    plan = facade.plan(source(tmp_path, images=[]), "synthetic-test", "draft", op)
+
+    def transport(argv, *, input_text=None):
+        if "status" in argv:
+            return 0, {"state": "verified", "api_identity_verified": True, "session_valid": True}
+        assert "upload" not in argv
+        assert json.loads(input_text)["content_format"] == "text"
+        return 0, {"link_id": "123", "draft": True}
+
+    monkeypatch.setattr(facade, "run_cli", transport)
+    assert facade.submit(op, plan["approval_sha256"], True)["state"] == "acknowledged"

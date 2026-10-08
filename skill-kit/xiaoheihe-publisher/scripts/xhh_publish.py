@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import argparse
+import html
 import importlib.util
 import json
 import os
@@ -10,6 +11,7 @@ import re
 import subprocess
 import sys
 import tempfile
+from urllib.parse import urlsplit
 
 sys.dont_write_bytecode = True
 _spec = importlib.util.spec_from_file_location("publisher_cli", Path(__file__).with_name("xhh_cli.py"))
@@ -206,6 +208,29 @@ def valid_link(value: object) -> str | None:
     return None
 
 
+def upload_inline_images(outgoing: dict, account: str, mode: str) -> dict:
+    if not outgoing["images"]:
+        return outgoing
+    code, uploads = run_cli(["--account", account, "upload", *outgoing["images"], "--confirm"])
+    if code != 0 or not isinstance(uploads, list) or len(uploads) != len(outgoing["images"]):
+        raise Refused("invalid_upload_result")
+    content = json.loads(render(outgoing, mode)["text"])[0]["text"]
+    for image in uploads:
+        if not isinstance(image, dict):
+            raise Refused("invalid_upload_result")
+        url, width, height = image.get("url"), image.get("width"), image.get("height")
+        if type(url) is not str or re.search(r"[\s\\\x00-\x1f\x7f]", url):
+            raise Refused("invalid_upload_url")
+        parsed = urlsplit(url)
+        if (parsed.scheme != "https" or not re.fullmatch(r"imgheybox[0-9]*\.max-c\.com", parsed.netloc)
+                or not parsed.path.startswith("/") or parsed.fragment):
+            raise Refused("invalid_upload_url")
+        if type(width) is not int or type(height) is not int or min(width, height) < 1:
+            raise Refused("invalid_upload_dimensions")
+        content += f'<p><img src="{html.escape(url, quote=True)}" data-width="{width}" data-height="{height}" /></p>'
+    return {**outgoing, "content": content, "content_format": "html", "images": []}
+
+
 def submit(operation: Path, approval: str, confirm: bool) -> dict:
     if not confirm:
         raise Refused("confirmation_required")
@@ -241,6 +266,7 @@ def submit(operation: Path, approval: str, confirm: bool) -> dict:
         if fresh["mode"] == "public":
             argv.append("--publish")
         try:
+            outgoing = upload_inline_images(outgoing, fresh["account"], fresh["mode"])
             code, data = run_cli(argv, input_text=json.dumps(outgoing, ensure_ascii=False))
             link_id = valid_link(data.get("link_id")) if isinstance(data, dict) else None
             if code == 0 and link_id is not None:

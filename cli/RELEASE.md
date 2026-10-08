@@ -11,7 +11,9 @@ dimensions, and the client produced them only when Pillow happened to be
 installed, so every upload on a clean install failed with `status=failed`. The
 client now reads PNG, JPEG or GIF dimensions from the file bytes, and an image
 whose size cannot be read fails locally with a clear error instead of reaching
-the platform. The loader build and local signing parity are verified: installing
+the platform. The `account` help index also names both login families instead of
+describing login as the WeChat QR flow only. The loader build and local signing
+parity are verified: installing
 a bundle and signing through the SDK reproduces the reference `hkey`/`_rnd` for
 the pinned sample. SMS App login, the selected online features, the two-account
 identity checks and the rights review are recorded for the candidate that the

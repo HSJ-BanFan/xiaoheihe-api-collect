@@ -267,7 +267,8 @@ def main(argv: list[str] | None = None) -> int:
     p_status = actions.add_parser("status", help="local state; --online checks API identity")
     p_status.add_argument("alias")
     p_status.add_argument("--online", action="store_true")
-    p_login = actions.add_parser("login", help="open official WeChat QR login in a fresh browser")
+    p_login = actions.add_parser(
+        "login", help="log in: WeChat web session (qr/browser) or App session from an SMS code")
     p_login.add_argument("alias")
     p_login.add_argument("--browser", choices=["msedge", "chrome", "chromium"], default="msedge")
     p_login.add_argument("--method", choices=["qr", "browser", "sms"], default="qr",

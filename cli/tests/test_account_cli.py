@@ -299,6 +299,15 @@ def test_account_login_help_explains_web_and_app_session_results(store, capsys):
     assert "sms: app session from a phone code (verified working)" in help_text
 
 
+def test_account_index_names_both_login_families(store, capsys):
+    with pytest.raises(SystemExit) as exited:
+        cli.main(["--data-dir", str(store.root), "account", "--help"])
+    assert exited.value.code == 0
+    index = " ".join(capsys.readouterr().out.split())
+    assert "WeChat web session" in index
+    assert "App session from an SMS code" in index
+
+
 def test_sms_login_uses_stored_device_token(store, monkeypatch, capsys):
     from xhh_sdk import login
     store.add("work", identity="4242")

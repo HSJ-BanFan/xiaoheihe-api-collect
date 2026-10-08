@@ -6,6 +6,8 @@
 
 当前 Python CLI 候选版为 0.5.0rc4+standalone.7。验收分为三个互相独立的部分：本地包与签名器、线上功能、双账号隔离。
 
+首个公开发布是 [GitHub Release v0.5.0rc4+standalone.7](https://github.com/HSJ-BanFan/xiaoheihe-api-collect/releases/tag/v0.5.0rc4+standalone.7)，随附 wheel、sdist 和 SHA256SUMS。在线文档地址为 <https://hsj-banfan.github.io/xiaoheihe-api-collect/>。
+
 2026-10-08 的验收历史如下。run-24 使用 `.6` wheel 在门槛内构建签名器，通过 13 项本地检查，但报告仍列出 3 条 `not run` 事项且 live record 为 schema 1。run-26 用 schema 2 live record 重验，报告 `release_ready` 为 true。发布前复核发现 run-26 的 live record 绑定的是更早构建的 `.6` wheel，与当前源码构建出的 wheel 在包内 README 上有两段差异，因此该记录不覆盖拟发布的字节。
 
 用 `.6` wheel 重跑线上验收时，第一步上传就返回 `status=failed`。上传分配接口探针显示，平台现在要求 `file_infos` 条目带 `width` 和 `height`，而客户端只在 Pillow 恰好可导入时才填这两个字段，所以干净安装下上传必然失败。`.7` 改为从 PNG、JPEG 或 GIF 字节读取尺寸，读不到时在本地给出明确错误，并补齐离线测试。

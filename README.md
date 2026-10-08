@@ -19,7 +19,7 @@
 
 文档描述的是观察到的契约，不推断平台授权，也不保证接口长期可用。接口目录是参考资料，不是平台官方文档。
 
-📖 阅读地址：[仓库内的参考目录](docs/README.md)。GitHub Pages 站点在仓库启用 Pages 后发布。
+📖 阅读地址：[在线文档](https://hsj-banfan.github.io/xiaoheihe-api-collect/) 或 [仓库内的参考目录](docs/README.md)。
 
 > **声明**
 >
@@ -85,7 +85,7 @@ App 签名请求需要你自己的登录凭据、受支持 APK 提取出的资�
 
 线上验收只覆盖经过授权的部分流程：短信 App 登录和身份核对、账号与草稿读取、图片上传和字节读回、草稿创建与删除、选定的发布和互动操作及清理，以及两个账号的身份和草稿隔离。其他路径仍需分别研究和验收。逐项结果见[线上验收报告](docs/research/live-acceptance.md)。
 
-当前候选版本为 `xhh-sdk 0.5.0rc4+standalone.7`。run-40 用该 wheel 通过 12 项本地检查，绑定的线上验收记录和 schema 2 权属记录都有效，开放项为空，`release_ready` 为 true。发布产物位于 `cli/dist/standalone-7-clean`，wheel 的 SHA-256 为 `2ca9af8ece4e105631e62c6c4043e1fa758c766e16031afd4e52028bc44293ff`。
+当前候选版本为 `xhh-sdk 0.5.0rc4+standalone.7`。run-40 用该 wheel 通过 12 项本地检查，绑定的线上验收记录和 schema 2 权属记录都有效，开放项为空，`release_ready` 为 true。发布产物位于 `cli/dist/standalone-7-clean`，也作为 [GitHub Release](https://github.com/HSJ-BanFan/xiaoheihe-api-collect/releases/tag/v0.5.0rc4+standalone.7) 的附件提供；wheel 的 SHA-256 为 `2ca9af8ece4e105631e62c6c4043e1fa758c766e16031afd4e52028bc44293ff`。
 
 ## 🌱参与贡献
 

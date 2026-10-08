@@ -6,6 +6,13 @@ on:
     branches: [main]
     paths:
       - 'docs/**'
+      - 'README.md'
+      - 'NOTICE.md'
+      - 'CONTRIBUTING.md'
+      - 'SECURITY.md'
+      - 'cli/README.md'
+      - 'cli/RELEASE.md'
+      - 'signer/README.md'
       - 'mkdocs.yml'
       - 'scripts/build_docs_site.py'
       - '.github/workflows/docs-site.yml'

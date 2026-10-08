@@ -11,6 +11,9 @@ from urllib.parse import unquote, urlsplit
 ROOT = Path(__file__).resolve().parents[1]
 IGNORED = {".git", ".venv", "__pycache__", ".pytest_cache", "build", "dist"}
 BINARY_SUFFIXES = {".jar", ".apk", ".dex", ".so", ".dll", ".exe", ".p12", ".pfx", ".zip", ".png", ".jpg", ".jpeg", ".gif", ".pdf", ".whl"}
+ALLOWED_BINARY_ASSETS = {
+    "docs/assets/xhh-project-mascot.png": (b"\x89PNG\r\n\x1a\n", 2_000_000),
+}
 
 
 def files(root):
@@ -32,7 +35,14 @@ def scan_files(root):
             errors.append(f"symlink or external file dependency: {relative}")
             continue
         if path.suffix.lower() in BINARY_SUFFIXES:
-            errors.append(f"binary or credential container: {relative}")
+            asset = ALLOWED_BINARY_ASSETS.get(relative)
+            if asset is None:
+                errors.append(f"binary or credential container: {relative}")
+                continue
+            signature, max_bytes = asset
+            raw = path.read_bytes()
+            if not raw.startswith(signature) or len(raw) > max_bytes:
+                errors.append(f"invalid or oversized image asset: {relative}")
             continue
         raw = path.read_bytes()
         if b"\x00" in raw:
@@ -151,7 +161,7 @@ def main():
     if errors:
         print(f"FAIL: {len(errors)} repository checks")
         return 1
-    print("PASS: reference counts, generated files, CLI path parity, Markdown links, and text-only privacy checks")
+    print("PASS: reference counts, generated files, CLI path parity, Markdown links, and privacy checks")
     return 0
 
 

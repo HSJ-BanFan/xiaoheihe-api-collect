@@ -1,10 +1,14 @@
-# 小黑盒 API 收集与研究
+<p align="center">
+  <img src="docs/assets/xhh-project-mascot.png" width="240" alt="小黑盒盒子表情风格的项目角色插画" />
+</p>
 
-![项目内容与运行边界](docs/assets/project-overview.svg)
+<h1 align="center">小黑盒 API 收集与研究</h1>
 
-本项目整理小黑盒 API 参考、脱敏研究报告和配套 Python CLI，供接口查阅、协议学习和受控复验。项目由社区维护，与小黑盒官方无关。
+<p align="center">小黑盒 App API 参考、脱敏研究报告与配套 Python CLI</p>
 
-当前本地候选版为 `xhh-sdk 0.5.0rc4+standalone.6`。截至 2026-10-08，run-26 的本地发布门槛通过，使用已保存的线上证据复核了 12 项本地检查、双账号记录和权属记录；开放项为空。run-26 没有重复线上登录或写操作。该候选版还没有 GitHub Release。完整范围见[首发验收记录](docs/first-release-gate.md)。
+<p align="center">社区维护的非官方项目</p>
+
+本地候选版本为 `xhh-sdk 0.5.0rc4+standalone.6`。run-26 已通过本地发布门槛，复核了 12 项检查、双账号记录和权属记录，开放项为空。复核没有重复执行线上登录或写操作。项目尚无 GitHub Release。详情见[首发验收记录](docs/first-release-gate.md)。
 
 ## 项目内容
 
@@ -52,4 +56,4 @@ App 签名请求需要你自己的登录凭据、受支持 APK 提取出的资�
 
 ## 许可与使用边界
 
-项目自有源码和文档采用 [MIT 许可](LICENSE)。该许可不覆盖目标应用、用户提取的资源或第三方依赖。使用者需要遵守平台条款和当地法律；接口文档不代表平台授权，也不保证接口长期可用。完整说明见 [NOTICE](NOTICE.md) 和 [安全说明](SECURITY.md)。
+项目自有源码和文档采用 [MIT 许可](LICENSE)。该许可不覆盖小黑盒的商标、角色和原始表情素材，也不覆盖用户提取的资源或第三方依赖。使用者需要遵守平台条款和当地法律；接口文档不代表平台授权，也不保证接口长期可用。完整说明见 [NOTICE](NOTICE.md) 和 [安全说明](SECURITY.md)。

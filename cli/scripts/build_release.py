@@ -101,9 +101,11 @@ def main(argv: list[str] | None = None) -> int:
     if len(packages) != 2:
         raise ValueError("expected one wheel and one sdist")
     records = [audit_archive(p) for p in packages]
-    report = {"status": "local_candidate_only", "public_publish_ready": False,
-              "blockers": ["source license and ownership review before public redistribution",
-                           "no online acceptance performed for this extracted project"],
+    # This script only builds: publishability is decided by the release gate
+    # record bound to these bytes, never by the build report.
+    report = {"status": "local_build_only", "public_publish_ready": False,
+              "blockers": ["a release gate record bound to this wheel, covering the local "
+                           "steps, the live acceptance and the rights review"],
               "snapshot": snapshot,
               "jar_bundled": False, "artifacts": records}
     (out / "release-audit.json").write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8")

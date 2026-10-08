@@ -24,7 +24,7 @@ App Cookie 和网页 Cookie 使用的会话字段不同。附加风控 Cookie �
 
 ## 协议需求不等于客户端初始化需求
 
-原研究客户端在创建 `Transport` 时创建 `Signer`，上传流程也可能先遇到 JAR 或 Java 缺失错误。配套 CLI 的 `0.5.0rc4+standalone.6` 已改为首次签名时才初始化签名器。unsigned Web/COS 请求不再依赖 JAR 初始化；真实上传成功仍需另行验证。
+原研究客户端在创建 `Transport` 时创建 `Signer`，上传流程也可能先遇到 JAR 或 Java 缺失错误。配套 CLI 的 `0.5.0rc4+standalone.6` 起改为首次签名时才初始化签名器。unsigned Web/COS 请求不再依赖 JAR 初始化；真实上传已在 `.7` 的线上验收中从 CDN 字节读回确认。
 
 离线目录与帮助不应需要签名器。当前 CLI 的依赖边界及可复跑检查以 [CLI 说明](../cli/README.md)和[发布前检查](../cli/RELEASE.md)为准。
 

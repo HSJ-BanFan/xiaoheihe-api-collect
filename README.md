@@ -8,7 +8,7 @@
 
 <p align="center">社区维护的非官方项目</p>
 
-本地候选版本为 `xhh-sdk 0.5.0rc4+standalone.6`。run-26 已通过本地发布门槛，复核了 12 项检查、双账号记录和权属记录，开放项为空。复核没有重复执行线上登录或写操作。项目尚无 GitHub Release。详情见[首发验收记录](docs/first-release-gate.md)。
+本地候选版本为 `xhh-sdk 0.5.0rc4+standalone.7`。run-30 用这个 wheel 通过 12 项本地检查，绑定的线上验收记录和权属记录都有效，开放项为空，`release_ready` 为 true。线上验收从空账号库冷启动短信登录开始，过程中发现并修复了 `.6` 的上传缺陷。发布产物是 `cli/dist/standalone-7-candidate` 里的 wheel 与 sdist，项目尚无 GitHub Release。详情见[首发验收记录](docs/first-release-gate.md)。
 
 ## 项目内容
 

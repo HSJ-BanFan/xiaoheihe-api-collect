@@ -8,6 +8,7 @@ from datetime import datetime, timedelta, timezone
 import hashlib
 import json
 from pathlib import Path
+import subprocess
 
 import pytest
 
@@ -346,3 +347,17 @@ def test_wheel_metadata_body_is_compared_ignoring_line_endings():
     metadata = "Metadata-Version: 2.4\r\nName: xhh-sdk\r\n\r\n# Title\r\n\r\nbody line\r\n"
     assert gate._metadata_body(metadata) == "# Title\n\nbody line"
     assert gate._normalized("a\r\n\r\nb\r\n") == "a\n\nb"
+
+
+def test_find_assets_follows_git_for_a_checkout(tmp_path):
+    module = evidence_module()
+    subprocess.run(["git", "init", "-q", str(tmp_path)], check=True)
+    (tmp_path / "docs" / "assets").mkdir(parents=True)
+    (tmp_path / "docs" / "assets" / "cover.svg").write_bytes(b"<svg/>")
+    scratch = tmp_path / "scratch"
+    scratch.mkdir()
+    (scratch / "variant.png").write_bytes(b"research-material")
+    (tmp_path / ".gitignore").write_text("scratch/\n", encoding="utf-8")
+    subprocess.run(["git", "-C", str(tmp_path), "add", "docs/assets/cover.svg",
+                    ".gitignore"], check=True)
+    assert set(module.find_assets(tmp_path)) == {"docs/assets/cover.svg"}

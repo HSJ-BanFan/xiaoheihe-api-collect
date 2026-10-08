@@ -17,6 +17,7 @@ import hashlib
 import json
 from pathlib import Path, PurePosixPath
 import re
+import subprocess
 
 SCHEMA_VERSION = 2
 MAX_AGE_DAYS = 14
@@ -243,17 +244,35 @@ GENERATED_DIRS = frozenset({
 
 
 def find_assets(root: Path) -> dict[str, str]:
-    """Map every distributed asset under `root` to its SHA-256."""
-    assets: dict[str, str] = {}
-    for path in sorted(root.rglob("*")):
-        if not path.is_file() or path.is_symlink():
-            continue
-        parts = path.relative_to(root).parts
-        if set(parts) & GENERATED_DIRS or any(part.endswith(".egg-info") for part in parts):
-            continue
-        if path.suffix.lower() in ASSET_SUFFIXES:
-            assets[path.relative_to(root).as_posix()] = hashlib.sha256(path.read_bytes()).hexdigest()
-    return assets
+    """Map every distributed asset under `root` to its SHA-256.
+
+    A Git checkout answers this exactly: `git ls-files` names the files that
+    would be distributed, so ignored research material is excluded. Without Git,
+    walk the tree and skip generated directories.
+    """
+    candidates = None
+    if (root / ".git").exists():
+        try:
+            result = subprocess.run(["git", "-C", str(root), "ls-files", "-z"],
+                                    capture_output=True, check=True)
+        except (OSError, subprocess.CalledProcessError):
+            candidates = None
+        else:
+            candidates = [root / name for name in
+                          result.stdout.decode("utf-8").split("\x00") if name]
+    if candidates is None:
+        candidates = []
+        for path in sorted(root.rglob("*")):
+            if not path.is_file():
+                continue
+            parts = path.relative_to(root).parts
+            if set(parts) & GENERATED_DIRS or any(p.endswith(".egg-info") for p in parts):
+                continue
+            candidates.append(path)
+    return {path.relative_to(root).as_posix(): hashlib.sha256(path.read_bytes()).hexdigest()
+            for path in candidates
+            if path.is_file() and not path.is_symlink()
+            and path.suffix.lower() in ASSET_SUFFIXES}
 
 
 def rights_template() -> dict:

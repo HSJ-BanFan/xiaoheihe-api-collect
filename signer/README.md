@@ -4,7 +4,7 @@
 
 ## 验收状态
 
-版本 0.5.0rc4+standalone.6 已通过本地签名一致性验收。对受支持 APK 和同一组输入，loader 返回与研究参考一致的 hkey 和 _rnd。nonce 每次生成，因此不用于比较。
+版本 0.5.0rc4+standalone.7 已通过本地签名一致性验收，使用的 loader 与 `.6` 验收时的 SHA-256 相同。对受支持 APK 和同一组输入，loader 返回与研究参考一致的 hkey 和 _rnd。nonce 每次生成，因此不用于比较。
 
 Python CLI 已支持 APK 资源准备、bundle 安装与检查，并在 App 请求时调用安装的 loader。公开仓库和 wheel 不包含 APK、提取资源、SO 或 JAR。用户需在本地取得 APK 并构建运行时文件。
 

@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="docs/assets/xhh-project-mascot.png" width="240" alt="小黑盒盒子表情风格的项目角色插画" />
+  <img src="docs/assets/xhh-project-mascot.png" width="240" alt="小黑盒 App 原版开心表情" />
 </p>
 
 <h1 align="center">小黑盒 API 收集与研究</h1>
@@ -56,4 +56,4 @@ App 签名请求需要你自己的登录凭据、受支持 APK 提取出的资�
 
 ## 许可与使用边界
 
-项目自有源码和文档采用 [MIT 许可](LICENSE)。该许可不覆盖小黑盒的商标、角色和原始表情素材，也不覆盖用户提取的资源或第三方依赖。使用者需要遵守平台条款和当地法律；接口文档不代表平台授权，也不保证接口长期可用。完整说明见 [NOTICE](NOTICE.md) 和 [安全说明](SECURITY.md)。
+项目自有源码和文档采用 [MIT 许可](LICENSE)。README 封面中的小黑盒原版表情、平台商标、用户提取的应用资源和第三方依赖不在 MIT 许可范围内。使用或再分发封面图片前，需取得权利人许可。使用者需要遵守平台条款和当地法律；接口文档不代表平台授权，也不保证接口长期可用。完整说明见 [NOTICE](NOTICE.md) 和 [安全说明](SECURITY.md)。

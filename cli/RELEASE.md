@@ -57,10 +57,11 @@ Unsigned transport no longer constructs a signer. The separate live acceptance
 executed local signing and authorized online requests for the selected flows.
 
 The historical route observations remain unchanged. The command catalogue
-includes the local signer commands and offline doctor option. Its current
-SHA-256 is
-`f196739331140ccfed5a3c489b21c1c1256098c526a93860ebcbe9a123aa9707`.
-The catalogue digest in the extraction history below refers to `.1` only.
+includes the local signer commands and offline doctor option. The shipped
+catalogue digest is pinned in `xhh_sdk/routes.py` and checked by
+`python -m xhh_sdk.routes --check`; release artifact digests are listed in the
+distribution's `SHA256SUMS`. The catalogue digest in the extraction history
+below refers to `.1` only.
 
 Installation verification now includes moving the distribution/resource source
 away, using the installed launcher from unrelated cwd, and inspecting a managed
@@ -72,7 +73,7 @@ Python installation itself or moving to another Windows user is not supported.
 The local version `0.5.0rc4+standalone.1` distinguishes the extraction from the
 archived `0.5.0rc4` package. No package was published. No signer was bundled or executed.
 
-The package retains the 16 top-level Python modules and `api_catalog.json`.
+The package retains the 18 top-level Python modules and `api_catalog.json`.
 Runtime request logic and the 243-route allowlist remain unchanged. The changes
 remove private route-generation tooling, add offline integrity checking, and
 replace the research-dependent release procedure with an explicit file list.
@@ -98,7 +99,7 @@ temporary synthetic stores; Windows-specific DPAPI checks keep their original
 platform condition. No test reads the user's account database. Copied test
 examples with unverified identity or phone provenance use synthetic values.
 
-The following independent test files remain.
+The retained test files include the following.
 
 - `test_account_cli.py` and `test_accounts.py`.
 - `test_cli_interaction.py`, `test_cli_release.py`, and `test_group_cli.py`.

@@ -52,6 +52,18 @@ def test_declared_version_matches_package_version():
     assert declared == package
 
 
+def test_packaged_documents_name_the_declared_version():
+    """A stale version in the packaged README would ship contradictory metadata."""
+    import re
+    pyproject = (SDK / "pyproject.toml").read_text(encoding="utf-8")
+    version = re.search(r'^version = "([^"]+)"', pyproject, re.MULTILINE).group(1)
+    readme = (SDK / "README.md").read_text(encoding="utf-8")
+    named = set(re.findall(r"0\.5\.0rc4\+standalone\.\d+", readme))
+    assert named <= {version}, f"README.md names another candidate: {named}"
+    release = (SDK / "RELEASE.md").read_text(encoding="utf-8")
+    assert f"Current candidate: `{version}`" in release
+
+
 
 
 

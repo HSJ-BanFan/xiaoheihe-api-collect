@@ -47,8 +47,11 @@ and exercises the installed CLI. It does not access a real account store.
 
 ## Runtime boundary
 
-Version `0.5.0rc4+standalone.6` keeps user-owned signer storage and lazy
-signing, and adds offline APK resource preparation plus content-addressed signer bundles.
+Version `0.5.0rc4+standalone.7` keeps user-owned signer storage and lazy
+signing, adds offline APK resource preparation plus content-addressed signer
+bundles, and reads PNG, JPEG or GIF dimensions without a third-party library.
+The platform rejects an upload allocation whose file entry has no dimensions, so
+Pillow is not required for uploads.
 Import a user-supplied artifact with a digest you have selected explicitly:
 
 ```console
@@ -77,7 +80,7 @@ not the JAR's publisher or safety. Java's temporary directory is not a sandbox.
 The retained client supports account and live-operation commands. Their presence
 does not authorize use. The standalone extraction checks were offline. The
 parent project separately records a limited live acceptance for version
-0.5.0rc4+standalone.6 in the [live acceptance report](../docs/research/live-acceptance.md).
+0.5.0rc4+standalone.7 in the [live acceptance report](../docs/research/live-acceptance.md).
 Managed accounts use Windows DPAPI. Do not copy real profiles or credentials
 into this project.
 

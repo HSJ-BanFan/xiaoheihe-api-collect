@@ -1,0 +1,30 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "xhh-sdk"
+version = "0.5.0rc4+standalone.6"
+description = "Local-only companion CLI for the xiaoheihe API documentation project"
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+keywords = ["xiaoheihe", "heybox", "reverse-engineering", "creator", "upload"]
+dependencies = []
+
+[project.optional-dependencies]
+dev = ["pytest>=7"]
+login = ["playwright>=1.50,<2"]
+
+[project.scripts]
+xhh-sdk = "xhh_sdk.cli:main"
+
+[tool.setuptools]
+packages = ["xhh_sdk"]
+include-package-data = false
+
+[tool.setuptools.package-data]
+xhh_sdk = ["api_catalog.json"]
+
+[tool.setuptools.exclude-package-data]
+"*" = ["*.jar", "vendor/*", "*.so", "*.dll", "*.apk", "*.key", "*.pem"]

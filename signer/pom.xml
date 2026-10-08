@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>dev.xhh</groupId>
+    <artifactId>signer-loader</artifactId>
+    <version>0.1.0</version>
+    <packaging>jar</packaging>
+    <name>xhh signer loader</name>
+    <description>Local user-built request signer for the xiaoheihe API documentation project</description>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.release>17</maven.compiler.release>
+        <!-- Fixed so repeated builds of the same sources produce the same JAR,
+             which lets the release gate bind live evidence to this artifact. -->
+        <project.build.outputTimestamp>2026-10-08T00:00:00Z</project.build.outputTimestamp>
+        <!-- The published 0.9.9 artifact faults inside the pinned target
+             library, so this module builds against a local build of the public
+             upstream commit 2ded0545. Run scripts/prepare_unidbg.py first. -->
+        <unidbg.version>0.9.10-SNAPSHOT</unidbg.version>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.github.zhkl0228</groupId>
+            <artifactId>unidbg-android</artifactId>
+            <version>${unidbg.version}</version>
+        </dependency>
+        <!-- The legacy unicorn backend that unidbg-android pulls in crashes on
+             the pinned target library; the reference build used Unicorn2. -->
+        <dependency>
+            <groupId>com.github.zhkl0228</groupId>
+            <artifactId>unidbg-unicorn2</artifactId>
+            <version>${unidbg.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.github.zhkl0228</groupId>
+            <artifactId>unidbg-dynarmic</artifactId>
+            <version>${unidbg.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-simple</artifactId>
+            <!-- Matches the slf4j-api that unidbg 0.9.9 pulls in; a 1.7.x
+                 binding is ignored by a 2.x api and logs would vanish. -->
+            <version>2.0.16</version>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <finalName>xhh-signer-loader</finalName>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.13.0</version>
+            </plugin>
+            <!-- The boundary checks are plain JDK programs run by
+                 scripts/verify_contract.py, not JUnit tests. -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>3.2.5</version>
+                <configuration>
+                    <skip>true</skip>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <version>3.5.1</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                        <configuration>
+                            <transformers>
+                                <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                                    <mainClass>com.xiaoheihe.XhhSignerMain</mainClass>
+                                </transformer>
+                            </transformers>
+                            <filters>
+                                <filter>
+                                    <artifact>*:*</artifact>
+                                    <excludes>
+                                        <exclude>META-INF/*.SF</exclude>
+                                        <exclude>META-INF/*.DSA</exclude>
+                                        <exclude>META-INF/*.RSA</exclude>
+                                    </excludes>
+                                </filter>
+                            </filters>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+</project>

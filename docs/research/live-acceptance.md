@@ -12,7 +12,7 @@
 - 本次冷启动的测试账号与主账号分别匹配各自身份，交叉身份读取未命中，两个账号都能读取各自草稿。
 - 两种微信扫码流程都取得 Web SSO 会话字段，但 App 与 Web 请求均返回重新登录状态。
 - 平台的图片上传分配接口现在要求 `file_infos` 条目带 `width` 和 `height`。缺少尺寸时返回 `status=failed`、`msg=文件信息缺失`；补上尺寸后同一请求在 `/upload/info` 与 `/upload/info/v2` 都返回 `status=ok`。
-- 同一账号重新登录后，旧别名 `personal` 的会话返回 `status=relogin`。这是观察结果，不构成对原因的结论。
+- 同一账号早前登录产生的旧别名 `personal` 会话返回 `status=relogin`，而同日新登录的两个会话仍通过身份核对。这是观察结果，不构成对原因或会话上限的结论。
 
 本地 signer bundle 使用受支持 APK 与公开 loader 源码。离线签名自检和安装后运行验证通过。wheel 不含 APK、JAR、SO、账号库或浏览器配置。
 
@@ -22,7 +22,7 @@ run-24 使用 `.6` wheel 在门槛内构建签名器，并通过 13 项本地检
 
 run-26 使用同一 wheel、同一 loader 哈希、APK、schema 2 live record 和权属记录重新验收。12 项本地检查全部通过。发布前复核随后发现该记录绑定的是更早构建的 `.6` wheel，与当前源码构建出的 wheel 在包内 README 上有两段差异，记录不覆盖拟发布的字节。用 `.6` wheel 重跑线上验收时，上传步骤返回 `status=failed`，暴露出缺少图片尺寸字段的缺陷。
 
-run-29 用 `.7` wheel（含尺寸解析修复）通过 12 项本地检查。run-30 加入绑定该 wheel 的 schema 2 live record 和 schema 2 权属记录，12 项本地检查全部通过，live 与权属记录有效，`open_items` 为空，`release_ready` 为 true。当前门槛明确检查两个不同账号的自身身份匹配、交叉身份拒绝、各自草稿读回、链接 JSON 的 SHA-256，以及权属记录列出的每个素材的摘要。最终发布摘要依据 run-30。原始门槛报告不随仓库分发。
+修复后包内 README 仍写着 `.6`，与 `.7` 版本矛盾，因此重建发布包并补了防回归测试。run-33 用最终 wheel（SHA-256 `782eccb156b10c048a87d99f10180b9a760c906ace58245c5661cf6a4110e027`）通过 12 项本地检查。run-34 加入绑定该 wheel 的 schema 2 live record 和 schema 2 权属记录，12 项本地检查全部通过，live 与权属记录有效，`open_items` 为空，`release_ready` 为 true。当前门槛明确检查两个不同账号的自身身份匹配、交叉身份拒绝、各自草稿读回、链接 JSON 的 SHA-256，以及权属记录列出的每个素材的摘要。最终发布摘要依据 run-34。原始门槛报告不随仓库分发。
 
 ## 分析推断
 

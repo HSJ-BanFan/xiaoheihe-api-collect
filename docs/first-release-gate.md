@@ -10,7 +10,7 @@
 
 用 `.6` wheel 重跑线上验收时，第一步上传就返回 `status=failed`。上传分配接口探针显示，平台现在要求 `file_infos` 条目带 `width` 和 `height`，而客户端只在 Pillow 恰好可导入时才填这两个字段，所以干净安装下上传必然失败。`.7` 改为从 PNG、JPEG 或 GIF 字节读取尺寸，读不到时在本地给出明确错误，并补齐离线测试。
 
-run-29 用 `.7` wheel 通过 12 项本地检查。run-30 在同样输入上加入绑定该 wheel 的 schema 2 live record 和 schema 2 权属记录，12 项本地检查全部通过，`open_items` 为空，`release_ready` 为 true。原始门槛报告、账号证据和线上日志留在本地研究案件中，不随公开仓库分发。项目尚未上传 GitHub。
+修复之后又发现包内 README 仍写着 `.6`，与声明的 `.7` 版本矛盾，于是重建发布包并加了防回归测试。run-33 用最终 wheel（SHA-256 `782eccb156b10c048a87d99f10180b9a760c906ace58245c5661cf6a4110e027`）通过 12 项本地检查。run-34 在同样输入上加入绑定该 wheel 的 schema 2 live record 和 schema 2 权属记录，12 项本地检查全部通过，`open_items` 为空，`release_ready` 为 true。整套线上验收都用这一个 wheel 重跑，冷启动登录也在其中。原始门槛报告、账号证据和线上日志留在本地研究案件中，不随公开仓库分发。项目尚未上传 GitHub。
 
 | 部分 | 验收内容 | 结果 |
 | --- | --- | --- |
@@ -24,7 +24,7 @@ run-29 用 `.7` wheel 通过 12 项本地检查。run-30 在同样输入上加�
 
 短信验证码流程是当前已验收的 App 登录方式。两种微信扫码流程都取得了 Web SSO 会话字段，但后续 App 与 Web 请求被平台要求重新登录。详见[登录与会话研究](research/authentication-and-signing.md)。
 
-观察到一个副作用，同一账号重新登录后，旧别名 `personal` 的会话不再通过 `/account/info`，平台返回 `status=relogin`。这是观察结果，不构成对原因的结论。
+观察到一个副作用，同一账号早前登录产生的旧别名 `personal` 会话不再通过 `/account/info`，平台返回 `status=relogin`；同一天新登录产生的两个会话仍然有效。这是观察结果，不构成对原因或会话上限的结论。
 
 ## 发布内容
 

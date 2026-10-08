@@ -9,7 +9,7 @@
   <img src="https://img.shields.io/badge/python-%3E%3D3.10-blue.svg" alt="Python 3.10+" />
   <img src="https://img.shields.io/badge/routes-448-informational.svg" alt="参考记录数" />
   <img src="https://img.shields.io/badge/CLI-0.5.0rc4%2Bstandalone.7-informational.svg" alt="CLI 候选版本" />
-  <a href="../../actions/workflows/offline-checks.yml"><img src="../../actions/workflows/offline-checks.yml/badge.svg" alt="离线检查" /></a>
+  <a href="https://github.com/HSJ-BanFan/xiaoheihe-api-collect/actions/workflows/offline-checks.yml"><img src="https://github.com/HSJ-BanFan/xiaoheihe-api-collect/actions/workflows/offline-checks.yml/badge.svg" alt="离线检查" /></a>
 </p>
 
 <h3 align="center">社区维护的非官方接口参考</h3>

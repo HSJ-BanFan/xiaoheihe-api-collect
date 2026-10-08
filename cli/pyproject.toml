@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "xhh-sdk"
-version = "0.5.0rc4+standalone.6"
+version = "0.5.0rc4+standalone.7"
 description = "Local-only companion CLI for the xiaoheihe API documentation project"
 readme = "README.md"
 requires-python = ">=3.10"

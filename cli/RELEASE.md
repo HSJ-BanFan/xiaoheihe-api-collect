@@ -2,15 +2,20 @@
 
 ## Runtime portability update
 
-Current candidate: `0.5.0rc4+standalone.6`. It adds the offline
+Current candidate: `0.5.0rc4+standalone.7`. It keeps the `.6` work (offline
 `signer prepare-apk`, `signer inspect-resources`, `signer bundle-install` and
-`signer bundle-inspect` commands, and the public signer loader under `signer/`
-now builds and signs against a pinned public Unidbg commit. The loader build
-and local signing parity are verified: installing a bundle and signing through
-the SDK reproduces the reference `hkey`/`_rnd` for the pinned sample.
-SMS App login, selected online features, two-account identity checks and the
-MIT rights decision are recorded for this candidate. The public project has not
-been uploaded to GitHub.
+`signer bundle-inspect`, plus a public signer loader under `signer/` that builds
+and signs against a pinned public Unidbg commit) and fixes the upload allocation
+request. The platform now rejects a `file_infos` entry that carries no
+dimensions, and the client produced them only when Pillow happened to be
+installed, so every upload on a clean install failed with `status=failed`. The
+client now reads PNG, JPEG or GIF dimensions from the file bytes, and an image
+whose size cannot be read fails locally with a clear error instead of reaching
+the platform. The loader build and local signing parity are verified: installing
+a bundle and signing through the SDK reproduces the reference `hkey`/`_rnd` for
+the pinned sample. SMS App login, the selected online features, the two-account
+identity checks and the rights review are recorded for the candidate that the
+gate clears.
 
 On 2026-10-08, run-24 built the signer loader inside the gate and passed all 13
 local steps for this wheel. Its report still listed three `not run` items and
@@ -23,7 +28,9 @@ bound an earlier build of this wheel: two paragraphs of the package README
 differed. That record therefore does not cover the shipped bytes. The release
 gate now compares the wheel's embedded README against `README.md` and refuses a
 stale wheel instead of reporting a live-evidence digest mismatch, and the rights
-review names every shipped asset with its digest.
+review names every shipped asset with its digest. The first acceptance run of
+the `.6` build also failed at the upload allocation with `status=failed`, which
+is the defect `.7` fixes; no `.6` record describes the `.7` bytes.
 
 Readiness is decided by `scripts/release_gate.py`, not by this file. The gate
 combines the local build and signing steps, a live record bound to the wheel,

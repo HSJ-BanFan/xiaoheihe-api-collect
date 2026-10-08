@@ -5,7 +5,10 @@ Run:  python -m pytest tests/ -q     (from the sdk/ directory)
 from __future__ import annotations
 
 import json
+import struct
 import sys
+import urllib.parse
+import zlib
 from pathlib import Path
 
 import pytest
@@ -13,6 +16,7 @@ import pytest
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 from xhh_sdk import XhhConfig, Post, cos_authorization, plain_text
+from xhh_sdk.client import XhhClient, image_dimensions
 from xhh_sdk.exceptions import XhhConfigError, XhhSignerError
 from xhh_sdk.payload import _text_to_html
 from xhh_sdk.signer import Signer
@@ -266,4 +270,79 @@ class TestGenericCall:
         from xhh_sdk.routes import VERIFIED_READ_ROUTES as routes
         assert list(routes) == sorted(set(routes))
         assert all(r.startswith("/") for r in routes)
+
+
+# ------------------------------------------------------------ media metadata
+def png(width: int = 3, height: int = 5) -> bytes:
+    def chunk(tag: bytes, payload: bytes) -> bytes:
+        return (struct.pack(">I", len(payload)) + tag + payload
+                + struct.pack(">I", zlib.crc32(tag + payload)))
+
+    rows = b"".join(b"\x00" + b"\x10\x20\x30" * width for _ in range(height))
+    return (b"\x89PNG\r\n\x1a\n"
+            + chunk(b"IHDR", struct.pack(">IIBBBBB", width, height, 8, 2, 0, 0, 0))
+            + chunk(b"IDAT", zlib.compress(rows))
+            + chunk(b"IEND", b""))
+
+
+class TestImageDimensions:
+    def test_png(self):
+        assert image_dimensions(png(7, 11)) == (7, 11)
+
+    def test_gif(self):
+        data = b"GIF89a" + (64).to_bytes(2, "little") + (32).to_bytes(2, "little") + b"\x00" * 4
+        assert image_dimensions(data) == (64, 32)
+
+    def test_jpeg_scan_finds_the_frame_header(self):
+        segment = b"\xff\xe0" + (16).to_bytes(2, "big") + b"\x00" * 14
+        frame = (b"\xff\xc0" + (17).to_bytes(2, "big") + b"\x08"
+                 + (600).to_bytes(2, "big") + (800).to_bytes(2, "big") + b"\x03" + b"\x00" * 9)
+        assert image_dimensions(b"\xff\xd8" + segment + frame) == (800, 600)
+
+    def test_unknown_format_returns_none(self):
+        assert image_dimensions(b"synthetic-media") is None
+
+    def test_upload_info_carries_dimensions_without_pillow(self, tmp_path, monkeypatch):
+        """The platform rejects an allocation whose file entry has no size."""
+        from xhh_sdk import transport as transport_module
+
+        media = tmp_path / "synthetic.png"
+        media.write_bytes(png(4, 9))
+        client = XhhClient(XhhConfig(pkey="synthetic-pkey", heybox_id="12345678"))
+        sent: list[dict] = []
+
+        class Response:
+            def __init__(self, body: bytes):
+                self._body = body
+
+            def __enter__(self):
+                return self
+
+            def __exit__(self, *args):
+                return False
+
+            def read(self, size=None):
+                return self._body
+
+        def urlopen(request, **kwargs):
+            body = request.data.decode() if request.data else ""
+            path = urllib.parse.urlsplit(request.full_url).path
+            if path.endswith("/upload/info/v2"):
+                sent.append(dict(urllib.parse.parse_qsl(body)))
+                result = {"keys": ["/synthetic.png"], "bucket": "synthetic-123"}
+            elif path.endswith("/upload/token/v2"):
+                result = {"credentials": {"tmpSecretId": "i", "tmpSecretKey": "k",
+                                          "sessionToken": "t"}}
+            else:
+                result = {"preview_urls": ["https://cdn.invalid/synthetic.png"]}
+            return Response(json.dumps({"status": "ok", "result": result}).encode())
+
+        monkeypatch.setattr(transport_module.urllib.request, "urlopen", urlopen)
+        monkeypatch.setattr(transport_module.Transport, "put_cos",
+                            lambda *args, **kwargs: None)
+        client.upload(media)
+
+        file_info = json.loads(sent[0]["file_infos"])[0]
+        assert (file_info["width"], file_info["height"]) == (4, 9)
+        assert file_info["fsize"] == media.stat().st_size
 

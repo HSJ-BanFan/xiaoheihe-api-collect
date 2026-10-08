@@ -20,7 +20,7 @@ from .routes import VERIFIED_READ_ROUTES, is_verified_read
 from .signer import Signer
 from .transport import Transport, cos_authorization
 
-__version__ = "0.5.0rc4+standalone.6"
+__version__ = "0.5.0rc4+standalone.7"
 
 __all__ = [
     "XhhClient",

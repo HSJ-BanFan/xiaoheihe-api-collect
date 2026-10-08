@@ -32,6 +32,41 @@ from .transport import Transport
 
 MAX_MEDIA_BYTES = 32 * 1024 * 1024
 
+# The platform rejects an upload allocation whose file entry has no dimensions
+# ("file information missing"), so read them here rather than depend on an
+# optional imaging library.
+_SOF_MARKERS = frozenset(range(0xC0, 0xD0)) - {0xC4, 0xC8, 0xCC}
+
+
+def image_dimensions(data: bytes) -> tuple[int, int] | None:
+    """Width and height for PNG, JPEG or GIF, or None when unknown."""
+    if len(data) >= 24 and data[:8] == b"\x89PNG\r\n\x1a\n" and data[12:16] == b"IHDR":
+        return int.from_bytes(data[16:20], "big"), int.from_bytes(data[20:24], "big")
+    if len(data) >= 10 and data[:6] in (b"GIF87a", b"GIF89a"):
+        return int.from_bytes(data[6:8], "little"), int.from_bytes(data[8:10], "little")
+    if len(data) >= 4 and data[:2] == b"\xff\xd8":
+        index = 2
+        while index + 4 <= len(data):
+            if data[index] != 0xFF:
+                index += 1
+                continue
+            marker = data[index + 1]
+            if marker == 0xFF:
+                index += 1
+                continue
+            if marker == 0x01 or 0xD0 <= marker <= 0xD9:
+                index += 2
+                continue
+            length = int.from_bytes(data[index + 2:index + 4], "big")
+            if length < 2:
+                return None
+            if marker in _SOF_MARKERS and index + 9 <= len(data):
+                height = int.from_bytes(data[index + 5:index + 7], "big")
+                width = int.from_bytes(data[index + 7:index + 9], "big")
+                return width, height
+            index += 2 + length
+    return None
+
 
 class XhhClient(GroupMixin, InteractionMixin, BrowseMixin):
     """Unofficial client for the xiaoheihe creation/upload/browse interfaces.
@@ -51,16 +86,23 @@ class XhhClient(GroupMixin, InteractionMixin, BrowseMixin):
     def _image_info(self, path: Path, data: bytes) -> dict:
         mime = mimetypes.guess_type(path.name)[0] or "application/octet-stream"
         info = {"name": path.name, "mimetype": mime, "fsize": len(data)}
+        size = None
         try:
             from PIL import Image  # optional dependency
         except ImportError:
-            return info
-        try:
-            with Image.open(path) as image:
-                info["width"] = image.width
-                info["height"] = image.height
-        except (OSError, ValueError) as exc:
-            raise XhhConfigError(f"not a readable image: {path}") from exc
+            pass
+        else:
+            try:
+                with Image.open(path) as image:
+                    size = (image.width, image.height)
+            except (OSError, ValueError) as exc:
+                raise XhhConfigError(f"not a readable image: {path}") from exc
+        size = size or image_dimensions(data)
+        if not size or min(size) < 1:
+            raise XhhConfigError(
+                f"cannot read image dimensions: {path}; "
+                "use PNG, JPEG or GIF, or install Pillow")
+        info["width"], info["height"] = size
         return info
 
     def upload(self, file: str | Path, *, scope: str = "bbs",

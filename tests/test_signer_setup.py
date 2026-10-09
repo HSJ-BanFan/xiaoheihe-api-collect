@@ -3,6 +3,7 @@ import importlib.util
 import json
 import os
 from pathlib import Path
+import shutil
 import subprocess
 import sys
 import zipfile
@@ -21,6 +22,9 @@ def load(name):
     spec = importlib.util.spec_from_file_location(name, SCRIPTS / (name + ".py"))
     module = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(module)
+    if name == "xhh_setup" and module.runtime is None:
+        # Unit tests inject the helper; real subprocess tests exercise its integrity gate.
+        module.runtime = load("setup_runtime")
     return module
 
 
@@ -153,6 +157,11 @@ def test_account_binding_is_last_and_only_after_reference_match(tmp_path, monkey
     monkeypatch.setattr(setup.sys, "platform", "win32")
     monkeypatch.setattr(setup.platform, "machine", lambda: "AMD64")
     lock = json.loads((SCRIPTS.parent / "references/signer-release.json").read_text())
+    loader = tmp_path / "loader.jar"
+    loader.write_bytes(b"synthetic pinned loader")
+    lock["bootstrap"].update({key: value for key, value in artifact(loader.read_bytes()).items()
+                              if key in {"bytes", "sha256"}})
+    monkeypatch.setattr(setup.cli, "read_json", lambda _: lock)
     monkeypatch.setattr(setup.cli, "activate_runtime", lambda: None)
     monkeypatch.syspath_prepend(str(ROOT / "cli"))
     from xhh_sdk import signer_resources, signer_bundle, signer, accounts
@@ -163,11 +172,16 @@ def test_account_binding_is_last_and_only_after_reference_match(tmp_path, monkey
     monkeypatch.setattr(setup.runtime, "install_dependencies", lambda *args: None)
     monkeypatch.setattr(setup, "verify_embedded_lock", lambda *args: None)
     monkeypatch.setattr(signer_bundle, "install_bundle", lambda *args, **kwargs: "bundle:" + "a" * 64)
-    monkeypatch.setattr(signer_bundle, "resolve_bundle", lambda *args: {"directory": str(tmp_path)})
+    monkeypatch.setattr(signer_bundle, "resolve_bundle", lambda *args: {
+        "directory": str(tmp_path), "loader": str(loader),
+        "loader_sha256": lock["bootstrap"]["sha256"], "resources": str(tmp_path / "resources")})
     events = []
     class SyntheticSigner:
         def __init__(self, **kwargs):
             assert kwargs["timeout"] == 60
+            self.jar = loader
+            self.sha256 = lock["bootstrap"]["sha256"]
+            self.resources = tmp_path / "resources"
         def sign(self, path, timestamp):
             events.append("sign")
             assert path == "/account/info" and timestamp == 1700000000
@@ -195,7 +209,7 @@ def test_account_binding_is_last_and_only_after_reference_match(tmp_path, monkey
         assert setup.setup(args, receipt)["state"] == "ready"
         assert events == ["sign", "account", "configure"]
     else:
-        with pytest.raises(setup.Refused, match="selftest_"):
+        with pytest.raises((setup.Refused, setup.runtime.Refused), match="selftest_"):
             setup.setup(args, receipt)
         assert events == ["sign"]
 
@@ -225,3 +239,90 @@ def test_managed_java_reuse_checks_every_extracted_file(runtime, tmp_path, monke
     monkeypatch.setattr(runtime, "download", lambda *args: pytest.fail("must refuse corrupt installed JRE"))
     with pytest.raises(runtime.Refused, match="java_inventory_mismatch"):
         runtime.select_java(None, True, True, tmp_path, lock)
+
+
+@pytest.mark.parametrize("change", ["manifest", "bytes", "signer-reresolve", "signer-bytes", "signer-resources"])
+def test_existing_bundle_cannot_substitute_the_release_loader(tmp_path, monkeypatch, change):
+    setup = load("xhh_setup")
+    monkeypatch.setattr(setup.sys, "platform", "win32")
+    monkeypatch.setattr(setup.platform, "machine", lambda: "AMD64")
+    monkeypatch.setattr(setup.cli, "activate_runtime", lambda: None)
+    monkeypatch.syspath_prepend(str(ROOT / "cli"))
+    from xhh_sdk import signer_resources, signer_bundle, signer
+    lock = json.loads((SCRIPTS.parent / "references/signer-release.json").read_text())
+    good = b"synthetic pinned loader"
+    pin = artifact(good)
+    lock["bootstrap"].update({key: pin[key] for key in ("bytes", "sha256")})
+    monkeypatch.setattr(setup.cli, "read_json", lambda _: lock)
+    bundle = tmp_path / "bundle"
+    bundle.mkdir()
+    loader = bundle / "loader.jar"
+    loader.write_bytes(b"untrusted loader" if change == "bytes" else good)
+    other = bundle / "other.jar"
+    other.write_bytes(b"untrusted loader")
+    reference = "bundle:" + "a" * 64
+    resolved = {"reference": reference, "directory": str(bundle), "loader": str(loader),
+                "loader_sha256": "b" * 64 if change == "manifest" else pin["sha256"],
+                "resources": str(bundle / "resources")}
+    resolutions = []
+    def resolve(_):
+        resolutions.append(True)
+        if change == "signer-reresolve" and len(resolutions) > 1:
+            return {**resolved, "loader": str(other), "loader_sha256": hashlib.sha256(other.read_bytes()).hexdigest()}
+        if change == "signer-bytes" and len(resolutions) > 1:
+            loader.write_bytes(b"untrusted loader")
+        if change == "signer-resources" and len(resolutions) > 1:
+            return {**resolved, "resources": str(tmp_path / "different-resources")}
+        return resolved
+    monkeypatch.setattr(signer_bundle, "resolve_bundle", resolve)
+    monkeypatch.setattr(signer_bundle, "install_bundle", lambda *args, **kwargs: reference)
+    monkeypatch.setattr(signer_resources, "prepare_resources", lambda *args: {})
+    monkeypatch.setattr(setup.runtime, "select_java", lambda *args: (tmp_path / "java.exe", 17, "explicit"))
+    monkeypatch.setattr(setup.runtime, "download", lambda value, *args: tmp_path / value["name"])
+    monkeypatch.setattr(setup.runtime, "resource_jar", lambda *args: tmp_path / "resources.jar")
+    monkeypatch.setattr(setup.runtime, "install_dependencies", lambda *args: None)
+    monkeypatch.setattr(setup, "verify_embedded_lock", lambda *args: None)
+    monkeypatch.setattr(signer.shutil, "which", lambda _: str(tmp_path / "java.exe"))
+    monkeypatch.setattr(signer.Signer, "sign", lambda *args, **kwargs: pytest.fail("unpinned loader reached execution"))
+    monkeypatch.setattr(setup, "bind_account", lambda *args: pytest.fail("unverified loader reached account binding"))
+    args = SimpleNamespace(confirm=True, apk=tmp_path / "source.apk", java=None, install_java=False,
+                           offline=True, account="synthetic", data_dir=tmp_path / "store")
+    receipt = {"selftest": {"executed": False, "matched": False}}
+    with pytest.raises(ValueError, match="(?:loader_pin_mismatch|artifact_mismatch)"):
+        setup.setup(args, receipt)
+    assert receipt["selftest"] == {"executed": False, "matched": False}
+
+
+@pytest.mark.parametrize("mode", ["help", "no-confirm", "confirm"])
+def test_unverified_helper_never_executes(tmp_path, mode):
+    copied = tmp_path / "kit" / "scripts"
+    copied.mkdir(parents=True)
+    for name in ("xhh_setup.py", "xhh_cli.py", "setup_runtime.py"):
+        shutil.copyfile(SCRIPTS / name, copied / name)
+    cli = load("xhh_cli")
+    files = {}
+    for name in {*cli.SOURCE_MEMBERS, *("runtime/" + item for item in cli.RUNTIME_MEMBERS)}:
+        path = copied.parent / name
+        if not path.exists():
+            path.parent.mkdir(parents=True, exist_ok=True)
+            path.write_bytes(b"synthetic member")
+        files[name] = hashlib.sha256(path.read_bytes()).hexdigest()
+    manifest = {"schema_version": 1, "kit_name": cli.KIT_NAME, "kit_version": cli.KIT_VERSION,
+                "cli_version": cli.CLI_VERSION, "wheel_sha256": cli.WHEEL_SHA256, "files": files}
+    (copied.parent / "kit-manifest.json").write_text(json.dumps(manifest), encoding="utf-8")
+    cli.KIT_ROOT = copied.parent
+    cli.verify_runtime()
+    sentinel = tmp_path / "helper-executed"
+    helper = copied / "setup_runtime.py"
+    helper.write_text(helper.read_text(encoding="utf-8") +
+                      f"\nPath({str(sentinel)!r}).write_text('executed')\n", encoding="utf-8")
+    args = ["--help"] if mode == "help" else ["--apk", "missing.apk"]
+    if mode == "confirm":
+        args.append("--confirm")
+    result = subprocess.run([sys.executable, "-I", str(copied / "xhh_setup.py"), *args],
+                            capture_output=True, text=True, encoding="utf-8", timeout=10)
+    assert not sentinel.exists(), "Helper executed before confirmation and kit verification"
+    assert result.returncode == (0 if mode == "help" else 2)
+    if mode != "help":
+        assert json.loads(result.stdout)["reason"] == (
+            "confirmation_required" if mode == "no-confirm" else "kit_integrity_failed")

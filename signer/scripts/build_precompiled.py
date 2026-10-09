@@ -24,10 +24,33 @@ RESOURCE_ROOTS = ("unidbg-api/src/main/resources/", "unidbg-android/src/main/res
                   "backend/unicorn2/src/main/resources/", "backend/dynarmic/src/main/resources/")
 PATCHES = ("unidbg-api/src/main/java/com/github/unidbg/arm/AbstractARMDebugger.java",
            "unidbg-android/src/main/java/com/github/unidbg/linux/AndroidElfLoader.java")
+PROJECT_SOURCE_FILES = (
+    "LICENSE", "signer/README.md", "signer/THIRD-PARTY.md",
+    "signer/src/main/java/com/xiaoheihe/SignerBootstrap.java",
+    "signer/src/main/java/com/xiaoheihe/SignRequest.java",
+    "signer/src/main/java/com/xiaoheihe/VerifiedResources.java",
+    "signer/src/main/java/com/xiaoheihe/XhhSignerMain.java",
+    "signer/scripts/build_precompiled.py", "signer/scripts/prepare_unidbg.py",
+    "signer/scripts/verify_contract.py", "signer/contract/ContractTest.java",
+    "signer/contract/jelf-MIT.txt", "signer/contract/upstream-artifacts.json",
+    "signer/contract/usercorn-LICENSE.txt", "signer/contract/xxHash-LICENSE.txt",
+)
+
+
+def source_payload(java_sources, license_bytes):
+    members = {"unidbg/" + key: value for key, value in java_sources.items()}
+    members["unidbg/LICENSE"] = license_bytes
+    members.update({name: (ROOT / name).read_bytes().replace(b"\r\n", b"\n")
+                    for name in PROJECT_SOURCE_FILES})
+    return members
 
 
 def pin(raw):
     return {"sha256": hashlib.sha256(raw).hexdigest(), "bytes": len(raw)}
+
+
+def write_json(path, value):
+    path.write_bytes((json.dumps(value, sort_keys=True, indent=2) + "\n").encode("utf-8"))
 
 
 def write_zip(path, members):
@@ -97,8 +120,9 @@ def build(cache, out, javac):
         sources = {}
         for name, raw in java_sources.items():
             sources["overlay/" + name] = raw
-        for path in (ROOT / "signer/src/main/java").rglob("*.java"):
-            sources["own/" + path.relative_to(ROOT / "signer/src/main/java").as_posix()] = path.read_bytes().replace(b"\r\n", b"\n")
+        for name in PROJECT_SOURCE_FILES:
+            if name.startswith("signer/src/main/java/"):
+                sources["own/" + name.removeprefix("signer/src/main/java/")] = (ROOT / name).read_bytes().replace(b"\r\n", b"\n")
         source_paths = []
         for name, raw in sources.items():
             path = work / name
@@ -111,7 +135,7 @@ def build(cache, out, javac):
         arguments = ["--release", "17", "-encoding", "UTF-8", "-cp", classpath, "-d", str(classes)]
         arguments.extend(str(path) for path in sorted(source_paths))
         argsfile = work / "javac.args"
-        argsfile.write_text("\n".join('"' + arg.replace("\\", "/") + '"' for arg in arguments), "utf-8")
+        argsfile.write_bytes("\n".join('"' + arg.replace("\\", "/") + '"' for arg in arguments).encode("utf-8"))
         subprocess.run([javac, "@" + str(argsfile)], check=True, timeout=240)
         members = {path.relative_to(classes).as_posix(): path.read_bytes() for path in classes.rglob("*.class")}
         members["META-INF/MANIFEST.MF"] = b"Manifest-Version: 1.0\nMain-Class: com.xiaoheihe.SignerBootstrap\n\n"
@@ -140,16 +164,8 @@ def build(cache, out, javac):
                    "META-INF/versions/9/module-info.class"}
         if set(duplicate_classes) - allowed:
             raise ValueError("unexpected duplicate classes: " + str(sorted(set(duplicate_classes) - allowed)))
-        (out / "duplicate-classes.json").write_text(json.dumps(duplicate_classes, indent=2) + "\n", "utf-8")
-        source_members = {"unidbg/" + key: value for key, value in java_sources.items()}
-        source_members["unidbg/LICENSE"] = license_bytes
-        for folder in ("src", "scripts", "contract"):
-            for path in (ROOT / "signer" / folder).rglob("*"):
-                if path.is_file() and path.suffix in {".java", ".py", ".json", ".txt"}:
-                    source_members["signer/" + path.relative_to(ROOT / "signer").as_posix()] = path.read_bytes().replace(b"\r\n", b"\n")
-        source_members["LICENSE"] = (ROOT / "LICENSE").read_bytes().replace(b"\r\n", b"\n")
-        source_members["signer/THIRD-PARTY.md"] = (ROOT / "signer/THIRD-PARTY.md").read_bytes().replace(b"\r\n", b"\n")
-        source_members["signer/README.md"] = (ROOT / "signer/README.md").read_bytes().replace(b"\r\n", b"\n")
+        write_json(out / "duplicate-classes.json", duplicate_classes)
+        source_members = source_payload(java_sources, license_bytes)
         write_zip(out / ("xhh-signer-bootstrap-" + VERSION + "-sources.zip"), source_members)
     with zipfile.ZipFile(local["temurin-jre"]) as archive:
         runtime_files = {i.filename: pin(archive.read(i)) for i in archive.infolist() if not i.is_dir()}
@@ -169,14 +185,14 @@ def build(cache, out, javac):
     }
     lock_path = ROOT / "skill-kit/xiaoheihe-publisher/references/signer-release.json"
     lock_path.parent.mkdir(parents=True, exist_ok=True)
-    lock_path.write_text(json.dumps(lock, sort_keys=True, indent=2) + "\n", "utf-8")
+    write_json(lock_path, lock)
     (out / "signer-release.json").write_bytes(lock_path.read_bytes())
-    (out / "THIRD-PARTY.md").write_bytes((ROOT / "signer/THIRD-PARTY.md").read_bytes())
+    (out / "THIRD-PARTY.md").write_bytes((ROOT / "signer/THIRD-PARTY.md").read_bytes().replace(b"\r\n", b"\n"))
     # Native resources are a private local build artifact, never a release asset.
     release_files = [jar, out / ("xhh-signer-bootstrap-" + VERSION + "-sources.zip"),
                      out / "signer-release.json", out / "THIRD-PARTY.md"]
-    (out / "SHA256SUMS").write_text("".join(
-        pin(path.read_bytes())["sha256"] + "  " + path.name + "\n" for path in sorted(release_files)), "ascii")
+    (out / "SHA256SUMS").write_bytes("".join(
+        pin(path.read_bytes())["sha256"] + "  " + path.name + "\n" for path in sorted(release_files)).encode("ascii"))
     return jar
 
 

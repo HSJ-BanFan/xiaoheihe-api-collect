@@ -21,9 +21,9 @@ def sibling(name):
     return module
 
 
-runtime = sibling("setup_runtime")
 cli = sibling("xhh_cli")
-Refused = runtime.Refused
+Refused = cli.Refused
+runtime = None
 
 
 def verify_embedded_lock(loader, lock):
@@ -50,11 +50,14 @@ def bind_account(alias, data_dir, bundle, java):
 
 
 def setup(args, receipt):
+    global runtime
     if not args.confirm:
         raise Refused("confirmation_required")
     try:
-        runtime.reject_links(cli.KIT_ROOT)
         cli.activate_runtime()
+        if runtime is None:
+            runtime = sibling("setup_runtime")
+        runtime.reject_links(cli.KIT_ROOT)
     except Exception as error:
         raise Refused("kit_integrity_failed") from error
     lock = runtime.validate_lock(cli.read_json(cli.KIT_ROOT / "references/signer-release.json"))
@@ -90,11 +93,20 @@ def setup(args, receipt):
         acquired[lock["resources"]["name"]] = runtime.resource_jar(lock, archive, cache)
         reference = install_bundle(resources, loader, loader_sha256=lock["bootstrap"]["sha256"])
         bundle = resolve_bundle(reference)
+        if bundle["loader_sha256"] != lock["bootstrap"]["sha256"]:
+            raise Refused("loader_pin_mismatch")
+        runtime.verify_file(bundle["loader"], lock["bootstrap"])
         receipt.update(bundle=reference, loader_sha256=lock["bootstrap"]["sha256"])
         runtime.install_dependencies(Path(bundle["directory"]), lock["dependencies"], acquired)
         vector = lock["selftest"]
         signer = Signer(bundle=reference, java=str(java), timeout=60,
                         **{key: vector[key] for key in ("identity", "imei", "device_info", "os_version", "app_version")})
+        # The unchanged SDK resolves again in its constructor. Pin the object it will execute.
+        if (signer.sha256 != lock["bootstrap"]["sha256"]
+                or signer.jar != Path(bundle["loader"])
+                or signer.resources != Path(bundle["resources"])):
+            raise Refused("loader_pin_mismatch")
+        runtime.verify_file(signer.jar, lock["bootstrap"])
         receipt["selftest"]["executed"] = True
         try:
             result = signer.sign(vector["path"], timestamp=vector["timestamp"])
@@ -125,7 +137,7 @@ def main(argv=None):
                "account_binding": {"requested": bool(args.account), "bound": False, "changed": False}}
     try:
         setup(args, receipt)
-    except Refused as error:
+    except (Refused, runtime.Refused if runtime is not None else Refused) as error:
         receipt["reason"] = str(error)
     except KeyboardInterrupt:
         receipt["reason"] = "interrupted"

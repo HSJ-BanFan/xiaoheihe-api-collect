@@ -1,4 +1,5 @@
 import importlib.util
+import json
 from pathlib import Path
 import zipfile
 
@@ -23,3 +24,33 @@ def test_resource_jar_is_deterministic_and_stored(tmp_path):
     with zipfile.ZipFile(first) as archive:
         assert archive.namelist() == ["a", "b"]
         assert all(i.compress_type == zipfile.ZIP_STORED for i in archive.infolist())
+
+
+def test_generated_release_json_has_portable_lf_bytes(tmp_path):
+    spec = importlib.util.spec_from_file_location("build_precompiled", SCRIPT)
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    assert hasattr(module, "write_json"), "release JSON needs a byte-stable writer"
+    value = {"z": 2, "a": {"hash": "abc"}}
+    target = tmp_path / "lock.json"
+    module.write_json(target, value)
+    assert target.read_bytes() == (json.dumps(value, sort_keys=True, indent=2) + "\n").encode("utf-8")
+    assert b"\r\n" not in target.read_bytes()
+
+
+def test_source_archive_uses_explicit_members_not_local_scratch(tmp_path):
+    spec = importlib.util.spec_from_file_location("build_precompiled", SCRIPT)
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    assert hasattr(module, "source_payload"), "public source archive needs an explicit allowlist"
+    for relative in module.PROJECT_SOURCE_FILES:
+        path = tmp_path / relative
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_bytes(b"allowed\r\n")
+    hidden = tmp_path / "signer/contract/accounts.json"
+    hidden.write_text('{"private_fixture":true}', encoding="utf-8")
+    module.ROOT = tmp_path
+    entries = module.source_payload({}, b"upstream license")
+    assert set(entries) == set(module.PROJECT_SOURCE_FILES) | {"unidbg/LICENSE"}
+    assert "signer/contract/accounts.json" not in entries
+    assert all(b"\r\n" not in value for value in entries.values())

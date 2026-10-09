@@ -78,3 +78,29 @@ def test_offline_guard_blocks_child_and_connection_before_side_effects(verifier,
     assert proc.returncode == 0, proc.stderr
     assert log.read_text(encoding="ascii").splitlines() == ["subprocess.Popen", "socket.connect"]
     assert not child.exists()
+
+
+def test_web_install_probe_checks_signed_requests_and_persistence_without_java(verifier, tmp_path):
+    sdk = Path(__file__).resolve().parents[1]
+    log = tmp_path / "blocked.txt"
+    config = tmp_path / "web.json"
+    code = "\n".join([
+        "import sys",
+        f"sys.path.insert(0, {str(sdk)!r})",
+        f"exec({verifier.OFFLINE_GUARD!r})",
+        verifier.WEB_PROBE,
+    ])
+    env = {key: value for key, value in os.environ.items()
+           if not key.upper().startswith(("XHH_", "PYTHON"))}
+    env["XHH_VERIFY_GUARD_LOG"] = str(log)
+    proc = subprocess.run([sys.executable, "-I", "-c", code, str(config)], cwd=tmp_path,
+                          env=env, capture_output=True, text=True, timeout=20)
+    assert proc.returncode == 0, proc.stderr
+    checks = json.loads(proc.stdout)["checks"]
+    assert checks["web_mode_persisted"] is True
+    assert checks["web_request_signed"] is True
+    assert checks["java_not_discovered"] is True
+    assert checks["app_signer_never_constructed"] is True
+    assert checks["override_not_persisted"] is True
+    assert all(value is True for value in checks.values()), checks
+    assert not log.exists()

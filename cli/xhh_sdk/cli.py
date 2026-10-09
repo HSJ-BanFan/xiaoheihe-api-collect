@@ -25,6 +25,7 @@ Commands:
 from __future__ import annotations
 
 import argparse
+from dataclasses import replace
 import json
 import os
 import shutil
@@ -48,22 +49,38 @@ def _account_store(args):
 
 def _load(args) -> XhhConfig:
     if args.account:
-        return _account_store(args).get_config(args.account)
-    if args.config:
-        return XhhConfig.from_file(args.config)
-    if args.env:
-        return XhhConfig.from_env()
-    raise XhhConfigError("select --account ALIAS, or explicitly use --config FILE / --env")
+        config = _account_store(args).get_config(args.account)
+    elif args.config:
+        config = XhhConfig.from_file(args.config)
+    elif args.env:
+        config = XhhConfig.from_env()
+    else:
+        raise XhhConfigError("select --account ALIAS, or explicitly use --config FILE / --env")
+    return _protocol_override(config, args)
+
+
+def _protocol_override(config: XhhConfig, args) -> XhhConfig:
+    if getattr(args, "protocol", None) is not None:
+        config = replace(config, protocol_mode=args.protocol)
+        config.validate()
+    return config
 
 
 def _offline_doctor(args) -> int:
-    from .signer import inspect_signer
-
     report = {"offline": True, "signer_executed": False, "signer_ready": False,
-              "java_present": False, "account_checked": False}
+              "java_present": False, "java_required": True, "account_checked": False,
+              "protocol_mode": getattr(args, "protocol", None) or "app"}
     try:
         config = _load(args) if (args.account or args.config or args.env) else None
         report["account_checked"] = config is not None
+        report["protocol_mode"] = config.protocol_mode if config else report["protocol_mode"]
+        if report["protocol_mode"] == "web":
+            from .web_signer import sign_web_request
+            report.update(signer_ready=callable(sign_web_request), java_required=False,
+                          signer_kind="python-web")
+            _print(report)
+            return 0 if report["signer_ready"] else 1
+        from .signer import inspect_signer
         java = config.java if config else "java"
         report["java_present"] = bool(shutil.which(java) or Path(java).is_file())
         if config is not None and config.signer_bundle:
@@ -99,6 +116,7 @@ def _account_view(account) -> dict:
     return {"alias": account.alias, "identity_masked": _mask_identity(account.identity),
             "authenticated": bool(account.pkey), "state": "logged_in" if account.pkey else "needs_login",
             "storage": "windows-dpapi", "session_valid": "not_checked", "api_identity_verified": False,
+            "protocol_mode": account.config.get("protocol_mode", "app"),
             "risk_token_present": bool(getattr(account, "risk_token", None))}
 
 
@@ -107,6 +125,8 @@ def _mask_identity(identity: str) -> str:
 
 
 def _identity_matches(data: dict, expected: str) -> bool:
+    if not isinstance(data, dict):
+        return False
     identities = set()
     for container in (data, data.get("user"), data.get("account_detail")):
         if not isinstance(container, dict):
@@ -149,6 +169,9 @@ def _manage_account(args) -> int:
             _print(store.configure(args.alias, values))
         elif action == "login":
             account = store.get(args.alias)
+            protocol_mode = "app" if args.method == "sms" else "web"
+            if getattr(args, "protocol", None) not in (None, protocol_mode):
+                raise XhhConfigError("protocol override conflicts with the login method")
             if args.method == "qr":
                 from .login import login_wechat_qr as login_impl
                 print(f"Scan the QR image that opens in your browser for alias {account.alias}; "
@@ -180,28 +203,44 @@ def _manage_account(args) -> int:
                     _print({"status": body.get("status"), "code_sent": True,
                             "next": f"rerun with --code <sms code> to finish logging in {account.alias}"})
                     return 0
+            elif args.method == "creator":
+                from .login import login_creator as login_impl
+                print(f"Opening Creator login for alias {account.alias}; click Login, then use "
+                      "the 小黑盒 App QR scanner (not 微信) or the page's SMS login.", file=sys.stderr)
+                result = login_impl(expected_identity=account.identity,
+                                    browser_channel=args.browser, timeout=args.timeout)
             else:
                 from .login import login_wechat as login_impl
                 print(f"Opening official login for alias {account.alias}; confirm the intended account.",
                       file=sys.stderr)
                 result = login_impl(expected_identity=account.identity,
                                     browser_channel=args.browser, timeout=args.timeout)
-            saved = store.save_login(args.alias, pkey=result.pkey, identity=result.identity,
-                                     expected_revision=account.revision)
-            report = {**saved, "api_identity_verified": False, "session_valid": "not_checked",
+            if account.identity and result.identity != account.identity:
+                raise XhhConfigError("Login identity does not match the bound account")
+            candidate = XhhConfig(pkey=result.pkey, heybox_id=result.identity,
+                                  **{**account.config, "protocol_mode": protocol_mode})
+            candidate.validate()
+            report = {**_account_view(account), "changed": False,
+                      "protocol_mode": protocol_mode, "session_valid": False,
+                      "candidate_persisted": False,
                       "browser_session_persisted": False, "login_method": args.method}
-            # A stored session is not a usable one: verify it with an app-signed
-            # read and never report a rejected session as logged in.
+            # Verify the candidate without replacing the current session. The
+            # store's revision check catches concurrent changes during this read.
             try:
-                data = XhhClient(store.get_config(args.alias)).account_info()
+                data = XhhClient(candidate).account_info()
             except XhhAuthError:
                 report.update(state="expired", session_valid=False)
-            except XhhError as exc:
-                report.update(state="rejected", session_valid=False, reason=str(exc)[:120])
+            except XhhError:
+                report.update(state="rejected", session_valid=False)
             else:
                 verified = _identity_matches(data, result.identity)
                 report.update(state="verified" if verified else "identity_unverified",
                               session_valid=bool(verified), api_identity_verified=verified)
+                if verified:
+                    saved = store.save_login(args.alias, pkey=result.pkey, identity=result.identity,
+                                             expected_revision=account.revision,
+                                             protocol_mode=protocol_mode)
+                    report.update(saved, state="verified", candidate_persisted=True)
             _print(report)
             return 0 if report["api_identity_verified"] else 1
         elif action in {"logout", "remove"}:
@@ -215,11 +254,12 @@ def _manage_account(args) -> int:
         elif action == "status":
             account = store.get(args.alias)
             report = _account_view(account)
+            report["protocol_mode"] = getattr(args, "protocol", None) or report["protocol_mode"]
             if args.online:
                 if not account.pkey:
                     _print(report)
                     return 1
-                config = store.get_config(args.alias)
+                config = _protocol_override(store.get_config(args.alias), args)
                 try:
                     data = XhhClient(config).account_info()
                 except XhhAuthError:
@@ -256,6 +296,8 @@ def main(argv: list[str] | None = None) -> int:
     selectors.add_argument("--config", help="explicit legacy credential file (no automatic fallback)")
     selectors.add_argument("--env", action="store_true", help="explicitly use XHH_* legacy credentials")
     parser.add_argument("--data-dir", help="managed account directory (default: ~/.xhh_sdk)")
+    parser.add_argument("--protocol", choices=["app", "web"],
+                        help="override the protocol for this invocation only")
     sub = parser.add_subparsers(dest="command", required=True)
 
     p_account = sub.add_parser("account", help="manage isolated Windows DPAPI accounts")
@@ -268,13 +310,14 @@ def main(argv: list[str] | None = None) -> int:
     p_status.add_argument("alias")
     p_status.add_argument("--online", action="store_true")
     p_login = actions.add_parser(
-        "login", help="log in: WeChat web session (qr/browser) or App session from an SMS code")
+        "login", help="log in: Creator Web session, legacy WeChat web session, or App session from an SMS code")
     p_login.add_argument("alias")
     p_login.add_argument("--browser", choices=["msedge", "chrome", "chromium"], default="msedge")
-    p_login.add_argument("--method", choices=["qr", "browser", "sms"], default="qr",
-                         help="qr/browser: WeChat web SSO (yields a web session the app API "
-                              "rejected with status=relogin when tested 2026-10-08); "
-                              "sms: app session from a phone code (verified working)")
+    p_login.add_argument("--method", choices=["creator", "qr", "browser", "sms"], default="qr",
+                         help="creator: official Creator page, 小黑盒App扫码 (not 微信) or page SMS; "
+                              "qr/browser: WeChat web SSO legacy flow, availability unverified, "
+                              "verified with Web protocol; "
+                              "sms: App session from a phone code, verified with App protocol")
     p_login.add_argument("--phone", help="mobile number for --method sms")
     p_login.add_argument("--code", help="SMS code for --method sms; omit to send a new code")
     p_login.add_argument("--identity", help="numeric account id used to sign --method sms requests")
@@ -370,6 +413,11 @@ def main(argv: list[str] | None = None) -> int:
 
     p_read = sub.add_parser("read", help="read one post")
     p_read.add_argument("link_id")
+
+    p_edit = sub.add_parser("edit-info", help="read editable post or draft state")
+    p_edit.add_argument("link_id")
+    p_options = sub.add_parser("creator-options", help="read editor topics, tags and author-plan options")
+    p_options.add_argument("--link-id", help="include options for an existing post or draft")
 
     p_comments = sub.add_parser("comments", help="read a post's comment floors")
     p_comments.add_argument("link_id")
@@ -588,8 +636,18 @@ def main(argv: list[str] | None = None) -> int:
             emit(result)
             return 0
         if args.command == "doctor":
+            if config.protocol_mode == "web":
+                from .web_signer import sign_web_request
+                signature = sign_web_request("/bbs/app/link/tree")
+                ready = {"_time", "nonce", "hkey", "_rnd"} <= set(signature)
+                emit({"config": "ok", "identity_masked": _mask_identity(config.heybox_id),
+                      "protocol_mode": "web", "signer_kind": "python-web",
+                      "signer": "ok" if ready else "failed", "signer_executed": True,
+                      "java_required": False, "api_base": config.api_base})
+                return 0 if ready else 1
             signer_jar = client.transport.signer.jar
             report = {"config": "ok", "identity_masked": _mask_identity(config.heybox_id),
+                      "protocol_mode": "app",
                       "signer_jar": str(signer_jar), "jar_present": signer_jar.is_file(),
                       "sha256_pinned": client.transport.signer.sha256 is not None,
                       "java": config.java, "api_base": config.api_base}
@@ -625,6 +683,13 @@ def main(argv: list[str] | None = None) -> int:
         if args.command == "read":
             emit(client.read_post(args.link_id))
             return 0
+        if args.command == "edit-info":
+            emit(client.edit_info(args.link_id))
+            return 0
+        if args.command == "creator-options":
+            emit({"topic_index": client.topic_index(link_id=args.link_id),
+                  "topic_selection": client.topic_selection()})
+            return 0
         if args.command == "comments":
             emit(client.comment_thread(args.link_id, page=args.page,
                                          limit=args.limit, sort=args.sort))
@@ -656,6 +721,8 @@ def main(argv: list[str] | None = None) -> int:
                 visibility=spec.get("visibility"),
                 original=bool(spec.get("original", True)),
                 draft=not args.publish,
+                post_plan=spec.get("post_plan"),
+                extra_declaration=spec.get("extra_declaration"),
             )
             emit(client.publish(post, confirm=args.publish))
             return 0

@@ -1,17 +1,16 @@
 # AI 发布技能包
 
-`xhh-publisher-kit 0.2.0rc1` 是独立版本的发布入口，不是新 SDK wheel。
-构建器固定原 `xhh-sdk 0.5.0rc4+standalone.7` 的 wheel SHA-256：
-`2ca9af8ece4e105631e62c6c4043e1fa758c766e16031afd4e52028bc44293ff`。
-旧 wheel 的验收不代表新发布入口已经完成线上验收。
+`xhh-publisher-kit 0.3.0rc1` 是包含 `xhh-sdk 0.6.0rc1` 的 App/Web 候选入口。
+构建器按 `scripts/xhh_cli.py` 中的 SHA-256 固定候选 wheel 字节，不能把旧 `.7` 运行文件混进新包。
+本版已独立完成限定范围的 Web 图文验收，不复用旧 wheel 的线上结论。
 
-发布页为 [0.2.0rc1 技能包](https://github.com/HSJ-BanFan/xiaoheihe-api-collect/releases/tag/skill-kit-v0.2.0rc1)。
+新包见 [0.3.0rc1](https://github.com/HSJ-BanFan/xiaoheihe-api-collect/releases/tag/skill-kit-v0.3.0rc1)，旧 [0.2.0rc1 App 技能包](https://github.com/HSJ-BanFan/xiaoheihe-api-collect/releases/tag/skill-kit-v0.2.0rc1) 继续保留。
 完整结果见[本轮验收记录](skill-kit-acceptance.md)，其中区分真实图文发帖、现有会话、新登录和模型执行结果。
 
 解压后将完整的 `xiaoheihe-publisher/` 放到所用 Agent 的技能目录，例如 `~/.agents/skills/`。
 保留 runtime 和 manifest，不要只复制 SKILL.md。Easel 使用仓库内集成版本，不需要另行安装全局 CLI。
 
-普通用户使用完整技能 ZIP。单独的 `.7` wheel 是保留不变的底层 CLI，不包含新增设置入口。其构建说明面向维护者，不是完整工具包的安装步骤。
+普通用户使用完整技能 ZIP。单独 wheel 不包含技能包的 APK 设置入口；Web 模式不需要该入口或 JAR，App 模式仍需本地资源。构建说明面向维护者，不是普通用户安装步骤。
 
 ## 其他项目如何接入
 
@@ -28,11 +27,11 @@
 在仓库根目录运行。输出目录必须不存在。
 
 ```console
-python scripts/build_skill_kit.py --wheel cli/dist/standalone-7-clean/xhh_sdk-0.5.0rc4+standalone.7-py3-none-any.whl --out cli/dist/skill-kit-local
+python scripts/build_skill_kit.py --wheel cli/dist/web-candidate-final/xhh_sdk-0.6.0rc1-py3-none-any.whl --out cli/dist/skill-kit-local
 ```
 
-输出为展开的 `xiaoheihe-publisher/`、`xhh-publisher-kit-0.2.0rc1.zip` 和 `SHA256SUMS`。
-构建只复制九个明确列出的技能源码文件及 25 个原 wheel 成员。
+输出为展开的 `xiaoheihe-publisher/`、`xhh-publisher-kit-0.3.0rc1.zip` 和 `SHA256SUMS`。
+构建只复制九个明确列出的技能源码文件及 26 个候选 wheel 成员。
 kit-manifest.json 记录每个文件哈希及 SDK、kit 版本和输入 wheel 哈希。
 ZIP 固定顺序、时间、文件权限并使用无压缩条目，同样输入产生相同字节。
 构建器不下载资源，不包含主仓库图片、账号、签名器或私有资源。
@@ -60,13 +59,13 @@ KIT 代表展开的技能目录。提交前必须审阅 show 输出并确认账�
 
 Windows x64 的首次设置不需要用户编译 Java。`--install-java` 只在找不到合适运行时时允许下载私有 JRE；程序不修改全局环境。APK 先经完整哈希核对，全部依赖与资源以内置固定锁验证。只在本地真实签名参考向量匹配后才绑定明确的现有账号。`ready` 不表示已登录或发布。签名器说明见 [signer/README.md](../signer/README.md)。
 
-原版完整 CLI 没有删减，登录、签名器管理、独立上传和专门操作均可调用。
+完整 CLI 保留原有命令，并增加 `--protocol app|web`、`creator-options` 和 `edit-info`。新 Creator 登录使用小黑盒 App 扫码，不是旧微信 SSO。
 facade 只接受已冻结的本地图片，不代管凭据，也不重建远端协议。
 API 与错误码见 [publishing.md](../skill-kit/xiaoheihe-publisher/references/publishing.md)。
 
 图片提交经过 kit 适配：保留单次尝试记录后，调用原版 upload，检查返回的 HTTPS CDN URL 和尺寸，
 使用原版文本渲染结果追加带尺寸的内嵌 HTML img，再调用原版 publish，images=[]。
-原版 .7 的独立 images 块在实测中可能被服务端丢弃；其代码保持不变，AI 图片发帖使用 facade。
+早期 .7 的独立 images 块在实测中可能被服务端丢弃，因此 AI 图片发帖使用 facade。新版本是否完整保留图片需要最终候选另行实测。
 
 ## 验证和限制
 

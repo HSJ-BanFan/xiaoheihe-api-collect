@@ -127,7 +127,8 @@ def test_login_reports_a_session_the_api_rejects(store, monkeypatch, capsys):
     assert report["state"] == "rejected"
     assert report["session_valid"] is False
     assert report["api_identity_verified"] is False
-    assert store.get("work").pkey == "synthetic-qr"
+    assert store.get("work").pkey is None
+    assert report["changed"] is False
 
 
 def test_wrong_account_qr_does_not_overwrite(store, monkeypatch, capsys):
@@ -295,8 +296,8 @@ def test_account_login_help_explains_web_and_app_session_results(store, capsys):
     assert exited.value.code == 0
     help_text = " ".join(capsys.readouterr().out.split())
     assert "qr/browser: WeChat web SSO" in help_text
-    assert "status=relogin" in help_text
-    assert "sms: app session from a phone code (verified working)" in help_text
+    assert "verified with Web protocol" in help_text
+    assert "sms: App session from a phone code, verified with App protocol" in help_text
 
 
 def test_account_index_names_both_login_families(store, capsys):

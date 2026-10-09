@@ -15,7 +15,11 @@
 }
 ```
 
-只允许这些字段。content 是非空字符串；content_format 为 text 或 html，默认为 text。title 默认为空；列表默认为空。topic_ids 只接受数字字符串。post_type 为字符串 "1" 或 "3"，默认 "1"。original 为布尔值，默认 true。内容与标签可能由原版 Post.build 渲染、规范化，facade 不重写原版渲染器。
+除这些字段外，可选 `post_plan` 和 `extra_declaration`。`post_plan` 是 `creator-options` 返回的计划 key，仅接受 1 至 64 个字母、数字、下划线或短横线。`extra_declaration` 是整数 1、2 或 3；没有选择时省略或设为 null。这些值纳入批准摘要，不会在提交时擅自选择或修改。
+
+content 是非空字符串；content_format 为 text 或 html，默认为 text。title 默认为空；列表默认为空。topic_ids 只接受数字字符串。post_type 为字符串 "1" 或 "3"，默认 "1"。original 为布尔值，默认 true。内容与标签由 SDK Post.build 渲染，facade 不重写渲染器。
+
+Web 公开发布必须选择至少一个社区分区，把 `creator-options` 返回的 `topic_id` 填入 `topic_ids`。标签不是社区，不能用 hashtags 替代。缺少社区会在上传前拒绝。服务端最终检查社区有效性和创作者计划资格；查询到计划选项不等于账号有资格参加。
 
 图片限本地 PNG/JPEG/GIF，每张不超过 20 MiB；格式头和尺寸必须可被原版读取。不会下载远程图片。HTML 内嵌媒体、CSS 资源、cover_url、visibility、edit_link_id 等扩展留给用户明确操作的原版 CLI，本流程拒绝这些字段。JSON 中不能提供 draft 或 mode，模式只来自必选的 `--mode draft|public`。
 

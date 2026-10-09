@@ -129,6 +129,21 @@ def login_wechat(
     installed bundled browser. All choices create a new nonpersistent context.
     No Java signer, saved browser profile, or storage-state export is involved.
     """
+    return _login_browser(SSO, expected_identity=expected_identity,
+                          browser_channel=browser_channel, timeout=timeout)
+
+
+def login_creator(
+    *, expected_identity: str = "", browser_channel: str = "msedge", timeout: float = 180,
+) -> LoginResult:
+    """Let the user sign in on Creator with its official App QR or SMS UI."""
+    return _login_browser("https://creator.xiaoheihe.cn/creator",
+                          expected_identity=expected_identity,
+                          browser_channel=browser_channel, timeout=timeout)
+
+
+def _login_browser(start_url: str, *, expected_identity: str,
+                   browser_channel: str, timeout: float) -> LoginResult:
     _validate_expected_identity(expected_identity)
     if browser_channel not in ("msedge", "chrome", "chromium"):
         raise XhhConfigError("browser channel must be msedge, chrome, or chromium")
@@ -153,7 +168,7 @@ def login_wechat(
                 remaining = deadline - time.monotonic()
                 if remaining <= 0:
                     raise XhhConfigError("QR login timed out; complete authorization and retry")
-                page.goto(SSO, wait_until="domcontentloaded", timeout=remaining * 1000)
+                page.goto(start_url, wait_until="domcontentloaded", timeout=remaining * 1000)
                 while time.monotonic() < deadline:
                     result = login_result_from_cookies(
                         context.cookies(list(COOKIE_URLS)), expected_identity=expected_identity)

@@ -58,9 +58,17 @@ class Post:
     original: bool = True
     draft: bool = True                    # safe default: never publishes implicitly
     edit_link_id: str | None = None
+    post_plan: str | None = None
+    extra_declaration: int | None = None
 
     def build(self) -> dict:
         """Return the form payload for link/post."""
+        if self.post_plan is not None and (
+                type(self.post_plan) is not str or not re.fullmatch(r"[A-Za-z0-9_-]{1,64}", self.post_plan)):
+            raise XhhConfigError("post_plan must be a metadata key of 1-64 letters, digits, underscores or hyphens")
+        if self.extra_declaration is not None and (
+                type(self.extra_declaration) is not int or self.extra_declaration not in (1, 2, 3)):
+            raise XhhConfigError("extra_declaration must be an integer choice: 1, 2 or 3")
         content = self.content
         if self.content_format == "text":
             content = _text_to_html(content)
@@ -113,6 +121,10 @@ class Post:
         if self.edit_link_id:
             payload["edit"] = "1"
             payload["link_id"] = str(self.edit_link_id)
+        if self.post_plan is not None:
+            payload["post_plan"] = self.post_plan
+        if self.extra_declaration is not None:
+            payload["extra_declaration"] = str(self.extra_declaration)
         if not payload["title"] and not payload["words_count"].strip("0"):
             raise XhhConfigError("post needs a title or non-empty content")
         return payload

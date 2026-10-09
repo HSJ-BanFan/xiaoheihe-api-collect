@@ -270,6 +270,18 @@ def test_default_browser_is_edge(monkeypatch):
     assert launch["channel"] == "msedge"
 
 
+def test_creator_login_uses_official_creator_and_fresh_context(monkeypatch):
+    session = BrowserSession(batches=[[], pair()])
+    module = install_browser(monkeypatch, session)
+    result = module.login_creator(expected_identity="12345", browser_channel="chrome")
+    assert result.identity == "12345"
+    navigation = next(event for event in session.events if event[0] == "goto")
+    assert navigation[1] == "https://creator.xiaoheihe.cn/creator"
+    assert [event[1] for event in session.events if event[0] == "new_context"] == [
+        {"accept_downloads": False}]
+    assert session.events[-3:] == [("context_close",), ("browser_close",), ("stop",)]
+
+
 def test_each_login_creates_a_new_browser_and_context(monkeypatch):
     session = BrowserSession()
     module = install_browser(monkeypatch, session)

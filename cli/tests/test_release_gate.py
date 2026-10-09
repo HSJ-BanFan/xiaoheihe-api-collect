@@ -9,6 +9,8 @@ import hashlib
 import json
 from pathlib import Path
 import subprocess
+from types import SimpleNamespace
+import zipfile
 
 import pytest
 
@@ -347,6 +349,31 @@ def test_wheel_metadata_body_is_compared_ignoring_line_endings():
     metadata = "Metadata-Version: 2.4\r\nName: xhh-sdk\r\n\r\n# Title\r\n\r\nbody line\r\n"
     assert gate._metadata_body(metadata) == "# Title\n\nbody line"
     assert gate._normalized("a\r\n\r\nb\r\n") == "a\n\nb"
+
+
+@pytest.mark.parametrize("line_ending", [b"\n", b"\r\n", b"\r"])
+@pytest.mark.parametrize("changed", [False, True])
+def test_wheel_source_comparison_uses_canonical_text_but_rejects_drift(tmp_path, monkeypatch, line_ending, changed):
+    module = gate_module()
+    package = tmp_path / "cli"
+    (package / "xhh_sdk").mkdir(parents=True)
+    monkeypatch.setattr(module, "__file__", str(package / "scripts/release_gate.py"))
+    content = b'__version__ = "0.6.0rc1"\n'
+    source = content.replace(b"0.6.0rc1", b"0.6.0rc2") if changed else content
+    (package / "xhh_sdk/__init__.py").write_bytes(source.replace(b"\n", line_ending))
+    (package / "README.md").write_bytes(b"# Candidate\r\n")
+    wheel = tmp_path / "candidate.whl"
+    with zipfile.ZipFile(wheel, "w") as archive:
+        archive.writestr("xhh_sdk/__init__.py", content)
+        archive.writestr("xhh_sdk-0.6.0rc1.dist-info/METADATA", b"Name: xhh-sdk\n\n# Candidate\n")
+    gate = SimpleNamespace(steps=[])
+    if changed:
+        with pytest.raises(SystemExit, match="does not match"):
+            module.verify_wheel_matches_source(gate, wheel)
+        assert gate.steps[-1]["status"] == "failed"
+    else:
+        module.verify_wheel_matches_source(gate, wheel)
+        assert gate.steps[-1]["status"] == "passed"
 
 
 def test_find_assets_follows_git_for_a_checkout(tmp_path):

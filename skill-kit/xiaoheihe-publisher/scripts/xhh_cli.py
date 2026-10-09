@@ -1,4 +1,4 @@
-"""Run the unchanged, hash-checked CLI included in this portable kit."""
+"""Run the hash-pinned App/Web CLI included in this portable kit."""
 from __future__ import annotations
 
 import hashlib
@@ -9,9 +9,9 @@ import sys
 sys.dont_write_bytecode = True
 
 KIT_NAME = "xhh-publisher-kit"
-KIT_VERSION = "0.2.0rc1"
-CLI_VERSION = "0.5.0rc4+standalone.7"
-WHEEL_SHA256 = "2ca9af8ece4e105631e62c6c4043e1fa758c766e16031afd4e52028bc44293ff"
+KIT_VERSION = "0.3.0rc1"
+CLI_VERSION = "0.6.0rc1"
+WHEEL_SHA256 = "25f00914b3add7cd0ac66a34e10cbed1ea133ea9ee365194b764d3136d8bcf16"
 SOURCE_MEMBERS = (
     "SKILL.md", "LICENSE", "scripts/xhh_cli.py", "scripts/xhh_publish.py",
     "references/setup.md", "references/publishing.md",
@@ -21,7 +21,7 @@ RUNTIME_MEMBERS = tuple("xhh_sdk/" + name for name in (
     "__init__.py", "accounts.py", "api_catalog.json", "browse.py", "catalog.py",
     "cli.py", "client.py", "config.py", "exceptions.py", "groups.py", "interaction.py",
     "login.py", "payload.py", "routes.py", "secure_phone.py", "signer.py",
-    "signer_bundle.py", "signer_resources.py", "transport.py",
+    "signer_bundle.py", "signer_resources.py", "transport.py", "web_signer.py",
 )) + tuple("xhh_sdk-" + CLI_VERSION + ".dist-info/" + name for name in (
     "licenses/LICENSE", "METADATA", "WHEEL", "entry_points.txt", "top_level.txt", "RECORD",
 ))

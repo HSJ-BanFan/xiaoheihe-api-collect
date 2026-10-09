@@ -1,10 +1,9 @@
-"""HTTP transport: signed app calls, unsigned web calls, COS uploads.
+"""HTTP transport: explicit App/Web signing, session-aware uploads, and COS PUT.
 
 Three transports, matching the verified contract:
 
-* `signed_request` — full Android param set + signer quadruple (app endpoints).
-* `web_request` — form-encoded, cookie only, NO signature (upload endpoints;
-  adding the signature makes them fail with 验证参数错误).
+* `signed_request` selects App or Web signing from the configured protocol.
+* `web_request` uses Creator signing for Web sessions and cookie-only App uploads.
 * `put_cos` — Tencent COS V5 signed PUT of the raw bytes.
 
 Error mapping is centralized: 发帖频率过快 -> XhhRateLimitError, login
@@ -33,8 +32,15 @@ from .exceptions import (
     XhhTransportError,
 )
 from .signer import Signer
+from .web_signer import sign_web_request
 
 _RATE_LIMIT_MARK = "发帖频率过快"
+_SESSION_FIELDS = frozenset({"pkey", "user_pkey", "x_pkey", "heybox_id",
+                             "user_heybox_id", "x_heybox_id"})
+_WEB_PROTECTED_QUERY = _SESSION_FIELDS | frozenset({
+    "_time", "nonce", "hkey", "_rnd", "version", "os_type", "x_os_type",
+    "app", "x_app", "x_client_type", "x_client_version", "channel", "imei", "device_info",
+})
 
 
 def _hmac_sha1(key: bytes, message: bytes) -> bytes:
@@ -133,17 +139,40 @@ class Transport:
         msg = str(data.get("msg") or "")
         if status in ("ok", "success"):
             return
-        if status == "login":
+        if status in ("login", "relogin"):
             raise XhhAuthError("platform says: login required (请登录后使用该功能)")
         if _RATE_LIMIT_MARK in msg:
             raise XhhRateLimitError(f"platform throttled the action: {msg}")
         raise XhhAPIError(f"platform returned status={status!r} msg={msg!r}",
                           status=str(status or ""))
 
-    # -- app (signed) ------------------------------------------------------
+    @classmethod
+    def _checked_response(cls, path: str, data: dict) -> dict:
+        # Creator metadata is the one observed endpoint without an envelope.
+        if (path.rstrip("/") == "/bbs/app/api/topic/index"
+                and not {"status", "msg", "error", "code"}.intersection(data)
+                and all(isinstance(data.get(key), list) for key in
+                        ("post_article_plan", "post_pic_link_plan", "extra_declaration_choice"))
+                and isinstance(data.get("topics_list_v2"), dict)):
+            return {"status": "ok", "result": data}
+        cls._check_status(data)
+        return data
+
+    # -- protocol selection ------------------------------------------------
     def signed_request(self, path: str, *, query: dict | None = None,
                        payload: dict | None = None,
                        extra_cookies: dict | None = None) -> dict:
+        """Use the selected protocol once, without cross-protocol retries."""
+        if self.config.protocol_mode == "web":
+            return self.web_signed_request(path, query=query, payload=payload,
+                                           extra_cookies=extra_cookies)
+        return self._app_signed_request(path, query=query, payload=payload,
+                                        extra_cookies=extra_cookies)
+
+    # -- app (signed) ------------------------------------------------------
+    def _app_signed_request(self, path: str, *, query: dict | None = None,
+                            payload: dict | None = None,
+                            extra_cookies: dict | None = None) -> dict:
         """Signed GET (payload None) or POST (form-encoded payload).
 
         ``extra_cookies`` adds device-context cookies the Android client also
@@ -178,12 +207,13 @@ class Transport:
         body = self._open(urllib.request.Request(url, data=data, headers=headers,
                                                  method=method))
         parsed = self._decode(body)
-        self._check_status(parsed)
-        return parsed
+        return self._checked_response(path, parsed)
 
-    # -- web (unsigned) ----------------------------------------------------
+    # -- session-aware upload POST ----------------------------------------
     def web_request(self, path: str, payload: dict) -> dict:
-        """Unsigned, cookie-only form POST (upload endpoints)."""
+        """Upload POST: Creator signing for Web sessions, legacy cookie-only for App."""
+        if self.config.protocol_mode == "web":
+            return self.web_signed_request(path, payload=payload)
         origin = self.config.web_origin
         url = self.config.api_base.rstrip("/") + path
         headers = {
@@ -200,6 +230,59 @@ class Transport:
         parsed = self._decode(body)
         self._check_status(parsed)
         return parsed
+
+    def web_signed_request(self, path: str, *, query: dict | None = None,
+                           payload: dict | None = None,
+                           method: str | None = None,
+                           extra_cookies: dict | None = None) -> dict:
+        """Pure-Python Web signing; payload selects POST unless GET/POST is explicit."""
+        if not isinstance(path, str) or not re.fullmatch(r"/(?:[A-Za-z0-9_-]+/)*[A-Za-z0-9_-]+/?", path):
+            raise XhhConfigError("Web request path must be an API route without query or fragment")
+        if path.split("/")[1] in ("chat_group", "chatroom"):
+            raise XhhConfigError("group and chatroom requests require an App session")
+        if _WEB_PROTECTED_QUERY.intersection(query or {}):
+            raise XhhConfigError("query cannot override protected Web account, signature or channel fields")
+        req_method = method if method is not None else ("POST" if payload is not None else "GET")
+        if req_method not in ("GET", "POST"):
+            raise XhhConfigError("Web request method must be GET or POST")
+        if req_method == "GET" and payload is not None:
+            raise XhhConfigError("Web GET requests cannot carry a payload")
+        cookie = self.config.cookie_web
+        for name, value in (extra_cookies or {}).items():
+            if name in _SESSION_FIELDS:
+                raise XhhConfigError("extra cookies cannot override protected session fields")
+            if not isinstance(name, str) or not re.fullmatch(r"[A-Za-z0-9_\-]{1,64}", name) or not value:
+                raise XhhConfigError("invalid extra cookie name or value")
+            if any(ord(c) < 33 or ord(c) > 126 or c == ";" for c in str(value)):
+                raise XhhConfigError("invalid extra cookie value")
+            cookie += f" {name}={value};"
+        quad = sign_web_request(path)
+        params = {
+            "os_type": "web",
+            "app": "heybox",
+            "x_client_type": "weboutapp",
+            "x_client_version": "",
+            "x_os_type": "Windows",
+            "x_app": "heybox",
+            "heybox_id": self.config.heybox_id,
+            **{key: value for key, value in quad.items() if key != "_rnd"},
+            **(query or {}),
+        }
+        origin = self.config.web_origin
+        url = self.config.api_base.rstrip("/") + path + "?" + urllib.parse.urlencode(params)
+        headers = {
+            "User-Agent": self.config.user_agent_web,
+            "Referer": origin + "/",
+            "Origin": origin,
+            "Cookie": cookie,
+            "Accept": "application/json, text/plain, */*",
+        }
+        data = urllib.parse.urlencode(payload).encode("utf-8") if payload is not None else None
+        if req_method == "POST":
+            headers["Content-Type"] = "application/x-www-form-urlencoded"
+        body = self._open(urllib.request.Request(url, data=data, headers=headers, method=req_method))
+        parsed = self._decode(body)
+        return self._checked_response(path, parsed)
 
     # -- COS ---------------------------------------------------------------
     def put_cos(self, endpoint: str, key: str, data: bytes, *,

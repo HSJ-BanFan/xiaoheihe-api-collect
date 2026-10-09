@@ -20,6 +20,7 @@ from __future__ import annotations
 import json
 import mimetypes
 from pathlib import Path
+import re
 
 from .browse import BrowseMixin
 from .config import XhhConfig
@@ -29,6 +30,7 @@ from .groups import GroupMixin
 from .payload import Post
 from .routes import call as _call_route
 from .transport import Transport
+from .web_signer import sign_web_request
 
 MAX_MEDIA_BYTES = 32 * 1024 * 1024
 
@@ -188,6 +190,17 @@ class XhhClient(GroupMixin, InteractionMixin, BrowseMixin):
         if not post.draft and not confirm:
             raise XhhConfigError(
                 "post.draft=False publishes for real; pass confirm=True to proceed")
+        if self.config.protocol_mode == "web" and not post.draft:
+            if (type(post.topic_ids) is not list or not post.topic_ids
+                    or any(type(topic_id) not in (str, int)
+                           or not re.fullmatch(r"[1-9][0-9]{0,29}", str(topic_id))
+                           for topic_id in post.topic_ids)):
+                raise XhhConfigError("Web public posts require valid community IDs in topic_ids; use creator-options")
+        if upload_local:
+            # Validate content and metadata before allocating or uploading remote objects.
+            Post(**{**post.__dict__, "images": [
+                ref if str(ref).startswith("https://") else "https://example.invalid/preflight"
+                for ref in post.images]}).build()
         if upload_local:
             resolved: list[str] = []
             for image in post.images:
@@ -198,12 +211,15 @@ class XhhClient(GroupMixin, InteractionMixin, BrowseMixin):
                     resolved.append(self.upload(ref)["url"])
             post = Post(**{**post.__dict__, "images": resolved})
         payload = post.build()
-        result = self.transport.signed_request("/bbs/app/api/link/post",
-                                               payload=payload).get("result", {})
-        if not isinstance(result, dict) or not result.get("link_id"):
-            raise XhhAPIError("link/post returned no link_id")
-        return {"link_id": str(result["link_id"]),
-                "url": f"https://www.xiaoheihe.cn/app/bbs/link/{result['link_id']}",
+        response = self.transport.signed_request("/bbs/app/api/link/post", payload=payload)
+        result = response.get("result", response if self.config.protocol_mode == "web" else {})
+        link_id = result.get("link_id") if isinstance(result, dict) else None
+        if (type(link_id) not in (int, str)
+                or not re.fullmatch(r"[1-9][0-9]{0,29}", str(link_id))):
+            raise XhhAPIError("link/post returned no valid link_id")
+        link_id = str(link_id)
+        return {"link_id": link_id,
+                "url": f"https://www.xiaoheihe.cn/app/bbs/link/{link_id}",
                 "draft": post.draft, "payload": payload}
 
     def edit(self, link_id: str, post: Post, *, confirm: bool = False) -> dict:
@@ -220,6 +236,13 @@ class XhhClient(GroupMixin, InteractionMixin, BrowseMixin):
         return {"link_id": str(link_id), "deleted": True}
 
     # ---------------------------------------------------------------- read
+    def account_info(self) -> dict:
+        """Return current-account data; the Web endpoint restores the session."""
+        if self.config.protocol_mode == "app":
+            return super().account_info()
+        result = self.transport.signed_request("/account/restore_login").get("result")
+        return result if isinstance(result, dict) else {}
+
     def read_post(self, link_id: str, *, page: int = 1,
                   limit: int = 50) -> dict:
         """Full post tree (comments + link).
@@ -286,8 +309,8 @@ class XhhClient(GroupMixin, InteractionMixin, BrowseMixin):
         query = {"is_post": "1", "post_tab": "1", "is_new_style": "1", "type": "list"}
         if link_id:
             query["link_id"] = str(link_id)
-        return self.transport.signed_request(
-            "/bbs/app/api/topic/index", query=query).get("result", {})
+        raw = self.transport.signed_request('/bbs/app/api/topic/index', query=query)
+        return raw.get('result', raw) if isinstance(raw, dict) else {}
 
     def emojis(self) -> dict:
         """Emoji catalog (note: emoji_groups is empty server-side)."""
@@ -317,13 +340,15 @@ class XhhClient(GroupMixin, InteractionMixin, BrowseMixin):
         return _call_route(self, route, query=query, payload=payload)
 
     def verify(self) -> dict:
-        """Health check: signs one request and lists drafts (account-agnostic).
-
-        Returns {"ok": True, "signer": ..., "drafts": n} on success; raises
-        otherwise. Connectivity + credentials + signer smoke test.
-        """
-        sig = self.transport.signer.sign("/bbs/app/link/tree")
+        """Check the selected signer and draft access, not API account identity."""
+        web = self.config.protocol_mode == "web"
+        sig = (sign_web_request("/bbs/app/link/tree") if web
+               else self.transport.signer.sign("/bbs/app/link/tree"))
         if not {"_time", "nonce", "hkey", "_rnd"} <= set(sig):
             raise XhhAPIError("signer did not produce the expected fields")
         drafts = self.drafts(limit=1)
+        if web:
+            return {"ok": True, "protocol_mode": "web", "signer": "python-web",
+                    "drafts": len(drafts), "draft_access": True,
+                    "api_identity_verified": False}
         return {"ok": True, "signer": "ok", "drafts": len(drafts)}

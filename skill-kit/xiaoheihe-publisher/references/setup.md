@@ -1,6 +1,25 @@
 # 本地设置与真实登录
 
-完整发布目录必须同时保留 SKILL、scripts、references、LICENSE、runtime 和 kit-manifest.json。Python 3.10+ 即可离线规划，不需要 pip 安装 SDK。签名器首次设置支持 Windows x64，通过固定版本的预编译 JAR 运行，不需要 JDK、Maven 或 Git。此技能 ZIP 不包含 APK、JAR、SO、账号、浏览器资料或默认账号。
+完整发布目录必须同时保留 SKILL、scripts、references、LICENSE、runtime 和 kit-manifest.json。Python 3.10+ 即可离线规划，不需要 pip 安装 SDK。Web 模式不使用 Java/JAR；App 签名器设置支持 Windows x64，不需要 JDK、Maven 或 Git。此技能 ZIP 不包含 APK、JAR、SO、账号或浏览器资料。
+
+## Web 登录
+
+本包使用 `xhh-sdk 0.6.0rc1`。安装可选浏览器依赖后，Edge/Chrome 使用已有浏览器；选择 chromium 时另行运行 `python -m playwright install chromium`。
+
+```console
+python -m pip install "playwright>=1.50,<2"
+python scripts/xhh_cli.py account add ALIAS --identity USER_NUMERIC_ID
+python scripts/xhh_cli.py account login ALIAS --method creator --browser msedge --timeout 600 --confirm
+python scripts/xhh_cli.py account status ALIAS --online
+python scripts/xhh_cli.py --account ALIAS doctor --offline
+python scripts/xhh_cli.py --account ALIAS creator-options
+```
+
+用户在官方创作者页面点击登录，再用小黑盒 App 扫码或页面短信登录。这个二维码不是微信二维码。登录在新的临时浏览器会话进行，不读取个人浏览器配置。候选会话以 Web 协议核对身份，通过才按账号修订号保存凭据和 `protocol_mode=web`，失败保留原配置。窗口超时不表示登录成功。
+
+账号库由当前 Windows 用户 DPAPI 加密。需要并存 App 与 Web 会话时创建两个别名。`--protocol app` 或 `--protocol web` 只覆盖本次命令，不改存储，也不能把一种会话转换成另一种。旧账号默认 App。鉴权失败不自动换协议重发。
+
+Web 账号无需下面的 APK 安装。App-only 群聊不支持 Web 模式。当前候选 Web 线上验收仍以发行说明为准，本地测试不等于真实登录发帖通过。
 
 ## 查看当前能力
 

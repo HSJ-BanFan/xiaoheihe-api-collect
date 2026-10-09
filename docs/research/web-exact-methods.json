@@ -1,0 +1,342 @@
+{
+  "schema_version": 2,
+  "complete_platform_inventory": false,
+  "source": {
+    "bundle": "index-BQ64EhAG.js",
+    "bundle_sha256": "b30c3e28b15d69e57e918bd57b21803ce95e8cc5f83e9d33614ab8614d553a0a",
+    "extraction": "source-methods.json",
+    "extraction_sha256": "821f53e829d727c7cd484289bbea2bd9fd22057a678b3f2c68557b22f3f29f6a",
+    "evidence_scope": "36 bounded static source matches; not live endpoint acceptance"
+  },
+  "summary": {
+    "static_candidates": 63,
+    "method_matches": 36,
+    "method_unknown": 27
+  },
+  "routes": {
+    "/account/data_report_web/": {
+      "methods": null,
+      "basis": "unknown"
+    },
+    "/account/follow_game/": {
+      "methods": [
+        "POST"
+      ],
+      "basis": "bounded_source_match"
+    },
+    "/account/get_login_code/": {
+      "methods": [
+        "POST"
+      ],
+      "basis": "bounded_source_match"
+    },
+    "/account/get_qrcode_url/": {
+      "methods": null,
+      "basis": "unknown"
+    },
+    "/account/google_2fa_verify/": {
+      "methods": [
+        "GET"
+      ],
+      "basis": "bounded_source_match"
+    },
+    "/account/login/": {
+      "methods": [
+        "POST"
+      ],
+      "basis": "bounded_source_match"
+    },
+    "/account/login_code/": {
+      "methods": [
+        "POST"
+      ],
+      "basis": "bounded_source_match"
+    },
+    "/account/logout": {
+      "methods": [
+        "GET"
+      ],
+      "basis": "bounded_source_match"
+    },
+    "/account/qr_state/": {
+      "methods": [
+        "GET"
+      ],
+      "basis": "bounded_source_match"
+    },
+    "/account/restore_login": {
+      "methods": [
+        "GET"
+      ],
+      "basis": "bounded_source_match"
+    },
+    "/account/unfollow_game/": {
+      "methods": [
+        "POST"
+      ],
+      "basis": "bounded_source_match"
+    },
+    "/account/wechat/state/": {
+      "methods": [
+        "GET"
+      ],
+      "basis": "bounded_source_match"
+    },
+    "/bbs/app/api/article/get_award_users": {
+      "methods": null,
+      "basis": "unknown"
+    },
+    "/bbs/app/api/emojis/list": {
+      "methods": [
+        "GET"
+      ],
+      "basis": "bounded_source_match"
+    },
+    "/bbs/app/api/general/search/v1": {
+      "methods": [
+        "GET"
+      ],
+      "basis": "bounded_source_match"
+    },
+    "/bbs/app/api/general/search/v1/web": {
+      "methods": null,
+      "basis": "unknown"
+    },
+    "/bbs/app/api/link/post": {
+      "methods": [
+        "POST"
+      ],
+      "basis": "bounded_source_match"
+    },
+    "/bbs/app/api/post_editor/topic_selection/index": {
+      "methods": [
+        "GET"
+      ],
+      "basis": "bounded_source_match"
+    },
+    "/bbs/app/api/post_editor/topic_selection/search": {
+      "methods": [
+        "GET"
+      ],
+      "basis": "bounded_source_match"
+    },
+    "/bbs/app/api/qcloud/cos/copy/image/by/url": {
+      "methods": [
+        "GET"
+      ],
+      "basis": "bounded_source_match"
+    },
+    "/bbs/app/api/qcloud/cos/upload/callback/v2": {
+      "methods": null,
+      "basis": "unknown"
+    },
+    "/bbs/app/api/qcloud/cos/upload/heartbeat": {
+      "methods": null,
+      "basis": "unknown"
+    },
+    "/bbs/app/api/qcloud/cos/upload/info/v2": {
+      "methods": null,
+      "basis": "unknown"
+    },
+    "/bbs/app/api/qcloud/cos/upload/token/v2": {
+      "methods": null,
+      "basis": "unknown"
+    },
+    "/bbs/app/api/topic/index": {
+      "methods": [
+        "GET"
+      ],
+      "basis": "bounded_source_match"
+    },
+    "/bbs/app/api/user/permission": {
+      "methods": [
+        "GET"
+      ],
+      "basis": "bounded_source_match"
+    },
+    "/bbs/app/api/video-link/post": {
+      "methods": [
+        "POST"
+      ],
+      "basis": "bounded_source_match"
+    },
+    "/bbs/app/author/concept/article/data": {
+      "methods": [
+        "GET"
+      ],
+      "basis": "bounded_source_match"
+    },
+    "/bbs/app/link/change/status": {
+      "methods": [
+        "GET"
+      ],
+      "basis": "bounded_source_match"
+    },
+    "/bbs/app/link/drafts": {
+      "methods": [
+        "GET"
+      ],
+      "basis": "bounded_source_match"
+    },
+    "/bbs/app/link/edit/info": {
+      "methods": [
+        "GET"
+      ],
+      "basis": "bounded_source_match"
+    },
+    "/bbs/app/link/tree": {
+      "methods": [
+        "GET"
+      ],
+      "basis": "bounded_source_match"
+    },
+    "/bbs/app/link/tree/backend": {
+      "methods": null,
+      "basis": "unknown"
+    },
+    "/bbs/app/link/tree/v2": {
+      "methods": null,
+      "basis": "unknown"
+    },
+    "/bbs/app/link/vote": {
+      "methods": [
+        "POST"
+      ],
+      "basis": "bounded_source_match"
+    },
+    "/bbs/app/profile/events": {
+      "methods": null,
+      "basis": "unknown"
+    },
+    "/bbs/app/profile/follow/user": {
+      "methods": null,
+      "basis": "unknown"
+    },
+    "/bbs/app/profile/follow/user/cancel": {
+      "methods": [
+        "POST"
+      ],
+      "basis": "bounded_source_match"
+    },
+    "/bbs/app/profile/user/link/list": {
+      "methods": null,
+      "basis": "unknown"
+    },
+    "/bbs/app/profile/user/link/list/v2": {
+      "methods": null,
+      "basis": "unknown"
+    },
+    "/bbs/content_marketing/post/task_list": {
+      "methods": [
+        "GET"
+      ],
+      "basis": "bounded_source_match"
+    },
+    "/bbs/hashtag": {
+      "methods": null,
+      "basis": "unknown"
+    },
+    "/bbs/topic": {
+      "methods": null,
+      "basis": "unknown"
+    },
+    "/chatroom/v2/room/card_info": {
+      "methods": null,
+      "basis": "unknown"
+    },
+    "/game/get_game_infos/": {
+      "methods": null,
+      "basis": "unknown"
+    },
+    "/game/item/show": {
+      "methods": null,
+      "basis": "unknown"
+    },
+    "/game/link/card_data": {
+      "methods": [
+        "GET"
+      ],
+      "basis": "bounded_source_match"
+    },
+    "/game/match/batch_match_data": {
+      "methods": null,
+      "basis": "unknown"
+    },
+    "/game/match/leagues": {
+      "methods": null,
+      "basis": "unknown"
+    },
+    "/game/match/unwatch_match": {
+      "methods": [
+        "GET"
+      ],
+      "basis": "bounded_source_match"
+    },
+    "/game/match/watch_match": {
+      "methods": [
+        "GET"
+      ],
+      "basis": "bounded_source_match"
+    },
+    "/game/owned_game/game_list": {
+      "methods": [
+        "GET"
+      ],
+      "basis": "bounded_source_match"
+    },
+    "/game/owned_game/hot_list": {
+      "methods": [
+        "GET"
+      ],
+      "basis": "bounded_source_match"
+    },
+    "/game/self_made_game_list/data/infos": {
+      "methods": null,
+      "basis": "unknown"
+    },
+    "/game/self_made_game_list/favour": {
+      "methods": [
+        "GET"
+      ],
+      "basis": "bounded_source_match"
+    },
+    "/game/wx_share/info/v2": {
+      "methods": null,
+      "basis": "unknown"
+    },
+    "/mall/search/": {
+      "methods": [
+        "GET"
+      ],
+      "basis": "bounded_source_match"
+    },
+    "/mall/sku/detail/": {
+      "methods": null,
+      "basis": "unknown"
+    },
+    "/mall/sku/show": {
+      "methods": null,
+      "basis": "unknown"
+    },
+    "/rc/box_data/callback": {
+      "methods": null,
+      "basis": "unknown"
+    },
+    "/tools/mod_manager/mod_detail": {
+      "methods": null,
+      "basis": "unknown"
+    },
+    "/workshop/app/mod_detail": {
+      "methods": [
+        "POST"
+      ],
+      "basis": "bounded_source_match"
+    },
+    "/workshop/mod_detail": {
+      "methods": [
+        "POST"
+      ],
+      "basis": "bounded_source_match"
+    }
+  }
+}

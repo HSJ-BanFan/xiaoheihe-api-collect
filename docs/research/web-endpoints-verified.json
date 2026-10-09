@@ -1,0 +1,620 @@
+{
+  "schema_version": 2,
+  "batch": "inherited_batch_2",
+  "source_record_sha256": "d9645d941f9c03c37b354ea93d41df7c451cedbbe017eab0a64a7bcc36506d36",
+  "live_retested_by_current_candidate": false,
+  "scope": "sanitized inherited observations; recorded method is not a source-verified contract; response ok does not establish function acceptance",
+  "raw_errors_removed": true,
+  "summary": {
+    "error": 39,
+    "ok": 14,
+    "skipped_safe_guard": 10
+  },
+  "observations": [
+    {
+      "index": 1,
+      "path": "/account/data_report_web/",
+      "status": "error",
+      "recorded_method": "POST",
+      "recorded_method_is_authoritative": false,
+      "recorded_signing": "web_signed",
+      "cause_verified": false
+    },
+    {
+      "index": 2,
+      "path": "/account/follow_game/",
+      "status": "error",
+      "recorded_method": "POST",
+      "recorded_method_is_authoritative": false,
+      "recorded_signing": "web_signed",
+      "cause_verified": false
+    },
+    {
+      "index": 3,
+      "path": "/account/get_login_code/",
+      "status": "error",
+      "recorded_method": "POST",
+      "recorded_method_is_authoritative": false,
+      "recorded_signing": "web_signed",
+      "cause_verified": false
+    },
+    {
+      "index": 4,
+      "path": "/account/get_qrcode_url/",
+      "status": "ok",
+      "result_type": "dict",
+      "has_result": true,
+      "recorded_method": "POST",
+      "recorded_method_is_authoritative": false,
+      "recorded_signing": "web_signed",
+      "cause_verified": false
+    },
+    {
+      "index": 5,
+      "path": "/account/google_2fa_verify/",
+      "status": "error",
+      "recorded_method": "POST",
+      "recorded_method_is_authoritative": false,
+      "recorded_signing": "web_signed",
+      "cause_verified": false
+    },
+    {
+      "index": 6,
+      "path": "/account/login/",
+      "status": "error",
+      "recorded_method": "POST",
+      "recorded_method_is_authoritative": false,
+      "recorded_signing": "web_signed",
+      "cause_verified": false
+    },
+    {
+      "index": 7,
+      "path": "/account/login_code/",
+      "status": "error",
+      "recorded_method": "POST",
+      "recorded_method_is_authoritative": false,
+      "recorded_signing": "web_signed",
+      "cause_verified": false
+    },
+    {
+      "index": 8,
+      "path": "/account/logout",
+      "status": "skipped_safe_guard",
+      "recorded_method": "POST",
+      "recorded_method_is_authoritative": false,
+      "recorded_signing": "web_signed",
+      "cause_verified": false,
+      "skip_reason": "LOGOUT_MUTATION"
+    },
+    {
+      "index": 9,
+      "path": "/account/qr_state/",
+      "status": "ok",
+      "result_type": "dict",
+      "has_result": true,
+      "recorded_method": "POST",
+      "recorded_method_is_authoritative": false,
+      "recorded_signing": "web_signed",
+      "cause_verified": false
+    },
+    {
+      "index": 10,
+      "path": "/account/restore_login",
+      "status": "skipped_safe_guard",
+      "recorded_method": "POST",
+      "recorded_method_is_authoritative": false,
+      "recorded_signing": "web_signed",
+      "cause_verified": false,
+      "skip_reason": "SESSION_RESTORE_MUTATION"
+    },
+    {
+      "index": 11,
+      "path": "/account/unfollow_game/",
+      "status": "error",
+      "recorded_method": "POST",
+      "recorded_method_is_authoritative": false,
+      "recorded_signing": "web_signed",
+      "cause_verified": false
+    },
+    {
+      "index": 12,
+      "path": "/account/wechat/state/",
+      "status": "error",
+      "recorded_method": "POST",
+      "recorded_method_is_authoritative": false,
+      "recorded_signing": "web_signed",
+      "cause_verified": false
+    },
+    {
+      "index": 13,
+      "path": "/bbs/app/api/article/get_award_users",
+      "status": "error",
+      "recorded_method": "POST",
+      "recorded_method_is_authoritative": false,
+      "recorded_signing": "web_signed",
+      "cause_verified": false
+    },
+    {
+      "index": 14,
+      "path": "/bbs/app/api/emojis/list",
+      "status": "ok",
+      "result_type": "dict",
+      "has_result": true,
+      "recorded_method": "POST",
+      "recorded_method_is_authoritative": false,
+      "recorded_signing": "web_signed",
+      "cause_verified": false
+    },
+    {
+      "index": 15,
+      "path": "/bbs/app/api/general/search/v1",
+      "status": "ok",
+      "result_type": "dict",
+      "has_result": true,
+      "recorded_method": "GET",
+      "recorded_method_is_authoritative": false,
+      "recorded_signing": "web_signed",
+      "cause_verified": false
+    },
+    {
+      "index": 16,
+      "path": "/bbs/app/api/general/search/v1/web",
+      "status": "error",
+      "recorded_method": "POST",
+      "recorded_method_is_authoritative": false,
+      "recorded_signing": "web_signed",
+      "cause_verified": false
+    },
+    {
+      "index": 17,
+      "path": "/bbs/app/api/link/post",
+      "status": "skipped_safe_guard",
+      "recorded_method": "POST",
+      "recorded_method_is_authoritative": false,
+      "recorded_signing": "web_signed",
+      "cause_verified": false,
+      "skip_reason": "CREATE_POST_MUTATION"
+    },
+    {
+      "index": 18,
+      "path": "/bbs/app/api/post_editor/topic_selection/index",
+      "status": "ok",
+      "result_type": "dict",
+      "has_result": true,
+      "recorded_method": "POST",
+      "recorded_method_is_authoritative": false,
+      "recorded_signing": "web_signed",
+      "cause_verified": false
+    },
+    {
+      "index": 19,
+      "path": "/bbs/app/api/post_editor/topic_selection/search",
+      "status": "ok",
+      "result_type": "dict",
+      "has_result": true,
+      "recorded_method": "POST",
+      "recorded_method_is_authoritative": false,
+      "recorded_signing": "web_signed",
+      "cause_verified": false
+    },
+    {
+      "index": 20,
+      "path": "/bbs/app/api/qcloud/cos/copy/image/by/url",
+      "status": "error",
+      "recorded_method": "POST",
+      "recorded_method_is_authoritative": false,
+      "recorded_signing": "web_signed",
+      "cause_verified": false
+    },
+    {
+      "index": 21,
+      "path": "/bbs/app/api/qcloud/cos/upload/callback/v2",
+      "status": "error",
+      "recorded_method": "POST",
+      "recorded_method_is_authoritative": false,
+      "recorded_signing": "unsigned",
+      "cause_verified": false
+    },
+    {
+      "index": 22,
+      "path": "/bbs/app/api/qcloud/cos/upload/heartbeat",
+      "status": "error",
+      "recorded_method": "POST",
+      "recorded_method_is_authoritative": false,
+      "recorded_signing": "unsigned",
+      "cause_verified": false
+    },
+    {
+      "index": 23,
+      "path": "/bbs/app/api/qcloud/cos/upload/info/v2",
+      "status": "ok",
+      "result_type": "dict",
+      "has_result": true,
+      "recorded_method": "POST",
+      "recorded_method_is_authoritative": false,
+      "recorded_signing": "unsigned",
+      "cause_verified": false
+    },
+    {
+      "index": 24,
+      "path": "/bbs/app/api/qcloud/cos/upload/token/v2",
+      "status": "error",
+      "recorded_method": "POST",
+      "recorded_method_is_authoritative": false,
+      "recorded_signing": "unsigned",
+      "cause_verified": false
+    },
+    {
+      "index": 25,
+      "path": "/bbs/app/api/topic/index",
+      "status": "error",
+      "recorded_method": "POST",
+      "recorded_method_is_authoritative": false,
+      "recorded_signing": "web_signed",
+      "cause_verified": false
+    },
+    {
+      "index": 26,
+      "path": "/bbs/app/api/user/permission",
+      "status": "error",
+      "recorded_method": "POST",
+      "recorded_method_is_authoritative": false,
+      "recorded_signing": "web_signed",
+      "cause_verified": false
+    },
+    {
+      "index": 27,
+      "path": "/bbs/app/api/video-link/post",
+      "status": "skipped_safe_guard",
+      "recorded_method": "POST",
+      "recorded_method_is_authoritative": false,
+      "recorded_signing": "web_signed",
+      "cause_verified": false,
+      "skip_reason": "CREATE_VIDEO_POST_MUTATION"
+    },
+    {
+      "index": 28,
+      "path": "/bbs/app/author/concept/article/data",
+      "status": "error",
+      "recorded_method": "POST",
+      "recorded_method_is_authoritative": false,
+      "recorded_signing": "web_signed",
+      "cause_verified": false
+    },
+    {
+      "index": 29,
+      "path": "/bbs/app/link/change/status",
+      "status": "skipped_safe_guard",
+      "recorded_method": "POST",
+      "recorded_method_is_authoritative": false,
+      "recorded_signing": "web_signed",
+      "cause_verified": false,
+      "skip_reason": "DELETE_POST_MUTATION"
+    },
+    {
+      "index": 30,
+      "path": "/bbs/app/link/drafts",
+      "status": "error",
+      "recorded_method": "POST",
+      "recorded_method_is_authoritative": false,
+      "recorded_signing": "web_signed",
+      "cause_verified": false
+    },
+    {
+      "index": 31,
+      "path": "/bbs/app/link/edit/info",
+      "status": "error",
+      "recorded_method": "POST",
+      "recorded_method_is_authoritative": false,
+      "recorded_signing": "web_signed",
+      "cause_verified": false
+    },
+    {
+      "index": 32,
+      "path": "/bbs/app/link/tree",
+      "status": "error",
+      "recorded_method": "POST",
+      "recorded_method_is_authoritative": false,
+      "recorded_signing": "web_signed",
+      "cause_verified": false
+    },
+    {
+      "index": 33,
+      "path": "/bbs/app/link/tree/backend",
+      "status": "error",
+      "recorded_method": "POST",
+      "recorded_method_is_authoritative": false,
+      "recorded_signing": "web_signed",
+      "cause_verified": false
+    },
+    {
+      "index": 34,
+      "path": "/bbs/app/link/tree/v2",
+      "status": "ok",
+      "result_type": "dict",
+      "has_result": true,
+      "recorded_method": "GET",
+      "recorded_method_is_authoritative": false,
+      "recorded_signing": "web_signed",
+      "cause_verified": false
+    },
+    {
+      "index": 35,
+      "path": "/bbs/app/link/vote",
+      "status": "error",
+      "recorded_method": "POST",
+      "recorded_method_is_authoritative": false,
+      "recorded_signing": "web_signed",
+      "cause_verified": false
+    },
+    {
+      "index": 36,
+      "path": "/bbs/app/profile/events",
+      "status": "error",
+      "recorded_method": "POST",
+      "recorded_method_is_authoritative": false,
+      "recorded_signing": "web_signed",
+      "cause_verified": false
+    },
+    {
+      "index": 37,
+      "path": "/bbs/app/profile/follow/user",
+      "status": "skipped_safe_guard",
+      "recorded_method": "POST",
+      "recorded_method_is_authoritative": false,
+      "recorded_signing": "web_signed",
+      "cause_verified": false,
+      "skip_reason": "FOLLOW_USER_MUTATION"
+    },
+    {
+      "index": 38,
+      "path": "/bbs/app/profile/follow/user/cancel",
+      "status": "skipped_safe_guard",
+      "recorded_method": "POST",
+      "recorded_method_is_authoritative": false,
+      "recorded_signing": "web_signed",
+      "cause_verified": false,
+      "skip_reason": "UNFOLLOW_USER_MUTATION"
+    },
+    {
+      "index": 39,
+      "path": "/bbs/app/profile/user/link/list",
+      "status": "error",
+      "recorded_method": "POST",
+      "recorded_method_is_authoritative": false,
+      "recorded_signing": "web_signed",
+      "cause_verified": false
+    },
+    {
+      "index": 40,
+      "path": "/bbs/app/profile/user/link/list/v2",
+      "status": "error",
+      "recorded_method": "POST",
+      "recorded_method_is_authoritative": false,
+      "recorded_signing": "web_signed",
+      "cause_verified": false
+    },
+    {
+      "index": 41,
+      "path": "/bbs/content_marketing/post/task_list",
+      "status": "error",
+      "recorded_method": "POST",
+      "recorded_method_is_authoritative": false,
+      "recorded_signing": "web_signed",
+      "cause_verified": false
+    },
+    {
+      "index": 42,
+      "path": "/bbs/hashtag",
+      "status": "error",
+      "recorded_method": "POST",
+      "recorded_method_is_authoritative": false,
+      "recorded_signing": "web_signed",
+      "cause_verified": false
+    },
+    {
+      "index": 43,
+      "path": "/bbs/topic",
+      "status": "error",
+      "recorded_method": "POST",
+      "recorded_method_is_authoritative": false,
+      "recorded_signing": "web_signed",
+      "cause_verified": false
+    },
+    {
+      "index": 44,
+      "path": "/chatroom/v2/room/card_info",
+      "status": "error",
+      "recorded_method": "POST",
+      "recorded_method_is_authoritative": false,
+      "recorded_signing": "web_signed",
+      "cause_verified": false
+    },
+    {
+      "index": 45,
+      "path": "/game/get_game_infos/",
+      "status": "error",
+      "recorded_method": "POST",
+      "recorded_method_is_authoritative": false,
+      "recorded_signing": "web_signed",
+      "cause_verified": false
+    },
+    {
+      "index": 46,
+      "path": "/game/item/show",
+      "status": "error",
+      "recorded_method": "POST",
+      "recorded_method_is_authoritative": false,
+      "recorded_signing": "web_signed",
+      "cause_verified": false
+    },
+    {
+      "index": 47,
+      "path": "/game/link/card_data",
+      "status": "error",
+      "recorded_method": "POST",
+      "recorded_method_is_authoritative": false,
+      "recorded_signing": "web_signed",
+      "cause_verified": false
+    },
+    {
+      "index": 48,
+      "path": "/game/match/batch_match_data",
+      "status": "ok",
+      "result_type": "dict",
+      "has_result": true,
+      "recorded_method": "POST",
+      "recorded_method_is_authoritative": false,
+      "recorded_signing": "web_signed",
+      "cause_verified": false
+    },
+    {
+      "index": 49,
+      "path": "/game/match/leagues",
+      "status": "ok",
+      "result_type": "dict",
+      "has_result": true,
+      "recorded_method": "POST",
+      "recorded_method_is_authoritative": false,
+      "recorded_signing": "web_signed",
+      "cause_verified": false
+    },
+    {
+      "index": 50,
+      "path": "/game/match/unwatch_match",
+      "status": "skipped_safe_guard",
+      "recorded_method": "POST",
+      "recorded_method_is_authoritative": false,
+      "recorded_signing": "web_signed",
+      "cause_verified": false,
+      "skip_reason": "UNWATCH_MATCH_MUTATION"
+    },
+    {
+      "index": 51,
+      "path": "/game/match/watch_match",
+      "status": "skipped_safe_guard",
+      "recorded_method": "POST",
+      "recorded_method_is_authoritative": false,
+      "recorded_signing": "web_signed",
+      "cause_verified": false,
+      "skip_reason": "WATCH_MATCH_MUTATION"
+    },
+    {
+      "index": 52,
+      "path": "/game/owned_game/game_list",
+      "status": "error",
+      "recorded_method": "POST",
+      "recorded_method_is_authoritative": false,
+      "recorded_signing": "web_signed",
+      "cause_verified": false
+    },
+    {
+      "index": 53,
+      "path": "/game/owned_game/hot_list",
+      "status": "ok",
+      "result_type": "dict",
+      "has_result": true,
+      "recorded_method": "GET",
+      "recorded_method_is_authoritative": false,
+      "recorded_signing": "web_signed",
+      "cause_verified": false
+    },
+    {
+      "index": 54,
+      "path": "/game/self_made_game_list/data/infos",
+      "status": "ok",
+      "result_type": "dict",
+      "has_result": true,
+      "recorded_method": "POST",
+      "recorded_method_is_authoritative": false,
+      "recorded_signing": "web_signed",
+      "cause_verified": false
+    },
+    {
+      "index": 55,
+      "path": "/game/self_made_game_list/favour",
+      "status": "skipped_safe_guard",
+      "recorded_method": "POST",
+      "recorded_method_is_authoritative": false,
+      "recorded_signing": "web_signed",
+      "cause_verified": false,
+      "skip_reason": "FAVOUR_GAME_LIST_MUTATION"
+    },
+    {
+      "index": 56,
+      "path": "/game/wx_share/info/v2",
+      "status": "ok",
+      "result_type": "dict",
+      "has_result": true,
+      "recorded_method": "POST",
+      "recorded_method_is_authoritative": false,
+      "recorded_signing": "web_signed",
+      "cause_verified": false
+    },
+    {
+      "index": 57,
+      "path": "/mall/search/",
+      "status": "ok",
+      "result_type": "dict",
+      "has_result": true,
+      "recorded_method": "POST",
+      "recorded_method_is_authoritative": false,
+      "recorded_signing": "web_signed",
+      "cause_verified": false
+    },
+    {
+      "index": 58,
+      "path": "/mall/sku/detail/",
+      "status": "error",
+      "recorded_method": "POST",
+      "recorded_method_is_authoritative": false,
+      "recorded_signing": "web_signed",
+      "cause_verified": false
+    },
+    {
+      "index": 59,
+      "path": "/mall/sku/show",
+      "status": "error",
+      "recorded_method": "POST",
+      "recorded_method_is_authoritative": false,
+      "recorded_signing": "web_signed",
+      "cause_verified": false
+    },
+    {
+      "index": 60,
+      "path": "/rc/box_data/callback",
+      "status": "error",
+      "recorded_method": "POST",
+      "recorded_method_is_authoritative": false,
+      "recorded_signing": "unsigned",
+      "cause_verified": false
+    },
+    {
+      "index": 61,
+      "path": "/tools/mod_manager/mod_detail",
+      "status": "error",
+      "recorded_method": "POST",
+      "recorded_method_is_authoritative": false,
+      "recorded_signing": "web_signed",
+      "cause_verified": false
+    },
+    {
+      "index": 62,
+      "path": "/workshop/app/mod_detail",
+      "status": "error",
+      "recorded_method": "POST",
+      "recorded_method_is_authoritative": false,
+      "recorded_signing": "web_signed",
+      "cause_verified": false
+    },
+    {
+      "index": 63,
+      "path": "/workshop/mod_detail",
+      "status": "error",
+      "recorded_method": "POST",
+      "recorded_method_is_authoritative": false,
+      "recorded_signing": "web_signed",
+      "cause_verified": false
+    }
+  ]
+}

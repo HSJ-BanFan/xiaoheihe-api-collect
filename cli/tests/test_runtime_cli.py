@@ -1,5 +1,6 @@
 import hashlib
 import json
+import sys
 
 import pytest
 
@@ -55,6 +56,7 @@ def test_offline_doctor_checks_explicit_config_without_running_signer(tmp_path, 
     assert config.pkey not in json.dumps(report)
 
 
+@pytest.mark.skipif(sys.platform != "win32", reason="Managed account integration requires Windows DPAPI")
 def test_managed_configuration_preserves_account_fields(tmp_path):
     from xhh_sdk.accounts import AccountStore
     store = AccountStore(tmp_path / "accounts")

@@ -18,7 +18,8 @@ _spec = importlib.util.spec_from_file_location("publisher_cli", Path(__file__).w
 cli = importlib.util.module_from_spec(_spec)
 _spec.loader.exec_module(cli)
 Refused = cli.Refused
-FIELDS = {"title", "content", "content_format", "hashtags", "topic_ids", "images", "post_type", "original"}
+FIELDS = {"title", "content", "content_format", "hashtags", "topic_ids", "images", "post_type", "original",
+          "post_plan", "extra_declaration"}
 PLAN_FIELDS = {"schema_version", "account", "mode", "spec", "media", "cli_version", "wheel_sha256",
                "kit_version", "runtime_manifest_sha256", "approval_sha256"}
 MAX_MEDIA_BYTES = 20 * 1024 * 1024
@@ -39,6 +40,16 @@ def validate_spec(spec: object) -> dict:
         raise Refused("unsupported_content_format_or_post_type")
     if type(result["original"]) is not bool:
         raise Refused("invalid_original")
+    post_plan = result.get("post_plan")
+    if post_plan is not None and (
+            type(post_plan) is not str or not re.fullmatch(r"[A-Za-z0-9_-]{1,64}", post_plan)):
+        raise Refused("invalid_post_plan")
+    declaration = result.get("extra_declaration")
+    if declaration is not None and (type(declaration) is not int or declaration not in (1, 2, 3)):
+        raise Refused("invalid_extra_declaration")
+    for field in ("post_plan", "extra_declaration"):
+        if result.get(field) is None:
+            result.pop(field, None)
     for field in ("hashtags", "topic_ids", "images"):
         if not isinstance(result[field], list) or any(type(v) is not str or not v.strip() or "\x00" in v for v in result[field]):
             raise Refused("invalid_spec_list")
@@ -247,6 +258,9 @@ def submit(operation: Path, approval: str, confirm: bool) -> dict:
     if (code != 0 or not isinstance(account, dict) or account.get("state") != "verified"
             or account.get("api_identity_verified") is not True or account.get("session_valid") is not True):
         raise Refused("account_not_verified")
+    if (account.get("protocol_mode") == "web" and frozen["mode"] == "public"
+            and not frozen["spec"]["topic_ids"]):
+        raise Refused("web_public_community_required")
     fresh, blobs = snapshot(operation)
     if fresh["approval_sha256"] != approval:
         raise Refused("approval_mismatch")

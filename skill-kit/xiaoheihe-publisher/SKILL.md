@@ -5,7 +5,7 @@ description: Use when 用户需要通过本地 CLI 登录小黑盒、上传自�
 
 # 小黑盒创作与发布
 
-本技能包含完整原版 `xhh-sdk 0.5.0rc4+standalone.7` 和受确认保护的发布入口。需要 Python 3.10+；登录、上传、草稿与公开发布都调用真实 CLI。首次设置通过一条命令下载固定版本的预编译签名器，不需要用户安装 JDK、Maven 或 Git。不会代填账号。
+本技能包含 `xhh-sdk 0.6.0rc1` 和受确认保护的发布入口。需要 Python 3.10+；Web 协议使用纯 Python 签名，不需要 Java/JAR；App 协议仍使用预编译签名器。协议由账号配置明确选择，失败时不自动换协议或账号。
 
 脚本位置相对本文件。以当前 Python 执行 `scripts/xhh_cli.py` 或 `scripts/xhh_publish.py`，从任意工作目录均可使用。不要依赖全局安装的 `xhh-sdk`。缺少 `runtime/` 或完整性检查失败时，停止并取得完整发布包，不要跳过校验。
 
@@ -13,7 +13,18 @@ description: Use when 用户需要通过本地 CLI 登录小黑盒、上传自�
 
 首次配置或登录失败时先读 [setup.md](references/setup.md)。让用户明确选择账号别名；不要默认选择列表中的第一个账号。手机号、短信验证码、签名器、账号存储均留在用户机器上，不写入帖子 JSON、操作记录、报告或版本库。
 
-Windows x64 用户提供受支持 APK，并确认本地导入和签名测试后运行：
+Web 登录通过官方创作者页面完成。让用户点击登录，再用小黑盒 App 扫码或页面短信登录；不要把它称作微信扫码。
+
+```console
+python scripts/xhh_cli.py account add ALIAS --identity USER_NUMERIC_ID
+python scripts/xhh_cli.py account login ALIAS --method creator --timeout 600 --confirm
+python scripts/xhh_cli.py account status ALIAS --online
+python scripts/xhh_cli.py --account ALIAS creator-options
+```
+
+只有身份核验通过后，Web 会话才会保存。旧 qr/browser 方法是另一套微信 SSO，不保证当前可用。Web 和 App 会话需要并存时使用不同别名。当前 Web 候选的线上验收状态以发行说明为准，不因有本地代码就宣称扫码或发帖已成功。
+
+仅 App 模式需要以下安装。Windows x64 用户提供受支持 APK，并确认本地导入和签名测试后运行：
 
 ```console
 python scripts/xhh_setup.py --apk USER.apk --install-java --confirm
@@ -47,7 +58,9 @@ python scripts/xhh_publish.py reconcile operation
 
 `plan` 只冻结待发内容与图片，不联系服务端。`draft` 写服务端草稿；`public` 才是公开发布意图。使用 `show` 展示已验证的完整内容、图片、别名、模式与 `approval_sha256`，在最后提交前获得用户对此快照的明确确认。内容变化时创建新计划并重新确认。
 
-只有 `submit` 才执行账号在线验证、真实上传和发帖。它调用原版 upload 后，将图片作为带尺寸的内嵌 HTML 提交；原版 .7 直接 publish 的独立 images 块有被服务端丢弃的实测限制，图片发帖应使用此入口。不要在未确认时调用原版 publish 绕过此流程。`attempt.json` 已存在时只能核对，不能删除它或换目录重发以规避单次尝试限制。超时或退出码 3 时先检查本人的帖子和草稿，避免重复发布。
+先用 `creator-options` 查询社区、标签、图文/文章计划和内容声明。`post_plan` 填服务端返回的 key，`extra_declaration` 填相应声明整数；没有实际选择时省略。不得为了通过提交擅自选择创作者计划。
+
+只有 `submit` 才执行账号在线验证、真实上传和发帖。它调用 CLI upload 后，将图片作为带尺寸的内嵌 HTML 提交；早期 .7 的独立 images 块曾被服务端丢弃，图片发帖应使用此入口。不要在未确认时调用 CLI publish 绕过此流程。`attempt.json` 已存在时只能核对，不能删除它或换目录重发。超时或退出码 3 时先检查本人的帖子和草稿。正文核对可用 `scripts/xhh_cli.py --account ALIAS edit-info LINK_ID`，这不替代匿名可见性核验。
 
 ## 汇报结果
 

@@ -16,7 +16,7 @@ import pytest
 
 ROOT = Path(__file__).resolve().parents[1]
 BUILDER = ROOT / "scripts" / "build_skill_kit.py"
-WHEEL = ROOT / "cli" / "dist" / "standalone-7-clean" / "xhh_sdk-0.5.0rc4+standalone.7-py3-none-any.whl"
+WHEEL = ROOT / "cli" / "dist" / "web-candidate-final" / "xhh_sdk-0.6.0rc1-py3-none-any.whl"
 PNG = base64.b64decode("iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+jRZkAAAAASUVORK5CYII=")
 UPLOADED = {"url": "https://imgheybox.max-c.com/synthetic.png", "width": 1, "height": 1}
 
@@ -79,7 +79,7 @@ def test_deterministic_and_exact_wheel_members(kit, tmp_path):
     out = tmp_path / "second"
     result = run(BUILDER, "--wheel", WHEEL, "--out", out)
     assert result.returncode == 0, result.stderr
-    archive = "xhh-publisher-kit-0.2.0rc1.zip"
+    archive = "xhh-publisher-kit-0.3.0rc1.zip"
     assert (out / archive).read_bytes() == (kit.parent / archive).read_bytes()
     manifest = json.loads((kit / "kit-manifest.json").read_text())
     with zipfile.ZipFile(WHEEL) as wheel:
@@ -106,7 +106,7 @@ def test_moved_isolated_kit_uses_pinned_cli_and_renderer(kit, tmp_path):
     unrelated.mkdir()
     result = run(moved / "scripts" / "xhh_cli.py", "--version", cwd=unrelated)
     assert result.returncode == 0, result.stderr
-    assert result.stdout.strip() == "xhh-sdk 0.5.0rc4+standalone.7"
+    assert result.stdout.strip() == "xhh-sdk 0.6.0rc1"
     result = run(moved / "scripts" / "xhh_publish.py", "plan", source(tmp_path),
                  "--account", "synthetic-test", "--mode", "draft", "--out", tmp_path / "op", cwd=unrelated)
     assert result.returncode == 0, result.stderr
@@ -190,6 +190,23 @@ def test_missing_approval_never_reads_account(facade, tmp_path, monkeypatch, con
     monkeypatch.setattr(facade, "run_cli", lambda *a, **k: pytest.fail("unexpected account access"))
     with pytest.raises(facade.Refused):
         facade.submit(op, plan["approval_sha256"] if approval == "valid" else "0" * 64, confirm)
+    assert not (op / "attempt.json").exists()
+
+
+def test_web_public_without_community_refuses_before_upload(facade, tmp_path, monkeypatch):
+    op, plan = prepared(facade, tmp_path, "public")
+    calls = []
+
+    def transport(argv, **kwargs):
+        calls.append(argv)
+        assert "status" in argv, "Missing community must refuse before upload or publish"
+        return 0, {"state": "verified", "api_identity_verified": True,
+                   "session_valid": True, "protocol_mode": "web"}
+
+    monkeypatch.setattr(facade, "run_cli", transport)
+    with pytest.raises(facade.Refused, match="community"):
+        facade.submit(op, plan["approval_sha256"], True)
+    assert len(calls) == 1
     assert not (op / "attempt.json").exists()
 
 
@@ -478,3 +495,181 @@ def test_text_only_submit_does_not_upload(facade, tmp_path, monkeypatch):
 
     monkeypatch.setattr(facade, "run_cli", transport)
     assert facade.submit(op, plan["approval_sha256"], True)["state"] == "acknowledged"
+
+
+@pytest.fixture
+def source_creation_facade(tmp_path, monkeypatch):
+    """Exercise current sources; release-wheel verification belongs to kit tests."""
+    old_modules = {name: module for name, module in sys.modules.items()
+                   if name == "xhh_sdk" or name.startswith("xhh_sdk.")}
+    old_bytecode = sys.dont_write_bytecode
+    for name in old_modules:
+        del sys.modules[name]
+    monkeypatch.syspath_prepend(str(ROOT / "cli"))
+    spec = importlib.util.spec_from_file_location(
+        "source_publisher_under_test", ROOT / "skill-kit/xiaoheihe-publisher/scripts/xhh_publish.py")
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    synthetic_kit = tmp_path / "synthetic-kit"
+    synthetic_kit.mkdir()
+    (synthetic_kit / "kit-manifest.json").write_text("{}", encoding="utf-8")
+    monkeypatch.setattr(module.cli, "KIT_ROOT", synthetic_kit)
+    monkeypatch.setattr(module.cli, "activate_runtime", lambda: None)
+    monkeypatch.setattr(module, "run_cli", lambda *a, **k: pytest.fail("unexpected CLI invocation"))
+    try:
+        yield module
+    finally:
+        for name in tuple(sys.modules):
+            if name == "xhh_sdk" or name.startswith("xhh_sdk."):
+                del sys.modules[name]
+        sys.modules.update(old_modules)
+        sys.dont_write_bytecode = old_bytecode
+
+
+@pytest.mark.parametrize("updates", [
+    {"post_plan": True}, {"post_plan": 1}, {"post_plan": ""}, {"post_plan": "a b"},
+    {"post_plan": "a/b"}, {"post_plan": "A" * 65}, {"post_plan": []},
+    {"extra_declaration": True}, {"extra_declaration": False}, {"extra_declaration": "1"},
+    {"extra_declaration": 1.0}, {"extra_declaration": 0}, {"extra_declaration": 4},
+])
+def test_source_creation_invalid_fields_refused_before_operation(source_creation_facade, tmp_path, updates):
+    facade = source_creation_facade
+    with pytest.raises(facade.Refused):
+        facade.plan(source(tmp_path, **updates), "synthetic-test", "draft", tmp_path / "op")
+    assert not (tmp_path / "op").exists()
+
+
+def test_source_creation_optional_none_omitted_from_frozen_spec(source_creation_facade, tmp_path):
+    facade = source_creation_facade
+    plan = facade.plan(source(tmp_path, post_plan=None, extra_declaration=None),
+                       "synthetic-test", "draft", tmp_path / "op")
+    assert "post_plan" not in plan["spec"]
+    assert "extra_declaration" not in plan["spec"]
+    assert facade.show(tmp_path / "op") == plan
+
+
+@pytest.mark.parametrize("change", [{"post_plan": "future_plan-2"}, {"extra_declaration": 2}])
+def test_source_creation_approval_binds_plan_and_declaration(source_creation_facade, tmp_path, change):
+    facade = source_creation_facade
+    metadata = {"post_plan": "article", "extra_declaration": 1}
+    first = facade.plan(source(tmp_path, **metadata), "synthetic-test", "draft", tmp_path / "first")
+    second = facade.plan(source(tmp_path, **{**metadata, **change}),
+                         "synthetic-test", "draft", tmp_path / "second")
+    assert first["spec"]["post_plan"] == "article"
+    assert first["spec"]["extra_declaration"] == 1
+    assert first["approval_sha256"] != second["approval_sha256"]
+    with pytest.raises(facade.Refused, match="approval_mismatch"):
+        facade.submit(tmp_path / "second", first["approval_sha256"], True)
+    assert not (tmp_path / "second/attempt.json").exists()
+    tampered = {**first, "spec": {**first["spec"], **change}}
+    facade.write_json(tmp_path / "first/plan.json", tampered)
+    with pytest.raises(facade.Refused, match="plan_hash_mismatch"):
+        facade.show(tmp_path / "first")
+
+
+@pytest.mark.parametrize("images", [[], ["pixel.png"]])
+def test_source_creation_publish_forwards_metadata_after_image_adaptation(
+        source_creation_facade, tmp_path, monkeypatch, images):
+    facade = source_creation_facade
+    op = tmp_path / "op"
+    frozen = facade.plan(source(tmp_path, images=images, post_plan="article", extra_declaration=1),
+                         "synthetic-test", "draft", op)
+    requests = []
+
+    def dispatch(argv, *, input_text=None):
+        requests.append(argv)
+        if "status" in argv:
+            return 0, {"state": "verified", "api_identity_verified": True, "session_valid": True}
+        if "upload" in argv:
+            assert Path(argv[3]).read_bytes() == PNG
+            return 0, [UPLOADED]
+        outgoing = json.loads(input_text)
+        assert outgoing["post_plan"] == "article"
+        assert type(outgoing["extra_declaration"]) is int
+        assert outgoing["extra_declaration"] == 1
+        assert outgoing["images"] == []
+        assert ("<img " in outgoing["content"]) == bool(images)
+        assert outgoing["content_format"] == ("html" if images else "text")
+        assert facade.render(outgoing, "draft")["post_plan"] == "article"
+        return 0, {"link_id": "123", "draft": True}
+
+    monkeypatch.setattr(facade, "run_cli", dispatch)
+    assert facade.submit(op, frozen["approval_sha256"], True)["state"] == "acknowledged"
+    assert len(requests) == (3 if images else 2)
+
+
+def test_built_kit_creation_metadata_reaches_pinned_cli_renderer(facade, tmp_path, monkeypatch, capsys):
+    op = tmp_path / "creation-operation"
+    frozen = facade.plan(source(tmp_path, images=[], post_plan="article", extra_declaration=1),
+                         "synthetic-test", "draft", op)
+    assert facade.show(op)["spec"]["extra_declaration"] == 1
+    facade.cli.activate_runtime()
+    from xhh_sdk import cli as original
+    from xhh_sdk.client import XhhClient
+    from xhh_sdk.config import XhhConfig
+
+    config = XhhConfig(pkey="<synthetic-session>", heybox_id="12345")
+    submitted = []
+
+    class Transport:
+        def signed_request(self, route, **kwargs):
+            submitted.append((route, kwargs["payload"]))
+            return {"status": "ok", "result": {"link_id": "123"}}
+
+    monkeypatch.setattr(original, "_load", lambda args: config)
+    monkeypatch.setattr(original, "XhhClient", lambda _: XhhClient(config, transport=Transport()))
+    monkeypatch.setattr(sys, "stdin", __import__("io").StringIO(json.dumps(frozen["spec"])))
+    assert original.main(["--account", "synthetic-test", "publish", "-", "--confirm"]) == 0
+    assert json.loads(capsys.readouterr().out)["link_id"] == "123"
+    assert submitted[0][1]["post_plan"] == "article"
+    assert submitted[0][1]["extra_declaration"] == "1"
+    assert submitted[0][1]["draft"] == "1"
+
+
+def kit_definition():
+    spec = importlib.util.spec_from_file_location(
+        "kit_source_definition", ROOT / "skill-kit/xiaoheihe-publisher/scripts/xhh_cli.py")
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
+
+
+def test_web_release_definition_includes_exact_versioned_runtime():
+    definition = kit_definition()
+    assert definition.KIT_VERSION == "0.3.0rc1"
+    assert definition.CLI_VERSION == "0.6.0rc1"
+    assert "xhh_sdk/web_signer.py" in definition.RUNTIME_MEMBERS
+    assert len(definition.RUNTIME_MEMBERS) == len(set(definition.RUNTIME_MEMBERS)) == 26
+    assert "xhh_sdk-0.6.0rc1.dist-info/METADATA" in definition.RUNTIME_MEMBERS
+
+
+@pytest.mark.parametrize("change", ["missing", "unknown", "duplicate"])
+def test_builder_refuses_mismatched_runtime_even_with_matching_digest(tmp_path, change):
+    definition = kit_definition()
+    checkout = tmp_path / "checkout"
+    shutil.copytree(ROOT / "skill-kit", checkout / "skill-kit")
+    (checkout / "scripts").mkdir()
+    shutil.copy2(BUILDER, checkout / "scripts" / BUILDER.name)
+    members = list(definition.RUNTIME_MEMBERS)
+    if change == "missing":
+        members.pop()
+    elif change == "unknown":
+        members.append("xhh_sdk/unreviewed.py")
+    else:
+        members.append(members[0])
+    wheel = tmp_path / "synthetic.whl"
+    with zipfile.ZipFile(wheel, "w") as archive:
+        for name in members:
+            if change == "duplicate" and name in archive.namelist():
+                with pytest.warns(UserWarning, match="Duplicate name"):
+                    archive.writestr(name, b"synthetic")
+            else:
+                archive.writestr(name, b"synthetic")
+    launcher = checkout / "skill-kit/xiaoheihe-publisher/scripts/xhh_cli.py"
+    launcher.write_text(launcher.read_text(encoding="utf-8").replace(
+        definition.WHEEL_SHA256, hashlib.sha256(wheel.read_bytes()).hexdigest()), encoding="utf-8")
+    out = tmp_path / "output"
+    result = run(checkout / "scripts" / BUILDER.name, "--wheel", wheel, "--out", out)
+    assert result.returncode == 2
+    assert "unknown or missing runtime member" in result.stdout
+    assert not out.exists()

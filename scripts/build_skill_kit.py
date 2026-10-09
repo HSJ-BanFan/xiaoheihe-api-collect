@@ -1,4 +1,4 @@
-"""Build a portable publisher kit from the exact audited wheel, offline."""
+"""Build a portable App/Web publisher kit from the exact pinned wheel, offline."""
 from __future__ import annotations
 
 import argparse
@@ -22,7 +22,7 @@ def build(wheel: Path, out: Path) -> Path:
         raise ValueError("output must not exist")
     raw = wheel.read_bytes()
     if kit.digest(raw) != kit.WHEEL_SHA256:
-        raise ValueError("wheel digest does not match the audited release")
+        raise ValueError("wheel digest does not match the pinned CLI release")
     actual = {p.relative_to(SOURCE).as_posix() for p in SOURCE.rglob("*") if p.is_file()}
     if actual != set(kit.SOURCE_MEMBERS) or any(p.is_symlink() for p in SOURCE.rglob("*")):
         raise ValueError("unknown or missing source member")

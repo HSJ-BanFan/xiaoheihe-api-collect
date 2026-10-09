@@ -1,5 +1,6 @@
 include README.md RELEASE.md pyproject.toml LICENSE
 include xhh_sdk/api_catalog.json
+include xhh_sdk/web_signer.py
 recursive-include xhh_sdk *.py
 prune xhh_sdk/vendor
 prune build

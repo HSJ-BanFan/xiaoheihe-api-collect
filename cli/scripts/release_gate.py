@@ -324,9 +324,11 @@ def verify_wheel_matches_source(gate, wheel):
         embedded_readme = (_metadata_body(archive.read(metadata).decode("utf-8"))
                            if metadata else None)
     stale = []
+    canonical_members = {"xhh_sdk/" + name for name in build_release.PACKAGE_FILES}
     for name, content in sorted(members.items()):
         source = source_sdk / name.split("/", 1)[1]
-        if not source.is_file() or source.read_bytes() != content:
+        if (name not in canonical_members or not source.is_file()
+                or build_release._lf_bytes(source.read_bytes()) != content):
             stale.append(name)
     current_readme = (package / "README.md").read_text(encoding="utf-8")
     readme_matches = embedded_readme is not None and embedded_readme == _normalized(current_readme)

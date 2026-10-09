@@ -61,12 +61,21 @@
 
 ## AI 发布技能包
 
-`xhh-publisher-kit 0.2.0rc1` 独立打包技能、安装器、发布脚本和原版
-`xhh-sdk 0.5.0rc4+standalone.7`，不修改原 wheel。支持本地计划、真实账号登录、
-图片上传、服务端草稿与公开发帖。普通用户和接入项目下载完整
-[技能包 0.2.0rc1](https://github.com/HSJ-BanFan/xiaoheihe-api-collect/releases/tag/skill-kit-v0.2.0rc1)，无需重建研究环境。
+当前预发布是 `xhh-publisher-kit 0.3.0rc1` 与 `xhh-sdk 0.6.0rc1`，新增纯 Python Web 签名、账号协议选择、创作者计划和声明字段。[完整技能包](https://github.com/HSJ-BanFan/xiaoheihe-api-collect/releases/tag/skill-kit-v0.3.0rc1) 已按限定范围完成真实 Web 身份、图片上传、草稿、公开图文读回及清理验收，详见[分版本记录](docs/skill-kit-acceptance.md)。不承诺全部接口或平台长期可用。
 
-Windows x64 用户解压后运行，KIT 是解压出的 `xiaoheihe-publisher` 目录：
+旧版[技能包 0.2.0rc1](https://github.com/HSJ-BanFan/xiaoheihe-api-collect/releases/tag/skill-kit-v0.2.0rc1) 内含原 `xhh-sdk 0.5.0rc4+standalone.7`，保留原 App 路径验收。Easel master 当前仍使用该固定版本，尚未切换到新 Web 工具包。接入项目使用完整工具包，不需要重建研究环境。
+
+Windows 用户解压后可选择 Web 登录，不需要 APK/JAR。KIT 是解压出的 `xiaoheihe-publisher` 目录：
+
+```console
+python -m pip install "playwright>=1.50,<2"
+python KIT/scripts/xhh_cli.py account add ALIAS --identity USER_NUMERIC_ID
+python KIT/scripts/xhh_cli.py account login ALIAS --method creator --timeout 600 --confirm
+python KIT/scripts/xhh_cli.py account status ALIAS --online
+python KIT/scripts/xhh_cli.py --account ALIAS creator-options
+```
+
+App 模式仍使用下列安装，仅支持受验证 APK 和 Windows x64：
 
 ```console
 python KIT/scripts/xhh_setup.py --apk USER.apk --install-java --confirm
@@ -75,7 +84,9 @@ python KIT/scripts/xhh_cli.py --version
 
 安装器下载并校验预编译签名器及依赖，在本机导入用户自己的[受支持 APK](docs/supported-apk.md)，需要时安装私有 JRE。需要 Python 3.10+，不需要 Maven、Git、JDK 或模型服务。账号登录独立进行，不随包分发。
 接入项目只调用 setup、账号和发布命令，不解析 APK、不编译 Java、不维护签名协议。具体步骤与确认流程见[技能包说明](docs/skill-kit.md)，各版本的实际验收范围见[验收记录](docs/skill-kit-acceptance.md)。
-已集成到 [Easel master](https://github.com/HSJ-BanFan/Easel/tree/master/skills/openclaw/skill-xiaoheihe-publisher)。
+已发布的 App 工具包已集成到 [Easel master](https://github.com/HSJ-BanFan/Easel/tree/master/skills/openclaw/skill-xiaoheihe-publisher)。
+
+Web 候选不需要执行 APK 安装。使用 `account login ALIAS --method creator --confirm` 打开官方创作者页面，由用户用小黑盒 App 扫码或页面短信登录；这个入口不是微信二维码。登录候选必须通过 Web 身份检查才保存，旧 App 会话不会因失败被替换。具体边界见[Web 研究与验收范围](docs/research/web-api-survey.md)。
 
 ## 离线查看接口
 
@@ -96,7 +107,7 @@ App 签名请求仍需要 Java 17+、签名器、本地 APK 资源和你自己�
 
 Git 源码、技能 ZIP 和 Python wheel 不含 JAR、APK、SO、账号库或浏览器配置。[签名器 Release](https://github.com/HSJ-BanFan/xiaoheihe-api-collect/releases/tag/xhh-signer-v0.2.0) 单独提供 Java-only bootstrap JAR、对应源码与许可说明。目标 APK 与提取资源始终留在用户本机。依赖许可及本地完整性校验边界见[签名器说明](signer/README.md)。
 
-目前通过线上验收的 App 登录方式是短信验证码。两种已测试的微信扫码流程只得到 Web SSO 会话；平台对这些会话发出的 App 与 Web 请求均返回重新登录状态。详见[登录与会话](docs/login.md)。
+历史 App 版本通过线上验收的登录方式是短信验证码。早期两种微信扫码会话在当时的请求中被拒绝，这不证明当前官方 Creator 的小黑盒 App 扫码也不可用。新 Web 候选的扫码与发帖必须独立验收，不能从旧会话结果推断。历史记录见[登录与会话](docs/login.md)。
 
 ## 接口范围与验收状态
 
@@ -104,7 +115,7 @@ Git 源码、技能 ZIP 和 Python wheel 不含 JAR、APK、SO、账号库或浏
 
 线上验收只覆盖经过授权的部分流程：短信 App 登录和身份核对、账号与草稿读取、图片上传和字节读回、草稿创建与删除、选定的发布和互动操作及清理，以及两个账号的身份和草稿隔离。其他路径仍需分别研究和验收。逐项结果见[线上验收报告](docs/research/live-acceptance.md)。
 
-当前候选版本为 `xhh-sdk 0.5.0rc4+standalone.7`。run-40 用该 wheel 通过 12 项本地检查，绑定的线上验收记录和 schema 2 权属记录都有效，开放项为空，`release_ready` 为 true。发布产物位于 `cli/dist/standalone-7-clean`，也作为 [GitHub Release](https://github.com/HSJ-BanFan/xiaoheihe-api-collect/releases/tag/v0.5.0rc4+standalone.7) 的附件提供；wheel 的 SHA-256 为 `2ca9af8ece4e105631e62c6c4043e1fa758c766e16031afd4e52028bc44293ff`。
+已发布的 `xhh-sdk 0.5.0rc4+standalone.7` 在 run-40 中通过 12 项本地检查及对应的线上、权属记录。其 `release_ready=true` 只属于那个版本，不适用于 `0.6.0rc1`。旧版产物作为 [GitHub Release](https://github.com/HSJ-BanFan/xiaoheihe-api-collect/releases/tag/v0.5.0rc4+standalone.7) 附件保留；wheel SHA-256 为 `2ca9af8ece4e105631e62c6c4043e1fa758c766e16031afd4e52028bc44293ff`。
 
 ## 🌱参与贡献
 

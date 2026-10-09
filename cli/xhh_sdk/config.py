@@ -43,8 +43,11 @@ class XhhConfig:
         "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
         "(KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36")
     extra: dict = field(default_factory=dict)
+    protocol_mode: str = "app"
 
     def validate(self) -> None:
+        if self.protocol_mode not in ("app", "web"):
+            raise XhhConfigError("protocol_mode must be app or web")
         for name, value in (("pkey", self.pkey), ("heybox_id", self.heybox_id),
                             ("imei", self.imei), ("device_info", self.device_info)):
             if not isinstance(value, str) or not value.strip():
@@ -66,8 +69,9 @@ class XhhConfig:
 
     @property
     def cookie_web(self) -> str:
-        """Cookie for unsigned (web) requests."""
-        return f"pkey={self.pkey}; user_heybox_id={self.heybox_id};"
+        """Cookie for signed Web API calls and unsigned upload requests."""
+        name = "user_pkey" if self.protocol_mode == "web" else "pkey"
+        return f"{name}={self.pkey}; user_heybox_id={self.heybox_id};"
 
     @classmethod
     def from_env(cls) -> "XhhConfig":
@@ -87,6 +91,7 @@ class XhhConfig:
             api_base=os.environ.get("XHH_API_BASE", DEFAULT_API_BASE),
             signer_jar=os.environ.get("XHH_SIGNER_JAR"),
             java=os.environ.get("XHH_JAVA", "java"),
+            protocol_mode=os.environ.get("XHH_PROTOCOL_MODE", "app"),
         )
         config.validate()
         return config
@@ -129,6 +134,7 @@ class XhhConfig:
             "signer_jar": self.signer_jar,
             "signer_bundle": self.signer_bundle,
             "java": self.java,
+            "protocol_mode": self.protocol_mode,
         }
         target.write_text(json.dumps(data, ensure_ascii=False, indent=2), encoding="utf-8")
         try:

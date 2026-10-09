@@ -1,8 +1,35 @@
-# Local extraction notes
+# Candidate and extraction notes
 
-## Runtime portability update
+## Web protocol candidate
 
-Current candidate: `0.5.0rc4+standalone.7`. It keeps the `.6` work (offline
+Current candidate: `0.6.0rc1`.
+
+This candidate adds an explicit App or Web protocol, a pure Python Web signer,
+per-account protocol persistence, and an invocation-only `--protocol` override.
+Existing records default to App. A failed request never retries under another
+protocol. Web signing does not require Java, JAR files, or APK resources.
+
+`account login --method creator` opens the official Creator page for the user's
+小黑盒 App QR scan or page SMS login. It is not the legacy WeChat QR flow. Login
+verifies a candidate under its protocol before replacing the saved session, and
+rejects concurrent account changes. `creator-options` exposes existing editor
+metadata reads; `edit-info` reads editable post or draft state.
+
+Offline regression tests and a disposable installed-wheel fixture check cover
+the protocol dispatch and persistence. The installed check imports the Web
+signer from the wheel, blocks JVM and network attempts, and substitutes HTTP
+responses. It does not prove server acceptance. The intermediate build in
+`dist/web-candidate-draft` is a packaging check, not the final artifact.
+
+Fresh Creator login, upload, draft, publish, and cleanup acceptance must bind to
+final candidate bytes. See the versioned parent acceptance report. The builder reports `local_build_only` with
+`public_publish_ready: false`. Historical `.7` readiness does not apply to this
+version. A new release requires final-byte evidence and a rights review bound to
+the new distribution. Do not change the gate to reuse old success records.
+
+## Historical runtime portability update
+
+The historical `0.5.0rc4+standalone.7` candidate kept the `.6` work (offline
 `signer prepare-apk`, `signer inspect-resources`, `signer bundle-install` and
 `signer bundle-inspect`, plus a public signer loader under `signer/` that builds
 and signs against a pinned public Unidbg commit) and fixes the upload allocation
@@ -44,11 +71,12 @@ logs, which contain workstation paths.
 Live acceptance on 2026-10-08 used the test account: SMS login into an empty
 store, an app-signed identity check, reads, image upload with a byte-for-byte
 CDN readback, draft create/delete, and a publish/favourite/comment cycle with
-verified cleanup. Both WeChat QR implementations instead produced sessions the
+verified cleanup. Both WeChat QR implementations in that historical run produced sessions the
 platform rejects with `status=relogin` for app and web requests. The login
-command verifies each returned session with an App-signed identity read and
-returns nonzero when the platform rejects it. It leaves a rejected session in
-the local account record until the user runs `account logout`. A local
+command at that version verified each returned session with an App-signed identity read and
+returned nonzero when the platform rejected it. It left a rejected session in
+the local account record until the user ran `account logout`. This behavior is
+not retained in `0.6.0rc1`: a rejected candidate no longer replaces a saved session. A local
 authenticated flag does not prove server acceptance. The risk token needs no
 login: opening the site yields it. The `standalone.2` notes below
 remain accurate for the runtime work they describe. Source and research folders are no longer runtime
@@ -70,7 +98,7 @@ away, using the installed launcher from unrelated cwd, and inspecting a managed
 artifact whose original file no longer exists at its import path. Moving the
 Python installation itself or moving to another Windows user is not supported.
 
-## Scope
+## Historical extraction scope
 
 The local version `0.5.0rc4+standalone.1` distinguishes the extraction from the
 archived `0.5.0rc4` package. No package was published. No signer was bundled or executed.
@@ -137,7 +165,7 @@ the commands in the README.
 
 ## Limits
 
-The retained extraction tests cover offline behavior. The separate live
+The retained extraction tests cover offline behavior. The historical live
 acceptance covers only the selected login, account, upload, creator and
 interaction flows. The historical catalogue does not establish current
 availability for all 448 records, complete request schemas, or write-operation

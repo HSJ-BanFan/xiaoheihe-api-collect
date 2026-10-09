@@ -315,7 +315,7 @@ def call(client, route: str, *, query: dict | None = None,
         normalized, query=query or None, payload=payload)
 
 
-CATALOG_SHA256 = "dafd6a63423ea44fc7cd2eb6c1a9ccfddb0b3e07792ef651cf952e2c1d22beea"
+CATALOG_SHA256 = "601c6ebc1cb3f4ebd74851a6258ea2db941cc001e7671eb706524745e885c72f"
 ROUTES_SHA256 = "6ac5ce39ec5535cc0e386382b87e330500a3b31078ff84cd13b1abfa56d66483"
 
 

@@ -34,7 +34,7 @@
     "newly_verified_routes": 68,
     "safety_excluded": 14,
     "review_required": 9,
-    "commands": 44,
+    "commands": 46,
     "group_routes": {
       "total": 167,
       "read": 63,
@@ -36411,6 +36411,45 @@
         "xhh_sdk/signer_resources.py",
         "xhh_sdk/cli.py"
       ]
+    },
+    {
+      "name": "creator-options",
+      "cli": "xhh-sdk --account <alias> creator-options",
+      "purpose": "Read creator plans, declarations, communities and hashtags",
+      "safety": "read",
+      "routes": [
+        "/bbs/app/api/topic/index",
+        "/bbs/app/api/post_editor/topic_selection/index"
+      ],
+      "params": [
+        "link_id (optional)"
+      ],
+      "evidence_level": "source_contract",
+      "live_retested": false,
+      "limitations": "New 0.6 command; no inherited Web live acceptance. Session and ownership required.",
+      "sources": [
+        "xhh_sdk/client.py",
+        "xhh_sdk/cli.py"
+      ]
+    },
+    {
+      "name": "edit-info",
+      "cli": "xhh-sdk --account <alias> edit-info",
+      "purpose": "Read editable title, body and metadata for an owned post or draft",
+      "safety": "read",
+      "routes": [
+        "/bbs/app/link/edit/info"
+      ],
+      "params": [
+        "link_id"
+      ],
+      "evidence_level": "source_contract",
+      "live_retested": false,
+      "limitations": "New 0.6 command; no inherited Web live acceptance. Session and ownership required.",
+      "sources": [
+        "xhh_sdk/client.py",
+        "xhh_sdk/cli.py"
+      ]
     }
   ],
   "group_routes": [
@@ -47017,5 +47056,5 @@
       }
     }
   ],
-  "runtime_revision": "0.5.0rc4+standalone.7"
+  "runtime_revision": "0.6.0rc1"
 }

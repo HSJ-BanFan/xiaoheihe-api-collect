@@ -163,7 +163,7 @@ def test_catalog_lists_every_cli_parser_and_interaction_result_counts():
     assert {entry["name"] for entry in catalog["commands"] if entry["name"].startswith("account ")} == {
         "account add", "account list", "account login", "account configure",
         "account status", "account logout", "account remove", "account risk-token"}
-    assert catalog["summary"]["commands"] == 44
+    assert catalog["summary"]["commands"] == 46
     assert {entry["name"] for entry in catalog["commands"] if entry["name"].startswith("signer ")} == {
         "signer bundle-inspect", "signer bundle-install", "signer inspect",
         "signer inspect-apk", "signer inspect-resources", "signer install",

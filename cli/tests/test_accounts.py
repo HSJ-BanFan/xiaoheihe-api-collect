@@ -46,7 +46,7 @@ def test_records_roundtrip_isolated_encrypted_and_publicly_redacted(store):
     public = restored.list()
     assert public[0] == {"alias": "one", "identity_masked": "12*****89",
                          "authenticated": True, "state": "logged_in",
-                         "storage": "windows-dpapi"}
+                         "storage": "windows-dpapi", "protocol_mode": "app"}
     rendered = json.dumps(public) + repr(restored.get("one"))
     assert "test-only-cookie" not in rendered
     assert "test-device-one" not in json.dumps(public)
@@ -78,7 +78,7 @@ def test_identity_binding_and_logout_preserve_configuration(store):
     store.logout("one")
     result = store.get("one")
     assert (result.identity, result.pkey, result.config) == (
-        "123456789", None, {"imei": "test-device-one"})
+        "123456789", None, {"imei": "test-device-one", "protocol_mode": "app"})
     assert result.revision != before
     assert store.list()[0]["state"] == "needs_login"
 

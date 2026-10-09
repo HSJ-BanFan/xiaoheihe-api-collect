@@ -1,0 +1,691 @@
+{
+  "schema_version": 2,
+  "scope": "static route candidates only; signing and endpoint acceptance are unverified",
+  "source": {
+    "bundle": "index-BQ64EhAG.js",
+    "bundle_sha256": "b30c3e28b15d69e57e918bd57b21803ce95e8cc5f83e9d33614ab8614d553a0a",
+    "extraction": "source-methods.json",
+    "extraction_sha256": "821f53e829d727c7cd484289bbea2bd9fd22057a678b3f2c68557b22f3f29f6a",
+    "evidence_scope": "36 bounded static source matches; not live endpoint acceptance"
+  },
+  "routes": {
+    "/account/data_report_web/": {
+      "methods": null,
+      "basis": "unknown",
+      "inherited_signing_claim": "web_signed",
+      "signing_verified": false,
+      "source_files": [
+        "index-BQ64EhAG.js",
+        "index-legacy-BULTRqxP.js"
+      ]
+    },
+    "/account/follow_game/": {
+      "methods": [
+        "POST"
+      ],
+      "basis": "bounded_source_match",
+      "inherited_signing_claim": "web_signed",
+      "signing_verified": false,
+      "source_files": [
+        "index-BQ64EhAG.js",
+        "index-legacy-BULTRqxP.js"
+      ]
+    },
+    "/account/get_login_code/": {
+      "methods": [
+        "POST"
+      ],
+      "basis": "bounded_source_match",
+      "inherited_signing_claim": "web_signed",
+      "signing_verified": false,
+      "source_files": [
+        "index-BQ64EhAG.js",
+        "index-legacy-BULTRqxP.js"
+      ]
+    },
+    "/account/get_qrcode_url/": {
+      "methods": null,
+      "basis": "unknown",
+      "inherited_signing_claim": "web_signed",
+      "signing_verified": false,
+      "source_files": [
+        "index-BQ64EhAG.js",
+        "index-legacy-BULTRqxP.js"
+      ]
+    },
+    "/account/google_2fa_verify/": {
+      "methods": [
+        "GET"
+      ],
+      "basis": "bounded_source_match",
+      "inherited_signing_claim": "web_signed",
+      "signing_verified": false,
+      "source_files": [
+        "index-BQ64EhAG.js",
+        "index-legacy-BULTRqxP.js"
+      ]
+    },
+    "/account/login/": {
+      "methods": [
+        "POST"
+      ],
+      "basis": "bounded_source_match",
+      "inherited_signing_claim": "web_signed",
+      "signing_verified": false,
+      "source_files": [
+        "index-BQ64EhAG.js",
+        "index-legacy-BULTRqxP.js"
+      ]
+    },
+    "/account/login_code/": {
+      "methods": [
+        "POST"
+      ],
+      "basis": "bounded_source_match",
+      "inherited_signing_claim": "web_signed",
+      "signing_verified": false,
+      "source_files": [
+        "index-BQ64EhAG.js",
+        "index-legacy-BULTRqxP.js"
+      ]
+    },
+    "/account/logout": {
+      "methods": [
+        "GET"
+      ],
+      "basis": "bounded_source_match",
+      "inherited_signing_claim": "web_signed",
+      "signing_verified": false,
+      "source_files": [
+        "index-BQ64EhAG.js",
+        "index-legacy-BULTRqxP.js"
+      ]
+    },
+    "/account/qr_state/": {
+      "methods": [
+        "GET"
+      ],
+      "basis": "bounded_source_match",
+      "inherited_signing_claim": "web_signed",
+      "signing_verified": false,
+      "source_files": [
+        "index-BQ64EhAG.js",
+        "index-legacy-BULTRqxP.js"
+      ]
+    },
+    "/account/restore_login": {
+      "methods": [
+        "GET"
+      ],
+      "basis": "bounded_source_match",
+      "inherited_signing_claim": "web_signed",
+      "signing_verified": false,
+      "source_files": [
+        "index-BQ64EhAG.js",
+        "index-legacy-BULTRqxP.js"
+      ]
+    },
+    "/account/unfollow_game/": {
+      "methods": [
+        "POST"
+      ],
+      "basis": "bounded_source_match",
+      "inherited_signing_claim": "web_signed",
+      "signing_verified": false,
+      "source_files": [
+        "index-BQ64EhAG.js",
+        "index-legacy-BULTRqxP.js"
+      ]
+    },
+    "/account/wechat/state/": {
+      "methods": [
+        "GET"
+      ],
+      "basis": "bounded_source_match",
+      "inherited_signing_claim": "web_signed",
+      "signing_verified": false,
+      "source_files": [
+        "index-BQ64EhAG.js",
+        "index-legacy-BULTRqxP.js"
+      ]
+    },
+    "/bbs/app/api/article/get_award_users": {
+      "methods": null,
+      "basis": "unknown",
+      "inherited_signing_claim": "web_signed",
+      "signing_verified": false,
+      "source_files": [
+        "index-BQ64EhAG.js",
+        "index-legacy-BULTRqxP.js"
+      ]
+    },
+    "/bbs/app/api/emojis/list": {
+      "methods": [
+        "GET"
+      ],
+      "basis": "bounded_source_match",
+      "inherited_signing_claim": "web_signed",
+      "signing_verified": false,
+      "source_files": [
+        "menu-undo.vue_vue_type_style_index_0_lang-BtorriDg.js"
+      ]
+    },
+    "/bbs/app/api/general/search/v1": {
+      "methods": [
+        "GET"
+      ],
+      "basis": "bounded_source_match",
+      "inherited_signing_claim": "web_signed",
+      "signing_verified": false,
+      "source_files": [
+        "index-BQ64EhAG.js",
+        "index-legacy-BULTRqxP.js",
+        "menu-undo.vue_vue_type_style_index_0_lang-BtorriDg.js"
+      ]
+    },
+    "/bbs/app/api/general/search/v1/web": {
+      "methods": null,
+      "basis": "unknown",
+      "inherited_signing_claim": "web_signed",
+      "signing_verified": false,
+      "source_files": [
+        "index-BQ64EhAG.js",
+        "index-legacy-BULTRqxP.js"
+      ]
+    },
+    "/bbs/app/api/link/post": {
+      "methods": [
+        "POST"
+      ],
+      "basis": "bounded_source_match",
+      "inherited_signing_claim": "web_signed",
+      "signing_verified": false,
+      "source_files": [
+        "index-D5l8XcG1.js"
+      ]
+    },
+    "/bbs/app/api/post_editor/topic_selection/index": {
+      "methods": [
+        "GET"
+      ],
+      "basis": "bounded_source_match",
+      "inherited_signing_claim": "web_signed",
+      "signing_verified": false,
+      "source_files": [
+        "index-D5l8XcG1.js"
+      ]
+    },
+    "/bbs/app/api/post_editor/topic_selection/search": {
+      "methods": [
+        "GET"
+      ],
+      "basis": "bounded_source_match",
+      "inherited_signing_claim": "web_signed",
+      "signing_verified": false,
+      "source_files": [
+        "menu-undo.vue_vue_type_style_index_0_lang-BtorriDg.js"
+      ]
+    },
+    "/bbs/app/api/qcloud/cos/copy/image/by/url": {
+      "methods": [
+        "GET"
+      ],
+      "basis": "bounded_source_match",
+      "inherited_signing_claim": "web_signed",
+      "signing_verified": false,
+      "source_files": [
+        "menu-undo.vue_vue_type_style_index_0_lang-BtorriDg.js"
+      ]
+    },
+    "/bbs/app/api/qcloud/cos/upload/callback/v2": {
+      "methods": null,
+      "basis": "unknown",
+      "inherited_signing_claim": "unsigned",
+      "signing_verified": false,
+      "source_files": [
+        "menu-undo.vue_vue_type_style_index_0_lang-BtorriDg.js"
+      ]
+    },
+    "/bbs/app/api/qcloud/cos/upload/heartbeat": {
+      "methods": null,
+      "basis": "unknown",
+      "inherited_signing_claim": "unsigned",
+      "signing_verified": false,
+      "source_files": [
+        "menu-undo.vue_vue_type_style_index_0_lang-BtorriDg.js"
+      ]
+    },
+    "/bbs/app/api/qcloud/cos/upload/info/v2": {
+      "methods": null,
+      "basis": "unknown",
+      "inherited_signing_claim": "unsigned",
+      "signing_verified": false,
+      "source_files": [
+        "menu-undo.vue_vue_type_style_index_0_lang-BtorriDg.js"
+      ]
+    },
+    "/bbs/app/api/qcloud/cos/upload/token/v2": {
+      "methods": null,
+      "basis": "unknown",
+      "inherited_signing_claim": "unsigned",
+      "signing_verified": false,
+      "source_files": [
+        "menu-undo.vue_vue_type_style_index_0_lang-BtorriDg.js"
+      ]
+    },
+    "/bbs/app/api/topic/index": {
+      "methods": [
+        "GET"
+      ],
+      "basis": "bounded_source_match",
+      "inherited_signing_claim": "web_signed",
+      "signing_verified": false,
+      "source_files": [
+        "index-D5l8XcG1.js"
+      ]
+    },
+    "/bbs/app/api/user/permission": {
+      "methods": [
+        "GET"
+      ],
+      "basis": "bounded_source_match",
+      "inherited_signing_claim": "web_signed",
+      "signing_verified": false,
+      "source_files": [
+        "index-BQ64EhAG.js",
+        "index-legacy-BULTRqxP.js"
+      ]
+    },
+    "/bbs/app/api/video-link/post": {
+      "methods": [
+        "POST"
+      ],
+      "basis": "bounded_source_match",
+      "inherited_signing_claim": "web_signed",
+      "signing_verified": false,
+      "source_files": [
+        "index-D5l8XcG1.js"
+      ]
+    },
+    "/bbs/app/author/concept/article/data": {
+      "methods": [
+        "GET"
+      ],
+      "basis": "bounded_source_match",
+      "inherited_signing_claim": "web_signed",
+      "signing_verified": false,
+      "source_files": [
+        "index-DCJQDDGO.js"
+      ]
+    },
+    "/bbs/app/link/change/status": {
+      "methods": [
+        "GET"
+      ],
+      "basis": "bounded_source_match",
+      "inherited_signing_claim": "web_signed",
+      "signing_verified": false,
+      "source_files": [
+        "index-DL2gEOfx.js"
+      ]
+    },
+    "/bbs/app/link/drafts": {
+      "methods": [
+        "GET"
+      ],
+      "basis": "bounded_source_match",
+      "inherited_signing_claim": "web_signed",
+      "signing_verified": false,
+      "source_files": [
+        "index-DL2gEOfx.js"
+      ]
+    },
+    "/bbs/app/link/edit/info": {
+      "methods": [
+        "GET"
+      ],
+      "basis": "bounded_source_match",
+      "inherited_signing_claim": "web_signed",
+      "signing_verified": false,
+      "source_files": [
+        "index-D5l8XcG1.js"
+      ]
+    },
+    "/bbs/app/link/tree": {
+      "methods": [
+        "GET"
+      ],
+      "basis": "bounded_source_match",
+      "inherited_signing_claim": "web_signed",
+      "signing_verified": false,
+      "source_files": [
+        "index-BQ64EhAG.js",
+        "index-D5l8XcG1.js",
+        "index-legacy-BULTRqxP.js"
+      ]
+    },
+    "/bbs/app/link/tree/backend": {
+      "methods": null,
+      "basis": "unknown",
+      "inherited_signing_claim": "web_signed",
+      "signing_verified": false,
+      "source_files": [
+        "index-BQ64EhAG.js",
+        "index-legacy-BULTRqxP.js"
+      ]
+    },
+    "/bbs/app/link/tree/v2": {
+      "methods": null,
+      "basis": "unknown",
+      "inherited_signing_claim": "web_signed",
+      "signing_verified": false,
+      "source_files": [
+        "index-BQ64EhAG.js",
+        "index-legacy-BULTRqxP.js"
+      ]
+    },
+    "/bbs/app/link/vote": {
+      "methods": [
+        "POST"
+      ],
+      "basis": "bounded_source_match",
+      "inherited_signing_claim": "web_signed",
+      "signing_verified": false,
+      "source_files": [
+        "index-CVWZPKTm.js"
+      ]
+    },
+    "/bbs/app/profile/events": {
+      "methods": null,
+      "basis": "unknown",
+      "inherited_signing_claim": "web_signed",
+      "signing_verified": false,
+      "source_files": [
+        "index-BQ64EhAG.js",
+        "index-legacy-BULTRqxP.js"
+      ]
+    },
+    "/bbs/app/profile/follow/user": {
+      "methods": null,
+      "basis": "unknown",
+      "inherited_signing_claim": "web_signed",
+      "signing_verified": false,
+      "source_files": [
+        "index-CVWZPKTm.js"
+      ]
+    },
+    "/bbs/app/profile/follow/user/cancel": {
+      "methods": [
+        "POST"
+      ],
+      "basis": "bounded_source_match",
+      "inherited_signing_claim": "web_signed",
+      "signing_verified": false,
+      "source_files": [
+        "index-CVWZPKTm.js"
+      ]
+    },
+    "/bbs/app/profile/user/link/list": {
+      "methods": null,
+      "basis": "unknown",
+      "inherited_signing_claim": "web_signed",
+      "signing_verified": false,
+      "source_files": [
+        "index-BQ64EhAG.js",
+        "index-legacy-BULTRqxP.js"
+      ]
+    },
+    "/bbs/app/profile/user/link/list/v2": {
+      "methods": null,
+      "basis": "unknown",
+      "inherited_signing_claim": "web_signed",
+      "signing_verified": false,
+      "source_files": [
+        "index-BQ64EhAG.js",
+        "index-legacy-BULTRqxP.js"
+      ]
+    },
+    "/bbs/content_marketing/post/task_list": {
+      "methods": [
+        "GET"
+      ],
+      "basis": "bounded_source_match",
+      "inherited_signing_claim": "web_signed",
+      "signing_verified": false,
+      "source_files": [
+        "index-D5l8XcG1.js"
+      ]
+    },
+    "/bbs/hashtag": {
+      "methods": null,
+      "basis": "unknown",
+      "inherited_signing_claim": "web_signed",
+      "signing_verified": false,
+      "source_files": [
+        "index-D5l8XcG1.js"
+      ]
+    },
+    "/bbs/topic": {
+      "methods": null,
+      "basis": "unknown",
+      "inherited_signing_claim": "web_signed",
+      "signing_verified": false,
+      "source_files": [
+        "index-D5l8XcG1.js"
+      ]
+    },
+    "/chatroom/v2/room/card_info": {
+      "methods": null,
+      "basis": "unknown",
+      "inherited_signing_claim": "web_signed",
+      "signing_verified": false,
+      "source_files": [
+        "index-BQ64EhAG.js",
+        "index-legacy-BULTRqxP.js"
+      ]
+    },
+    "/game/get_game_infos/": {
+      "methods": null,
+      "basis": "unknown",
+      "inherited_signing_claim": "web_signed",
+      "signing_verified": false,
+      "source_files": [
+        "index-BQ64EhAG.js",
+        "index-legacy-BULTRqxP.js"
+      ]
+    },
+    "/game/item/show": {
+      "methods": null,
+      "basis": "unknown",
+      "inherited_signing_claim": "web_signed",
+      "signing_verified": false,
+      "source_files": [
+        "index-BQ64EhAG.js",
+        "index-legacy-BULTRqxP.js"
+      ]
+    },
+    "/game/link/card_data": {
+      "methods": [
+        "GET"
+      ],
+      "basis": "bounded_source_match",
+      "inherited_signing_claim": "web_signed",
+      "signing_verified": false,
+      "source_files": [
+        "index-D5l8XcG1.js"
+      ]
+    },
+    "/game/match/batch_match_data": {
+      "methods": null,
+      "basis": "unknown",
+      "inherited_signing_claim": "web_signed",
+      "signing_verified": false,
+      "source_files": [
+        "index-BQ64EhAG.js",
+        "index-legacy-BULTRqxP.js"
+      ]
+    },
+    "/game/match/leagues": {
+      "methods": null,
+      "basis": "unknown",
+      "inherited_signing_claim": "web_signed",
+      "signing_verified": false,
+      "source_files": [
+        "index-BQ64EhAG.js",
+        "index-legacy-BULTRqxP.js"
+      ]
+    },
+    "/game/match/unwatch_match": {
+      "methods": [
+        "GET"
+      ],
+      "basis": "bounded_source_match",
+      "inherited_signing_claim": "web_signed",
+      "signing_verified": false,
+      "source_files": [
+        "index-BQ64EhAG.js",
+        "index-legacy-BULTRqxP.js"
+      ]
+    },
+    "/game/match/watch_match": {
+      "methods": [
+        "GET"
+      ],
+      "basis": "bounded_source_match",
+      "inherited_signing_claim": "web_signed",
+      "signing_verified": false,
+      "source_files": [
+        "index-BQ64EhAG.js",
+        "index-legacy-BULTRqxP.js"
+      ]
+    },
+    "/game/owned_game/game_list": {
+      "methods": [
+        "GET"
+      ],
+      "basis": "bounded_source_match",
+      "inherited_signing_claim": "web_signed",
+      "signing_verified": false,
+      "source_files": [
+        "menu-undo.vue_vue_type_style_index_0_lang-BtorriDg.js"
+      ]
+    },
+    "/game/owned_game/hot_list": {
+      "methods": [
+        "GET"
+      ],
+      "basis": "bounded_source_match",
+      "inherited_signing_claim": "web_signed",
+      "signing_verified": false,
+      "source_files": [
+        "menu-undo.vue_vue_type_style_index_0_lang-BtorriDg.js"
+      ]
+    },
+    "/game/self_made_game_list/data/infos": {
+      "methods": null,
+      "basis": "unknown",
+      "inherited_signing_claim": "web_signed",
+      "signing_verified": false,
+      "source_files": [
+        "index-BQ64EhAG.js",
+        "index-legacy-BULTRqxP.js"
+      ]
+    },
+    "/game/self_made_game_list/favour": {
+      "methods": [
+        "GET"
+      ],
+      "basis": "bounded_source_match",
+      "inherited_signing_claim": "web_signed",
+      "signing_verified": false,
+      "source_files": [
+        "index-BQ64EhAG.js",
+        "index-legacy-BULTRqxP.js"
+      ]
+    },
+    "/game/wx_share/info/v2": {
+      "methods": null,
+      "basis": "unknown",
+      "inherited_signing_claim": "web_signed",
+      "signing_verified": false,
+      "source_files": [
+        "index-BQ64EhAG.js",
+        "index-legacy-BULTRqxP.js"
+      ]
+    },
+    "/mall/search/": {
+      "methods": [
+        "GET"
+      ],
+      "basis": "bounded_source_match",
+      "inherited_signing_claim": "web_signed",
+      "signing_verified": false,
+      "source_files": [
+        "index-DdftTGSi.js"
+      ]
+    },
+    "/mall/sku/detail/": {
+      "methods": null,
+      "basis": "unknown",
+      "inherited_signing_claim": "web_signed",
+      "signing_verified": false,
+      "source_files": [
+        "index-BQ64EhAG.js",
+        "index-legacy-BULTRqxP.js"
+      ]
+    },
+    "/mall/sku/show": {
+      "methods": null,
+      "basis": "unknown",
+      "inherited_signing_claim": "web_signed",
+      "signing_verified": false,
+      "source_files": [
+        "index-BQ64EhAG.js",
+        "index-legacy-BULTRqxP.js"
+      ]
+    },
+    "/rc/box_data/callback": {
+      "methods": null,
+      "basis": "unknown",
+      "inherited_signing_claim": "unsigned",
+      "signing_verified": false,
+      "source_files": [
+        "index-BQ64EhAG.js",
+        "index-legacy-BULTRqxP.js"
+      ]
+    },
+    "/tools/mod_manager/mod_detail": {
+      "methods": null,
+      "basis": "unknown",
+      "inherited_signing_claim": "web_signed",
+      "signing_verified": false,
+      "source_files": [
+        "index-BQ64EhAG.js",
+        "index-legacy-BULTRqxP.js"
+      ]
+    },
+    "/workshop/app/mod_detail": {
+      "methods": [
+        "POST"
+      ],
+      "basis": "bounded_source_match",
+      "inherited_signing_claim": "web_signed",
+      "signing_verified": false,
+      "source_files": [
+        "index-BQ64EhAG.js",
+        "index-legacy-BULTRqxP.js"
+      ]
+    },
+    "/workshop/mod_detail": {
+      "methods": [
+        "POST"
+      ],
+      "basis": "bounded_source_match",
+      "inherited_signing_claim": "web_signed",
+      "signing_verified": false,
+      "source_files": [
+        "index-D5l8XcG1.js"
+      ]
+    }
+  }
+}

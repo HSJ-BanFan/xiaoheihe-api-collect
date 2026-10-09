@@ -36,6 +36,7 @@ INSTALLED_PROBE = '''\
 import builtins, importlib.metadata, json, os, sys, sysconfig
 from pathlib import Path
 import xhh_sdk
+import xhh_sdk.web_signer
 from xhh_sdk.routes import check_snapshot
 dist = importlib.metadata.distribution("xhh-sdk")
 prefix = Path(sys.prefix).resolve()
@@ -47,6 +48,9 @@ print(json.dumps({"checks": {
     "pythonpath_absent": "PYTHONPATH" not in os.environ,
     "isolated_interpreter": sys.flags.isolated == 1,
     "package_inside_venv": Path(xhh_sdk.__file__).resolve().is_relative_to(prefix),
+    "web_signer_inside_venv": Path(xhh_sdk.web_signer.__file__).resolve().is_relative_to(prefix),
+    "web_signer_in_distribution": any(str(f).replace(chr(92), "/") == "xhh_sdk/web_signer.py"
+                                       for f in dist.files or []),
     "distribution_inside_venv": all(Path(dist.locate_file(f)).resolve().is_relative_to(prefix)
                                     for f in dist.files or []),
     "distribution_files_present": bool(dist.files),
@@ -93,6 +97,87 @@ print(json.dumps({"checks": {
     "synthetic_url": request.full_url == "https://api.invalid/synthetic/heartbeat",
     "cookie_contract": request.get_header("Cookie") == config.cookie_web,
     "payload_without_signature": urllib.parse.parse_qs(request.data.decode()) == {"keys": ["[]"]},
+}}))
+'''
+
+WEB_PROBE = '''\
+import argparse, builtins, contextlib, io, json, sys, urllib.parse
+from pathlib import Path
+from xhh_sdk import cli
+from xhh_sdk.client import XhhClient
+from xhh_sdk.config import XhhConfig
+from xhh_sdk.web_signer import calc_hkey
+import xhh_sdk.transport as module
+import xhh_sdk.signer as signer_module
+signer_calls, discoveries, bundle_imports, requests = [], [], [], []
+def forbidden_signer(*args, **kwargs):
+    signer_calls.append(True)
+    raise AssertionError("Web operation requested an App signer")
+def forbidden_java(*args, **kwargs):
+    discoveries.append(True)
+    raise AssertionError("Web operation requested Java discovery")
+original_import = builtins.__import__
+def guarded_import(name, *args, **kwargs):
+    if "signer_bundle" in name:
+        bundle_imports.append(name)
+        raise AssertionError("Web operation imported App bundle resolver")
+    return original_import(name, *args, **kwargs)
+builtins.__import__ = guarded_import
+module.Signer = forbidden_signer
+signer_module.shutil.which = forbidden_java
+path = Path(sys.argv[1])
+config = XhhConfig(pkey="<offline-fixture>", heybox_id="12345", protocol_mode="web",
+                   api_base="https://api.invalid", web_origin="https://web.invalid",
+                   signer_jar=str(path.with_suffix(".missing.jar")),
+                   signer_bundle="bundle:" + "0" * 64, java="missing-synthetic-java")
+config.save(path)
+loaded = XhhConfig.from_file(path)
+before = path.read_bytes()
+args = argparse.Namespace(account=None, config=str(path), env=False, protocol="app")
+override = cli._load(args)
+def fixture_open(self, request):
+    requests.append(request)
+    if urllib.parse.urlsplit(request.full_url).path == "/account/restore_login":
+        return b'{"status":"ok","result":{"user":{"heybox_id":"12345"}}}'
+    return b'{"status":"ok","result":{"links":[]}}'
+module.Transport._open = fixture_open
+client = XhhClient(loaded)
+identity = client.account_info()
+verification = client.verify()
+with contextlib.redirect_stdout(io.StringIO()) as output:
+    doctor_code = cli.main(["--config", str(path), "doctor", "--offline"])
+doctor = json.loads(output.getvalue())
+with contextlib.redirect_stdout(io.StringIO()) as output:
+    signer_code = cli.main(["--config", str(path), "doctor"])
+doctor_signer = json.loads(output.getvalue())
+signed = True
+for request in requests:
+    url = urllib.parse.urlsplit(request.full_url)
+    query = urllib.parse.parse_qs(url.query)
+    signed = signed and {"_time", "nonce", "hkey"} <= query.keys()
+    if signed:
+        signed = (query["hkey"] == [calc_hkey(url.path, int(query["_time"][0]), query["nonce"][0])]
+                  and query.get("os_type") == ["web"]
+                  and request.get_header("Cookie") == "user_pkey=<offline-fixture>; user_heybox_id=12345;")
+print(json.dumps({"checks": {
+    "guard_active": getattr(builtins, "_xhh_offline_guard", False),
+    "web_mode_persisted": loaded.protocol_mode == "web"
+                          and json.loads(before)["protocol_mode"] == "web",
+    "override_not_persisted": override.protocol_mode == "app" and path.read_bytes() == before,
+    "synthetic_identity_result": identity == {"user": {"heybox_id": "12345"}},
+    "web_request_signed": signed and len(requests) == 2,
+    "scoped_fixture_requests": [urllib.parse.urlsplit(r.full_url).path for r in requests]
+                               == ["/account/restore_login", "/bbs/app/link/drafts"],
+    "web_verify_success": verification.get("ok") is True
+                          and verification.get("protocol_mode") == "web",
+    "offline_doctor_success": doctor_code == 0 and doctor.get("protocol_mode") == "web"
+                              and doctor.get("signer_executed") is False,
+    "python_doctor_success": signer_code == 0 and doctor_signer.get("signer") == "ok"
+                             and doctor_signer.get("signer_kind") == "python-web",
+    "app_signer_never_constructed": not signer_calls and client.transport._signer is None,
+    "java_not_discovered": not discoveries,
+    "bundle_not_imported": not bundle_imports,
+    "missing_jar_fixture": not Path(config.signer_jar).exists(),
 }}))
 '''
 
@@ -264,6 +349,16 @@ def main(argv: list[str] | None = None) -> int:
                                        "signer_not_ready": data.get("signer_ready") is False,
                                        "diagnostic_present": "signer jar not found" in data.get("error", "")})
         probe("installed unsigned transport without signer or Java", UNSIGNED_PROBE, str(missing_jar))
+        check("installed pure Web offline doctor without credentials",
+              [str(cli), "--protocol", "web", "doctor", "--offline"], predicates=lambda data: {
+                  "web_mode": data.get("protocol_mode") == "web",
+                  "signer_ready": data.get("signer_ready") is True,
+                  "signer_not_executed": data.get("signer_executed") is False,
+                  "java_not_required": data.get("java_required") is False,
+                  "no_account_checked": data.get("account_checked") is False,
+              })
+        probe("installed pure Web signing and persisted mode without Java",
+              WEB_PROBE, str(root / "synthetic-web-config.json"))
 
         resource_origin = root / "resource-origin"
         resource_origin.mkdir()
@@ -310,6 +405,7 @@ def main(argv: list[str] | None = None) -> int:
               "archive_audit": audit, "checks": checks,
               "passed": all(item["passed"] for item in checks),
               "jar_executed": False, "live_requests": False,
+              "web_validation_scope": "installed Python signer and fixture HTTP responses only",
               "original_repository_moved": False,
               "relocation_scope": "disposable wheel-origin and synthetic resource directories only",
               "public_publish_ready": False}

@@ -20,7 +20,7 @@ from .config import XhhConfig
 from .exceptions import XhhConfigError
 
 _CONFIG_KEYS = {"java", "signer_jar", "signer_bundle", "imei", "device_info",
-                "app_version", "os_version", "timeout"}
+                "app_version", "os_version", "timeout", "protocol_mode"}
 _RESERVED = {"CON", "PRN", "AUX", "NUL", *(f"{p}{i}" for p in ("COM", "LPT") for i in range(1, 10))}
 
 
@@ -111,7 +111,9 @@ def _config(values):
     if not isinstance(values, dict) or values.keys() - _CONFIG_KEYS:
         raise XhhConfigError("Unsupported account configuration")
     for key, value in values.items():
-        if key == "timeout":
+        if key == "protocol_mode":
+            valid = value in ("app", "web")
+        elif key == "timeout":
             valid = type(value) in (float, int) and 0 < value <= 120 and math.isfinite(value)
         elif key == "signer_jar" and value is None:
             valid = True
@@ -136,7 +138,8 @@ def _public(account, **extra):
     masked = identity[:2] + "*" * (len(identity) - 4) + identity[-2:] if len(identity) > 4 else "*" * len(identity)
     return {"alias": account.alias, "identity_masked": masked,
             "authenticated": bool(account.pkey), "state": "logged_in" if account.pkey else "needs_login",
-            "storage": "windows-dpapi", **extra}
+            "storage": "windows-dpapi", "protocol_mode": account.config.get("protocol_mode", "app"),
+            **extra}
 
 
 class AccountStore:
@@ -258,15 +261,18 @@ class AccountStore:
         values = _config(values)
         return self._change(alias, lambda account: account.config.update(values))
 
-    def save_login(self, alias: str, *, pkey: str, identity: str, expected_revision: str) -> dict:
+    def save_login(self, alias: str, *, pkey: str, identity: str, expected_revision: str,
+                   protocol_mode: str = "app") -> dict:
         _cookie(pkey)
         identity = _identity(identity)
+        mode = _config({"protocol_mode": protocol_mode})
         def update(account):
             if account.revision != expected_revision:
                 raise XhhConfigError("Account changed during login; start login again")
             if account.identity and account.identity != identity:
                 raise XhhConfigError("Login identity does not match the bound account")
             account.identity, account.pkey = identity, pkey
+            account.config.update(mode)
         return self._change(alias, update)
 
     def logout(self, alias: str) -> dict:

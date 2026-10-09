@@ -5,6 +5,8 @@ on:
   pull_request:
 jobs:
   reference:
+    env:
+      PYTHONDONTWRITEBYTECODE: '1'
     strategy:
       fail-fast: false
       matrix:
@@ -33,7 +35,7 @@ jobs:
         run: python -B scripts/build_release.py --out dist/web-candidate-final
       - name: Check the canonical candidate against the portable kit pin
         run: |
-          python - <<'PY'
+          python -B - <<'PY'
           import hashlib
           import importlib.util
           from pathlib import Path

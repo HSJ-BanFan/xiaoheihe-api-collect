@@ -150,7 +150,7 @@ def test_signer_sends_the_documented_request(installed, monkeypatch):
     result = signer.sign("/account/info", 1700000000)
     assert result == {"_time": "1700000000", "nonce": "n", "hkey": "h", "_rnd": "14:r"}
     args, kwargs = calls[0]
-    assert args[0] == sys.executable
+    assert args[0] == str(Path(sys.executable).resolve())
     resolved_for_paths = bundle_module().resolve_bundle(reference)
     assert args[args.index("-jar") + 1] == resolved_for_paths["loader"]
     assert "/account/info/" not in args  # the path travels on stdin, not the command line

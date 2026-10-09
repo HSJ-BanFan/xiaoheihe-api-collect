@@ -15,6 +15,8 @@ release 的 `xhh-signer-bootstrap-0.2.0.jar` 包含 JDK-only 入口、实际签�
 
 每次调用时 bootstrap 先验证精确依赖清单和哈希，再用平台 classloader 的子加载器执行固定 main。实际资源解析必须选中锁定的资源 JAR，覆盖旧 backend JAR 的同名资源。`bundle-inspect` 是原 SDK 的资源和 loader 检查，不代替 bootstrap 的依赖检查。完整性校验不是 OS 沙箱，也不消除本地文件在校验与使用之间被修改的竞态。
 
+设置器另行按发布锁校验实际执行的 loader。原版 `.7` 的日常 CLI 调用仍信任本地 bundle manifest 内的 loader 摘要，不重新推导 bundle 内容地址；若 manifest 和 loader 同时被恶意替换，不能保证执行的仍是发布 JAR。请保护本地运行目录的写权限，不能把哈希检查当作对同用户恶意程序的隔离。
+
 ## 维护者构建预编译资产
 
 ```console
@@ -25,7 +27,7 @@ python signer/scripts/build_precompiled.py --cache signer/target/upstream --out 
 
 输出中的 `unidbg-resources-2ded0545.jar` 仅供本机验证，严禁作为 release 资产上传。SHA256SUMS 排除它。目标 APK、提取资源、第三方依赖和 JRE 均不上传。旧 fat-JAR 构建仍仅供维护者研究，不能替换新 bootstrap 资产。
 
-预编译方案已在 Windows 的中文、空格与加号目录使用私有 Temurin JRE 17 执行真实固定向量签名。未使用真实账号、登录或发帖；本地通过不代表线上接受。最终公开下载的验收应另记发行资产哈希。
+2026-10-09 已从公开 Release 下载技能包，在空缓存、无系统 Java/JDK/Maven 的环境安装私有 Temurin JRE 17 并执行真实固定向量签名。移走原 APK 后仍可签名。Easel 的测试账号身份核验、短文本发帖、读回与删除另行通过，详见[分版本验收记录](../docs/skill-kit-acceptance.md)。这些结果不等于新短信登录、全部接口或匿名可见性通过。
 
 该 Java loader 是 Python CLI 使用的本地 App 请求签名器。它通过 Unidbg 执行从用户 APK 提取的 ARM64 原生库，读取一条标准输入请求，并在标准输出返回签名 JSON。它不提供 HTTP 服务，也不包含账号身份。
 

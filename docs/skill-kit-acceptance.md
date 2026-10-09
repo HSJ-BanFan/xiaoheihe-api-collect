@@ -48,23 +48,39 @@
 - 托管账号依赖 Windows DPAPI；Java 与签名器由用户本地提供。
 
 这是带明确范围的预发布验收，不修改原 CLI 发布门槛，也不承诺平台接口长期可用。
-# Precompiled setup follow-up
+## 0.2.0rc1 预编译安装与线上复核
 
-The 0.2.0rc1 kit adds precompiled setup without modifying the original
-0.5.0rc4+standalone.7 wheel. The focused bootstrap, builder, setup and kit
-tests passed locally. The full repository test run passed 107 tests before
-the final notice-only rebuild; release review must rerun it on the final
-source state.
+2026-10-09 对公开下载的新版工具包和 Easel 设置入口另行验收。前文的完整图文与其他账号可见性记录属于 0.1.0rc1，不能当作本次重测结果。
 
-A real local run used the supported user APK and exact upstream artifact
-fixtures, a clean Java search path, a privately extracted Temurin JRE 17,
-and Chinese, space and plus-sign directory names. It assembled the local
-resource JAR, installed the immutable dependency graph and matched the
-synthetic /account/info vector at timestamp 1700000000. No user account,
-login, upload or publishing API was accessed. Cached-fixture acceptance is
-separate from a fresh public-release HTTP download and does not establish
-that the final release has been published.
+| 固定对象 | SHA-256 或版本 |
+| --- | --- |
+| 工具包源码提交 | `035bfb5559ec661946437bbd169bf910fbd5437c` |
+| 工具包 ZIP | `0f4ab354be01fcaf9c9598e41a4f6ac02348b759521c40695217ad0aaab44370` |
+| 工具包 manifest | `d5b502187c04c228f6cac5eeb5c1b5310bd5893a9b9f2af06209186de3fd6f17` |
+| 预编译 bootstrap JAR | `dde008a562c3629955fc04f23082b4ea27ad1784263468fb4e6df1c7e046e830` |
+| 原 CLI wheel | `0.5.0rc4+standalone.7`，25 个运行文件字节不变 |
 
-The earlier publishing evidence below belongs to the earlier kit and its
-specific tested artifact. It is not new online acceptance for 0.2.0rc1.
+下载入口为[工具包 Release](https://github.com/HSJ-BanFan/xiaoheihe-api-collect/releases/tag/skill-kit-v0.2.0rc1)与[签名器 Release](https://github.com/HSJ-BanFan/xiaoheihe-api-collect/releases/tag/xhh-signer-v0.2.0)。这些版本保留为预发布，不覆盖旧资产。
+
+| 检查 | 本轮实际结果 |
+| --- | --- |
+| 公开下载 | 下载的 ZIP 与本地发布构建字节一致 |
+| 干净安装 | 空缓存，PATH 无 Java、JDK、Maven，自动下载私有 JRE 17 和锁定依赖 |
+| 本地签名 | 受支持 APK，中文与空格目录，固定参考向量匹配 |
+| 重复与迁移 | 重复安装返回同一 bundle；移走原 APK 后仍可签名；错误 APK 拒绝 |
+| Easel 设置 | 包装器实际安装并绑定显式测试账号，重复绑定不改账号修订 |
+| 复制后的 OpenClaw 工作区 | 未设置 EASEL_ROOT，无系统 Java，包装器找到随包入口并用已核验缓存完成真实签名 |
+| 账号保护 | 使用加密账号库的隔离副本；原账号库哈希保持不变；其他账号与设备字段保留 |
+| 在线身份 | 测试账号现有 App 会话通过新签名器核对身份 |
+| 服务器草稿 | 创建、本人列表读回、删除后确认消失 |
+| 公开模式短文本 | Easel plan/show/submit、本人列表与 read 返回标题和完整短文本摘要匹配，删除后确认消失 |
+| 独立复核 | 118 项上游测试含文档导航回归，458 项原 CLI 测试，63 项 Easel 集成测试通过 |
+
+设置器会在加载辅助模块前验证工具包，并在旧 bundle 复用及 Signer 二次解析后核对实际 JAR 的发布哈希。这两项审查发现均有先失败后通过的回归测试。下载资产不含目标 APK、目标 SO 或账号资料；bootstrap 只含 Java 类、锁和许可文本。
+
+本轮没有发送新短信、重新登录、上传图片、测试长文章正文或验证匿名公众可见性。短文本与摘要相同不能证明长文章全文持久化。通用 `read` 对服务器草稿返回不可读，原 `.7` 的 `call` 白名单也不暴露 edit-info，因此草稿只报告列表核对，不虚报正文验收。自动回执仍为 `acknowledged`。
+
+默认测试账号的旧会话曾返回 `relogin`；同一测试账号先前短信登录得到的现有会话通过。本次没有覆盖用户默认凭据，不能把会话过期称为安装器失败。
+
+原 `.7` 的日常 bundle 解析仍信任本地 manifest 的 loader 摘要，不能防止 manifest 与 JAR 同时被恶意替换。设置器的发布 pin 校验不等于整个旧 SDK 的安全升级，详见[签名器边界](../signer/README.md)。OpenClaw 模型服务的历史 HTTP 401 未在本轮修复，CLI 集成不依赖模型服务才能安装或调用。
 

@@ -11,6 +11,18 @@
 解压后将完整的 `xiaoheihe-publisher/` 放到所用 Agent 的技能目录，例如 `~/.agents/skills/`。
 保留 runtime 和 manifest，不要只复制 SKILL.md。Easel 使用仓库内集成版本，不需要另行安装全局 CLI。
 
+普通用户使用完整技能 ZIP。单独的 `.7` wheel 是保留不变的底层 CLI，不包含新增设置入口。其构建说明面向维护者，不是完整工具包的安装步骤。
+
+## 其他项目如何接入
+
+下载并核对 Release 的 `SHA256SUMS`，保留完整工具包作为固定版本依赖。接入项目只负责命令参数、用户确认和 JSON 结果处理：
+
+- `scripts/xhh_setup.py` 安装本地签名运行环境；`state=ready` 和 `selftest.matched=true` 表示本地签名通过。
+- `scripts/xhh_cli.py` 管理用户自己的账号并执行登录、查询、独立上传等命令。
+- `scripts/xhh_publish.py` 提供 plan、show、submit、reconcile。服务器草稿和公开发帖都由 submit 写入，未知结果不重发。
+
+无需复制 `signer/` 构建工程、研究数据或维护者账号。Easel 的同步脚本只校验并更新工具包快照，运行时仍调用同一套上游命令。安装器目前支持 Windows x64 与固定 APK profile，不能把它解释为任意 APK 或跨平台原生运行支持。
+
 ## 离线构建
 
 在仓库根目录运行。输出目录必须不存在。

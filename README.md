@@ -56,16 +56,25 @@
 | [`docs/`](docs/README.md) | 按业务分组的接口参考、认证说明、证据口径和研究报告 |
 | [`data/`](data/) | 脱敏后的接口快照，是参考目录的公开数据源 |
 | [`cli/`](cli/README.md) | 用于离线查阅和部分受控操作的 Python CLI |
-| [`signer/`](signer/README.md) | 在用户本机从源码构建 App 请求签名器的 Java loader |
+| [`signer/`](signer/README.md) | 预编译 App 请求签名器、依赖许可与维护者构建源码 |
 | [`skill-kit/`](skill-kit/xiaoheihe-publisher/SKILL.md) | 可移动的 AI 创作技能与受确认保护的真实 CLI 发布入口 |
 
 ## AI 发布技能包
 
-`xhh-publisher-kit 0.1.0rc1` 独立打包技能、发布脚本和原版
+`xhh-publisher-kit 0.2.0rc1` 独立打包技能、安装器、发布脚本和原版
 `xhh-sdk 0.5.0rc4+standalone.7`，不修改原 wheel。支持本地计划、真实账号登录、
-图片上传、服务端草稿与公开发帖。签名器、Java 和账号由用户自己配置。
-下载 [技能包 0.1.0rc1](https://github.com/HSJ-BanFan/xiaoheihe-api-collect/releases/tag/skill-kit-v0.1.0rc1)。
-构建命令和确认流程见 [技能包说明](docs/skill-kit.md)，真实图文发布及限制见[本轮验收](docs/skill-kit-acceptance.md)。
+图片上传、服务端草稿与公开发帖。普通用户和接入项目下载完整
+[技能包 0.2.0rc1](https://github.com/HSJ-BanFan/xiaoheihe-api-collect/releases/tag/skill-kit-v0.2.0rc1)，无需重建研究环境。
+
+Windows x64 用户解压后运行，KIT 是解压出的 `xiaoheihe-publisher` 目录：
+
+```console
+python KIT/scripts/xhh_setup.py --apk USER.apk --install-java --confirm
+python KIT/scripts/xhh_cli.py --version
+```
+
+安装器下载并校验预编译签名器及依赖，在本机导入用户自己的[受支持 APK](docs/supported-apk.md)，需要时安装私有 JRE。需要 Python 3.10+，不需要 Maven、Git、JDK 或模型服务。账号登录独立进行，不随包分发。
+接入项目只调用 setup、账号和发布命令，不解析 APK、不编译 Java、不维护签名协议。具体步骤与确认流程见[技能包说明](docs/skill-kit.md)，各版本的实际验收范围见[验收记录](docs/skill-kit-acceptance.md)。
 已集成到 [Easel master](https://github.com/HSJ-BanFan/Easel/tree/master/skills/openclaw/skill-xiaoheihe-publisher)。
 
 ## 离线查看接口
@@ -83,9 +92,9 @@ python -m xhh_sdk.cli --help
 
 ## 在线调用需要本地运行环境
 
-App 签名请求需要你自己的登录凭据、受支持 APK 提取出的资源、本地构建的 signer JAR，以及 Java 17 或更高版本。首次构建还需要 Git、Maven 和依赖下载。详细步骤见[签名器说明](signer/README.md)和[受支持 APK](docs/supported-apk.md)。
+App 签名请求仍需要 Java 17+、签名器、本地 APK 资源和你自己的登录凭据。上面的 setup 命令负责签名器、依赖和运行时安装；JDK、Git、Maven 只用于维护者的源码构建，不是普通用户的安装前提。
 
-仓库和 Python 包不包含 APK、JAR、SO、账号库、真实凭据或浏览器配置。项目自有签名器源码位于 `signer/`。本地构建出的 JAR 和提取资源由用户自行保管。
+Git 源码、技能 ZIP 和 Python wheel 不含 JAR、APK、SO、账号库或浏览器配置。[签名器 Release](https://github.com/HSJ-BanFan/xiaoheihe-api-collect/releases/tag/xhh-signer-v0.2.0) 单独提供 Java-only bootstrap JAR、对应源码与许可说明。目标 APK 与提取资源始终留在用户本机。依赖许可及本地完整性校验边界见[签名器说明](signer/README.md)。
 
 目前通过线上验收的 App 登录方式是短信验证码。两种已测试的微信扫码流程只得到 Web SSO 会话；平台对这些会话发出的 App 与 Web 请求均返回重新登录状态。详见[登录与会话](docs/login.md)。
 
@@ -103,7 +112,7 @@ App 签名请求需要你自己的登录凭据、受支持 APK 提取出的资�
 
 - 只提交有证据支持的字段，并区分观察事实、分析推断和未验证事项。
 - 不要提交账号库、凭据、原始响应、设备实值、绝对宿主路径或应用安装包。
-- 改动生成文档后运行 `python scripts/generate_reference.py`，再运行 `python scripts/check_repo.py` 和 `python -m unittest discover -s tests -v`。
+- 改动生成文档后运行 `python scripts/generate_reference.py`，再运行 `python scripts/check_repo.py` 和 `python -m pytest tests -q`。
 
 ## 许可与使用边界
 
